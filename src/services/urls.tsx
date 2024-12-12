@@ -1,7 +1,7 @@
 // axios instance
 import axios, { AxiosInstance } from 'axios';
 
-const BASE_URL = 'https://upskilling-egypt.com:3003/api/v1';
+const BASE_URL = 'https://upskilling-egypt.com:3000/api/v1';
 
 
 
