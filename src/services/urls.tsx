@@ -1,15 +1,12 @@
 // axios instance
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from "axios";
 
-const BASE_URL = 'https://upskilling-egypt.com:3003/api/v1';
+const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
+const IMAGE_URL = "https://upskilling-egypt.com:3000";
 
-
-
- const axiosInstance:AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
-  
 });
-
 
 // axios interceptors
 axiosInstance.interceptors.request.use((config) => {
@@ -23,11 +20,12 @@ axiosInstance.interceptors.request.use((config) => {
 //* USER AUTHENTICATION
 export const AUTH_URLS = {
   login: ``,
-  register: ``,
+  registerAdmin: `/admin/users`,
+  registerUser: `/portal/users`,
   verify: ``,
-  forgetPassword:``,
+  forgetPassword: ``,
   resetPassword: ``,
   changePassword: ``,
-
 };
 
+export { axiosInstance, IMAGE_URL };

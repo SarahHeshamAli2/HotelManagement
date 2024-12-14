@@ -16,16 +16,23 @@ export default function AuthLayout() {
     }
   };
   return (
-    <Grid2 container spacing={2} height="100vh" columns={{ xs: 6, sm: 12 }}>
-      <Grid2 size={6} sx={{ height: { xs: "70%", sm: "100%" } }}>
+    <Grid2
+      container
+      spacing={2}
+      height={{ sx: "auto", sm: "100vh" }}
+      columns={{ xs: 6, sm: 12 }}
+    >
+      <Grid2 size={6} sx={{ height: { xs: "80%", sm: "100%" } }}>
         <Outlet />
       </Grid2>
       <Grid2
         size={6}
         sx={{
-          height: { xs: "30%", sm: "100%" },
+          height: { xs: "20%", sm: "155%", lg: "130%" },
           position: "relative",
           borderRadius: "15%",
+          marginX: { xs: "1.5rem", sm: "0" },
+          paddingLeft: { xs: "0.5rem", sm: "0" },
         }}
       >
         <Box
@@ -37,6 +44,7 @@ export default function AuthLayout() {
             minHeight: { xs: "30%", sm: "100%" },
             objectFit: "cover",
             borderRadius: { xs: "6%", sm: "0%" },
+            backgroundColor: "rgba(23, 33, 33, 0.15)",
           }}
           alt="image"
         />
@@ -45,7 +53,7 @@ export default function AuthLayout() {
             position: "absolute",
             top: 0,
             left: 0,
-            width: "100%",
+            width: { xs: "fit-content", sm: "100%" },
             height: "100%",
             backgroundColor: "rgba(23, 33, 33, 0.15)",
             borderRadius: "3%",
@@ -54,8 +62,8 @@ export default function AuthLayout() {
         <Box
           sx={{
             position: "absolute",
-            top: { xs: "50%", sm: "92%" },
-            left: { xs: "45%", sm: "52%", md: "50%", lg: "42%" },
+            top: { xs: "50%", sm: "70%" },
+            left: { xs: "45%", sm: "52%", md: "50%", lg: "45%" },
             width: { xs: "auto", md: "max-content", lg: "max-content" },
             transform: "translate(-60%,-50%)",
             color: "white",
@@ -65,7 +73,7 @@ export default function AuthLayout() {
             variant="h2"
             sx={{
               fontWeight: { xs: 700, sm: 600 },
-              fontSize: { xs: "2.5rem", sm: "2.5rem" },
+              fontSize: { xs: "2.3rem", sm: "2.5rem" },
             }}
           >
             {pathname === "/register" && "Sign up to Roamhome"}
