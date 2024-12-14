@@ -29,5 +29,4 @@ export const AUTH_URLS = {
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
-
 export { axiosInstance, IMAGE_URL };
