@@ -4,7 +4,9 @@ import axios, { AxiosInstance } from "axios";
 const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
 const IMAGE_URL = "https://upskilling-egypt.com:3000";
 
-const axiosInstance: AxiosInstance = axios.create({
+
+
+ const axiosInstance:AxiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
@@ -23,8 +25,8 @@ export const AUTH_URLS = {
   registerAdmin: `/admin/users`,
   registerUser: `/portal/users`,
   verify: ``,
-  forgetPassword: ``,
-  resetPassword: ``,
+  forgetPassword:`/admin/users/forgot-password`,
+  resetPassword: `/admin/users/reset-password`,
   changePassword: ``,
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;

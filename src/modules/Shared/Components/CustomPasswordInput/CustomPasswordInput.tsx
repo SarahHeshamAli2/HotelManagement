@@ -9,8 +9,8 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-import { useState } from "react";
 import { FieldError, FieldValues, UseFormRegister } from "react-hook-form";
+import useToggle from './../../../../hooks/useToggle';
 
 interface CustomInputProps {
   label: string;
@@ -25,8 +25,9 @@ const CustomPasswordInput = ({
   isError,
   errorMessage,
 }: CustomInputProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const [value, toggleFunction] = useToggle(false);
+
   return (
     <Box
       sx={{
@@ -46,7 +47,7 @@ const CustomPasswordInput = ({
       </Typography>
       <TextField
         hiddenLabel
-        type={showPassword ? "text" : "password"}
+        type={value ? "text" : "password"}
         id={`${label}-textfield`}
         defaultValue=""
         variant="filled"
@@ -67,11 +68,11 @@ const CustomPasswordInput = ({
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={toggleFunction}
                   edge="end"
                   sx={{ color: "#ABABAB" }}
                 >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {value ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
