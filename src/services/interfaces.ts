@@ -1,15 +1,11 @@
-export interface ForgetPasswordFormData {
-
-  
-
-    email: string;
-  }
+import { User } from "../modules/Authentictation/Components/Registeration/Registeration";
 
 
-  export interface ResetPasswordFormData extends ForgetPasswordFormData {
 
-    seed:string,
-    password:string,
-    confirmPassword:string
+  export interface ResetPasswordFormData extends User {
+
+    seed?:string
+
 
   }
+ 

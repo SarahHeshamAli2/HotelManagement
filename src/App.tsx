@@ -25,6 +25,7 @@ import Favorites from "./modules/Favorites/Components/Favorites/Favorites";
 import AdvertisementsList from "./modules/Advertisements/Components/AdvertisementsList/AdvertisementsList";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from "@mui/material";
+import BookingList from "./modules/Booking/Components/Booking/BookingList";
 
 function App() {
 
@@ -80,6 +81,8 @@ function App() {
         { path: "rooms/:roomId", element: <RoomsForm /> },
         { path: "users", element: <UsersList /> },
         { path: "advertisments", element: <AdvertisementsList /> },
+        { path: "booking", element: <BookingList /> },
+
         { path: "facilities", element: <FacilitiesList /> },
       ],
     },
