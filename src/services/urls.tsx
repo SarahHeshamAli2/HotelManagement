@@ -1,11 +1,11 @@
 // axios instance
 import axios, { AxiosInstance } from 'axios';
 
-const BASE_URL = 'https://upskilling-egypt.com:3000/api/v1';
+const BASE_URL = 'https://upskilling-egypt.com:3000/api/v0';
 
 
 
- const axiosInstance:AxiosInstance = axios.create({
+export const axiosInstance:AxiosInstance = axios.create({
   baseURL: BASE_URL,
   
 });
@@ -25,7 +25,7 @@ export const AUTH_URLS = {
   login: ``,
   register: ``,
   verify: ``,
-  forgetPassword:``,
+  forgetPassword:`/admin/users/forgot-password`,
   resetPassword: ``,
   changePassword: ``,
 

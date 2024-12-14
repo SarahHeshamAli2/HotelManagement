@@ -23,8 +23,21 @@ import ExplorePage from "./modules/ExplorePage/Components/ExplorePage/ExplorePag
 import DetailsPage from "./modules/DetailsPage/Components/DetailsPage/DetailsPage";
 import Favorites from "./modules/Favorites/Components/Favorites/Favorites";
 import AdvertisementsList from "./modules/Advertisements/Components/AdvertisementsList/AdvertisementsList";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from "@mui/material";
 
 function App() {
+
+  const theme = createTheme({
+    typography: {
+      fontFamily: [
+  
+        'Poppins',
+       
+      ].join(','),
+    },
+  });
+    
   const routes = createBrowserRouter([
     {
       path: "",
@@ -75,8 +88,13 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
+    <CssBaseline />
+
       <ToastContainer />
       <RouterProvider router={routes}></RouterProvider>
+       
+    </ThemeProvider>
     </>
   );
 }
