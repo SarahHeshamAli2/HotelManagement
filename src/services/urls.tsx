@@ -27,5 +27,6 @@ export const AUTH_URLS = {
   resetPassword: ``,
   changePassword: ``,
 };
+export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
 export { axiosInstance, IMAGE_URL };

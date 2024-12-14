@@ -23,6 +23,7 @@ import ExplorePage from "./modules/ExplorePage/Components/ExplorePage/ExplorePag
 import DetailsPage from "./modules/DetailsPage/Components/DetailsPage/DetailsPage";
 import Favorites from "./modules/Favorites/Components/Favorites/Favorites";
 import AdvertisementsList from "./modules/Advertisements/Components/AdvertisementsList/AdvertisementsList";
+import BookingList from "./modules/Booking/Components/Booking/BookingList";
 
 function App() {
   const routes = createBrowserRouter([
@@ -67,6 +68,8 @@ function App() {
         { path: "rooms/:roomId", element: <RoomsForm /> },
         { path: "users", element: <UsersList /> },
         { path: "advertisments", element: <AdvertisementsList /> },
+        { path: "booking", element: <BookingList /> },
+
         { path: "facilities", element: <FacilitiesList /> },
       ],
     },
