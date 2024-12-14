@@ -22,7 +22,6 @@ const UploadImgBox = ({
   handleButtonClick: () => void;
   url: string | null;
   register?: ReturnType<UseFormRegister<FieldValues>>;
-  // validationRules: any;
   isError?: FieldError | undefined | boolean;
   errorMessage?: string;
 }) => {
@@ -55,7 +54,7 @@ const UploadImgBox = ({
           cursor: "pointer",
         }}
       >
-        {url && <ShowUploadImgBox imgUrl={url} uploadedImage={""} />}
+        {url && <ShowUploadImgBox imgUrl={url} />}
 
         <IconButton
           color="primary"

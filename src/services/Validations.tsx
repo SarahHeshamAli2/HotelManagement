@@ -1,22 +1,9 @@
 import { UseFormWatch } from "react-hook-form";
 import { User } from "../modules/Authentictation/Components/Registeration/Registeration";
-// type PasswordFormData = {
-//   password: string;
-//   confirmPassword: string;
-//   newPassword: string;
-// };
+
 export const getRequiredMessage = (filedName: string) =>
   `${filedName} is required`;
-// export const getRequiredMessage = (fieldName: string, value?: FileList) => {
-//   if (
-//     fieldName === "Profile Image" &&
-//     value instanceof FileList &&
-//     value.length === 0
-//   ) {
-//     return "";
-//   }
-//   return `${fieldName} is required`;
-// };
+
 export const getValidationRules = (watch: UseFormWatch<User> | null) => {
   return {
     userName: {

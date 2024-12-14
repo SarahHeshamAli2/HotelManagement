@@ -1,68 +1,62 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 body {
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
-    font-style: normal;}
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
 
 .forgetPasswordInput {
-
-    background-color: #F5F6F8;
-    display: block;
-    border-radius: 4px;
-    padding-block: 0.7rem;
-    margin-top: 1rem;
-    border: unset;
-    padding-inline: 1rem;
-
+  background-color: #f5f6f8;
+  display: block;
+  border-radius: 4px;
+  padding-block: 0.7rem;
+  margin-top: 1rem;
+  border: unset;
+  padding-inline: 1rem;
 }
 .forgetPasswordInput:focus {
-
-
-    outline: unset;
+  outline: unset;
 }
 .forgetPasswordInput::placeholder {
-    color: #D3D6DC;
-
+  color: #d3d6dc;
 }
 .formLinks {
-    color: unset;
-    text-decoration: none;}
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+  color: unset;
+  text-decoration: none;
+}
 
 body {
-    font-family: "Poppins", sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .css-ku7d13-MuiTypography-root {
-    font-family: "Poppins", sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 :root {
-    --toastify-color-success: #3252df !important;
-    --toastify-icon-color-success: var(--toastify-color-success) !important;
+  --toastify-color-success: #3252df !important;
+  --toastify-icon-color-success: var(--toastify-color-success) !important;
 }
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium {
-    color: #3A3A3D !important;
-    font-family: "Poppins" !important;
-    padding-block: 4px !important;
+  color: #3a3a3d !important;
+  font-family: "Poppins" !important;
+  padding-block: 4px !important;
 }
 
 .ps-menu-button:hover {
-    background-color: rgba(26, 27, 30, 0.17) !important;
+  background-color: rgba(26, 27, 30, 0.17) !important;
 }
 
 @media (max-width: 992px) {
-    .changePassword {
-        display: none !important;
-    }
+  .changePassword {
+    display: none !important;
+  }
 }
