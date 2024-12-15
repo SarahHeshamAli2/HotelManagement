@@ -36,7 +36,7 @@ const Login = () => {
 			saveLoginData();
 			toast.success('Login successful');
 			navigate('/dashboard');
-		} catch (error) {
+		} catch (error: unknown) {
 			console.log(error);
 			toast.error(error.response?.data?.message || 'Cannot Logged in');
 		}
