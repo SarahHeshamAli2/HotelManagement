@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormHelperText,
   TextField,
   Typography,
@@ -10,10 +9,10 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/Validations";
 import { AUTH_URLS, axiosInstance } from "../../../../services/urls";
-import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import CustomPasswordInput from "../../../Shared/Components/CustomPasswordInput/CustomPasswordInput";
 import { ResetPasswordFormData } from "../../../../services/interfaces";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 const ResetPassword = () => {
   const location = useLocation();
   const myLocation = location.state;
@@ -193,27 +192,9 @@ const ResetPassword = () => {
               />
             </Box>
 
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              sx={{
-                mt: { md: "63px", xs: "2rem" },
-                backgroundColor: "#3252DF",
-                color: "white",
-                width: "70%",
-                py: "0.8rem",
-                textTransform: "none",
-                "&.Mui-disabled": {
-                  background: "#949fcf",
-                  color: "#c0c0c0",
-                },
-              }}>
-              {isSubmitting ? (
-                <CircularProgress sx={{ color: "white" }} size={"1rem"} />
-              ) : (
-                "Send mail"
-              )}
-            </Button>
+            <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
+              <FormButton isSubmitting={isSubmitting} btnText='Reset' />
+            </Box>
           </form>
         </Box>
       </Box>
