@@ -50,7 +50,7 @@ function App() {
         { path: "verify-user", element: <Verify /> },
         { path: "forget-password", element: <ForgetPassword /> },
         { path: "reset-password", element: <ResetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
+        { path: "change-password", element: <ProtectedRoute><ChangePassword /></ProtectedRoute> },
       ],
     },
     {

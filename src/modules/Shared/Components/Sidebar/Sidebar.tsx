@@ -193,7 +193,7 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/change-password" />}
+          component={<Link to="/change-password" />}
           rootStyles={{
             backgroundColor: isActive("/dashboard/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
