@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import RegisterImg from "../../../../assets/bg-register.png";
 import LoginImg from "../../../../assets/bg-login.png";
 import ForgetImg from "../../../../assets/bg-forget.png";
+import Logo from "../Logo/Logo";
 
 export default function AuthLayout() {
   const { pathname } = useLocation();
@@ -18,6 +19,7 @@ export default function AuthLayout() {
   return (
     <Grid2 container spacing={2} sx={{height:{md:'100vh'}}} columns={{ xs: 6, sm: 12 }}>
       <Grid2 size={6} sx={{ height: { xs: "70%", sm: "100%" } }}>
+        <Logo />
         <Outlet />
       </Grid2>
       <Grid2

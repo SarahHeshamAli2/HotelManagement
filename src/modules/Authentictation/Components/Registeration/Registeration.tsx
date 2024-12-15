@@ -78,7 +78,7 @@ export default function Registeration() {
       );
       if (response.status === 201) {
         toast.success(response?.data?.message || "User created successfully");
-        navigate("/dashboard");
+        navigate("/login");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

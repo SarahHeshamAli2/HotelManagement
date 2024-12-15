@@ -21,9 +21,10 @@ axiosInstance.interceptors.request.use((config) => {
 
 //* USER AUTHENTICATION
 export const AUTH_URLS = {
-  login: ``,
   registerAdmin: `/admin/users`,
   registerUser: `/portal/users`,
+  login: '/admin/users/login',
+  register: ``,
   verify: ``,
   forgetPassword:`/admin/users/forgot-password`,
   resetPassword: `/admin/users/reset-password`,
