@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
 import axios from "axios";
 import { getDashboard } from "../../../../services/urls";
-import CircleChart from "../../../Charts/chart";
+import CircleChart from "../../../Charts/Chart";
 import UsersChart from "../../../Charts/UsersChart";
 
 interface BookingData {

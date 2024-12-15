@@ -8,4 +8,10 @@ import { User } from "../modules/Authentictation/Components/Registeration/Regist
 
 
   }
+
+  export interface changePasswordFormData extends User {
+    oldPassword: string ,
+    newPassword: string,
+    confirmPassword: string
+  }
  
