@@ -51,7 +51,7 @@ export default function Registeration() {
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-  const { url } = useObjectUrl(selectedImg && selectedImg?.[0]);
+  const url = useObjectUrl(selectedImg && selectedImg?.[0]);
 
   const onSubmit = async (data: User) => {
     console.log(data);
