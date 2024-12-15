@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  FormHelperText,
+  TextField,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -84,16 +86,35 @@ const ForgetPassword = () => {
                 width: { md: "70%", xs: "90%" },
               }}>
               <label htmlFor="email">Email</label>
-              <input
-                className="forgetPasswordInput"
-                type="text"
-                id="email"
+              <TextField
+                sx={{
+                  "& .MuiFilledInput-root": {
+                    "&:before": { borderBottom: "none" },
+                    "&:hover:not(.Mui-disabled):before": {
+                      borderBottom: "none",
+                    },
+                    "&:after": { borderBottom: "none" },
+                  },
+
+                  backgroundColor: "#F5F6F8",
+                }}
+                hiddenLabel
+                defaultValue=""
+                variant="filled"
+                size="small"
                 placeholder="Please type here ..."
                 {...register("email", validationRules.email)}
               />
 
-              {errors.email && (
-                <Box color={red[600]}>{String(errors.email.message)}</Box>
+{errors.email && (
+                <FormHelperText
+                  sx={{
+                    color: "#EB5148",
+                    paddingBottom: "0.3rem",
+                    fontWeight: "bold",
+                  }}>
+                  {errors?.email?.message}
+                </FormHelperText>
               )}
             </Box>
             <Button

@@ -17,7 +17,7 @@ export default function AuthLayout() {
     }
   };
   return (
-    <Grid2 container spacing={2} sx={{height:{md:'100vh'}}} columns={{ xs: 6, sm: 12 }}>
+    <Grid2 container spacing={2} sx={{height:{sm:'100vh'}}} columns={{ xs: 6, sm: 12 }}>
       <Grid2 size={6} sx={{ height: { xs: "70%", sm: "100%" } }}>
         <Logo />
         <Outlet />
