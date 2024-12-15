@@ -25,7 +25,7 @@ const ResetPassword = () => {
     register,
     handleSubmit,
     watch,
-  } = useForm<ResetPasswordFormData>({ defaultValues: { email: myLocation } });
+  } = useForm<ResetPasswordFormData>({ defaultValues: { email: myLocation } ,mode : "onChange"});
   const validationRules = getValidationRules(watch);
 
   const onSubmitHandler = async (data: ResetPasswordFormData) => {
@@ -36,7 +36,7 @@ const ResetPassword = () => {
         toast.success(
           response?.data?.message || "password reset successfully !"
         );
-        navigate("/login");
+        navigate("/login" , {state : data.email});
       })
       .catch((error) => {
         console.log(error);

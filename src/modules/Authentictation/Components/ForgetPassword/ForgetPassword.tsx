@@ -20,7 +20,9 @@ const ForgetPassword = () => {
     register,
     handleSubmit,
     watch,
-  } = useForm<User>();
+  } = useForm<User>({
+    mode : "onChange"
+  });
 
   const validationRules = getValidationRules(watch);
 
