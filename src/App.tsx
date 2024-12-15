@@ -23,20 +23,37 @@ import ExplorePage from "./modules/ExplorePage/Components/ExplorePage/ExplorePag
 import DetailsPage from "./modules/DetailsPage/Components/DetailsPage/DetailsPage";
 import Favorites from "./modules/Favorites/Components/Favorites/Favorites";
 import AdvertisementsList from "./modules/Advertisements/Components/AdvertisementsList/AdvertisementsList";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from "@mui/material";
+import BookingList from "./modules/Booking/Components/Booking/BookingList";
 
 function App() {
+
+  const theme = createTheme({
+    typography: {
+      fontFamily: [
+  
+        'Poppins',
+       
+      ].join(','),
+    },
+  });
+    
   const routes = createBrowserRouter([
     {
       path: "",
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
+        { index: true, element: <Login /> },
+
         { path: "login", element: <Login /> },
+        { path: "", element: <Login /> },
         { path: "register", element: <Registeration /> },
         { path: "verify-user", element: <Verify /> },
         { path: "forget-password", element: <ForgetPassword /> },
         { path: "reset-password", element: <ResetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
+        { path: "change-password", element: <ProtectedRoute><ChangePassword /></ProtectedRoute> },
       ],
     },
     {
@@ -44,7 +61,6 @@ function App() {
       element: <LandingPageLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
         { path: "details", element: <DetailsPage /> },
@@ -60,13 +76,14 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
         { path: "dashboard", element: <Dashboard /> },
         { path: "rooms", element: <RoomsList /> },
         { path: "rooms/new-room", element: <RoomsForm /> },
         { path: "rooms/:roomId", element: <RoomsForm /> },
         { path: "users", element: <UsersList /> },
         { path: "advertisments", element: <AdvertisementsList /> },
+        { path: "booking", element: <BookingList /> },
+
         { path: "facilities", element: <FacilitiesList /> },
       ],
     },
@@ -75,8 +92,13 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
+    <CssBaseline />
+
       <ToastContainer />
       <RouterProvider router={routes}></RouterProvider>
+       
+    </ThemeProvider>
     </>
   );
 }
