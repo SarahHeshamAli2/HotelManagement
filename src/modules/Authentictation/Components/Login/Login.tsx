@@ -2,19 +2,23 @@ import { Typography, Button, Link, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { AUTH_URLS, axiosInstance } from '../../../../services/urls';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../../../Context/AuthContext';
 import CustomInput from '../../../Shared/Components/CustomInput/CustomInput';
 import CustomPasswordInput from '../../../Shared/Components/CustomPasswordInput/CustomPasswordInput';
 import { getValidationRules } from '../../../../services/Validations';
+import { User } from '../Registeration/Registeration';
 
-interface LoginFormData {
+interface LoginFormData extends User {
 	email: string;
 	password: string;
 }
 
 const Login = () => {
+	const location = useLocation()
+	const myLocation = location.state;
+
 	const navigate = useNavigate();
 	const { saveLoginData } = useContext(AuthContext);
 	const {
@@ -22,7 +26,7 @@ const Login = () => {
 		formState: { errors, isSubmitting },
 		handleSubmit,
 		watch,
-	} = useForm<LoginFormData>();
+	} = useForm<LoginFormData>({defaultValues : {email : myLocation? myLocation : ''}});
 	const validationRules = getValidationRules(watch);
 
 	const onSubmit = async (data: LoginFormData) => {
