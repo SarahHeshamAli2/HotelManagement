@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form";
 import { AUTH_URLS, axiosInstance } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { changePasswordFormData } from "../../../../services/interfaces";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export default function ChangePassword() {
+  const navigate = useNavigate()
     const {
       formState:{errors,isSubmitting},
       register,
@@ -20,10 +23,16 @@ export default function ChangePassword() {
       try {
         const response = await axiosInstance.post(AUTH_URLS.changePassword, data)
         console.log(response)
+        navigate('/dashboard')
+
         toast.success(response?.data?.message|| "password changed successfully")
-      } catch (error) {
+      } catch (error : unknown) {
+
+        if(axios.isAxiosError(error)) {
+          toast.error( error.response?.data?.message ||"please try again")
+
+        }
         console.log(error)
-        toast.error("please try again")
       }
     }
   
