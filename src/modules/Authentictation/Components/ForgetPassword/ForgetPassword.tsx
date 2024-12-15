@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormHelperText,
   TextField,
   Typography,
@@ -10,9 +9,9 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/Validations";
 import { AUTH_URLS, axiosInstance } from "../../../../services/urls";
-import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import { User } from "../Registeration/Registeration";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ const ForgetPassword = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: { md: "70%", xs: "90%" },
+                width: { xs: "95%", sm: "80%" },
               }}>
               <label htmlFor="email">Email</label>
               <TextField
@@ -117,27 +116,10 @@ const ForgetPassword = () => {
                 </FormHelperText>
               )}
             </Box>
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              sx={{
-                mt: { md: "63px", xs: "2rem" },
-                backgroundColor: "#3252DF",
-                color: "white",
-                width: "70%",
-                py: "0.8rem",
-                textTransform: "none",
-                "&.Mui-disabled": {
-                  background: "#949fcf",
-                  color: "#c0c0c0",
-                },
-              }}>
-              {isSubmitting ? (
-                <CircularProgress sx={{ color: "white" }} size={"1rem"} />
-              ) : (
-                "Send mail"
-              )}
-            </Button>
+
+            <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
+              <FormButton isSubmitting={isSubmitting} btnText='Send mail' />
+            </Box>
           </form>
         </Box>
       </Box>

@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress,  Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import CustomPasswordInput from "../../../Shared/Components/CustomPasswordInput/CustomPasswordInput";
 import { getValidationRules } from "../../../../services/Validations";
 import { useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { changePasswordFormData } from "../../../../services/interfaces";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 
 
 export default function ChangePassword() {
@@ -74,27 +75,9 @@ export default function ChangePassword() {
               />
             </Box>
 
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              sx={{
-                mt: { md: "63px", xs: "2rem" },
-                backgroundColor: "#3252DF",
-                color: "white",
-                width: "80%",
-                py: "0.8rem",
-                textTransform: "none",
-                "&.Mui-disabled": {
-                  background: "#949fcf",
-                  color: "#c0c0c0",
-                },
-              }}>
-              {isSubmitting ? (
-                <CircularProgress sx={{ color: "white" }} size={"1rem"} />
-              ) : (
-                "Send"
-              )}
-            </Button>
+            <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
+              <FormButton isSubmitting={isSubmitting} btnText='Change Password' />
+            </Box>
           </form>
 
         </Box>
