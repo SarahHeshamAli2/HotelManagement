@@ -9,6 +9,7 @@ import CustomInput from '../../../Shared/Components/CustomInput/CustomInput';
 import CustomPasswordInput from '../../../Shared/Components/CustomPasswordInput/CustomPasswordInput';
 import { getValidationRules } from '../../../../services/Validations';
 import { User } from '../Registeration/Registeration';
+import axios from 'axios';
 
 interface LoginFormData extends User {
 	email: string;
@@ -37,8 +38,12 @@ const Login = () => {
 			toast.success('Login successful');
 			navigate('/dashboard');
 		} catch (error: unknown) {
+			if(axios.isAxiosError(error)) {
+				toast.error(error.response?.data?.message || 'Cannot Logged in');
+
+			}
 			console.log(error);
-			toast.error(error.response?.data?.message || 'Cannot Logged in');
+
 		}
 	};
 
