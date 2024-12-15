@@ -37,13 +37,22 @@ function App() {
   const routes = createBrowserRouter([
     {
       path: "",
+      element: <LandingPageLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "home", element: <Home /> },
+        { path: "explore", element: <ExplorePage /> },
+        { path: "details", element: <DetailsPage /> },
+        { path: "favorites", element: <Favorites /> },
+      ],
+    },
+    {
+      path: "",
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login /> },
-
         { path: "login", element: <Login /> },
-        { path: "", element: <Login /> },
         { path: "register", element: <Registeration /> },
         { path: "verify-user", element: <Verify /> },
         { path: "forget-password", element: <ForgetPassword /> },
@@ -58,17 +67,7 @@ function App() {
         },
       ],
     },
-    {
-      path: "",
-      element: <LandingPageLayout />,
-      errorElement: <NotFound />,
-      children: [
-        { path: "home", element: <Home /> },
-        { path: "explore", element: <ExplorePage /> },
-        { path: "details", element: <DetailsPage /> },
-        { path: "favorites", element: <Favorites /> },
-      ],
-    },
+
     {
       path: "",
       element: (
