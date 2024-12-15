@@ -28,7 +28,7 @@ export const AUTH_URLS = {
   verify: ``,
   forgetPassword:`/admin/users/forgot-password`,
   resetPassword: `/admin/users/reset-password`,
-  changePassword: ``,
+  changePassword: `/admin/users/change-password`,
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
