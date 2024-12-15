@@ -45,7 +45,10 @@ function App() {
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
+        { index: true, element: <Login /> },
+
         { path: "login", element: <Login /> },
+        { path: "", element: <Login /> },
         { path: "register", element: <Registeration /> },
         { path: "verify-user", element: <Verify /> },
         { path: "forget-password", element: <ForgetPassword /> },
@@ -58,7 +61,6 @@ function App() {
       element: <LandingPageLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Home /> },
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
         { path: "details", element: <DetailsPage /> },
@@ -74,7 +76,6 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
         { path: "dashboard", element: <Dashboard /> },
         { path: "rooms", element: <RoomsList /> },
         { path: "rooms/new-room", element: <RoomsForm /> },
