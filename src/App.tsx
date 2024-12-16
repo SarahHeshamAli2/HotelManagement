@@ -23,50 +23,51 @@ import ExplorePage from "./modules/ExplorePage/Components/ExplorePage/ExplorePag
 import DetailsPage from "./modules/DetailsPage/Components/DetailsPage/DetailsPage";
 import Favorites from "./modules/Favorites/Components/Favorites/Favorites";
 import AdvertisementsList from "./modules/Advertisements/Components/AdvertisementsList/AdvertisementsList";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import BookingList from "./modules/Booking/Components/Booking/BookingList";
 
 function App() {
-
   const theme = createTheme({
     typography: {
-      fontFamily: [
-  
-        'Poppins',
-       
-      ].join(','),
+      fontFamily: ["Poppins"].join(","),
     },
   });
-    
-  const routes = createBrowserRouter([
-    {
-      path: "",
-      element: <AuthLayout />,
-      errorElement: <NotFound />,
-      children: [
-        { index: true, element: <Login /> },
 
-        { path: "login", element: <Login /> },
-        { path: "", element: <Login /> },
-        { path: "register", element: <Registeration /> },
-        { path: "verify-user", element: <Verify /> },
-        { path: "forget-password", element: <ForgetPassword /> },
-        { path: "reset-password", element: <ResetPassword /> },
-        { path: "change-password", element: <ProtectedRoute><ChangePassword /></ProtectedRoute> },
-      ],
-    },
+  const routes = createBrowserRouter([
     {
       path: "",
       element: <LandingPageLayout />,
       errorElement: <NotFound />,
       children: [
+        { index: true, element: <Home /> },
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
         { path: "details", element: <DetailsPage /> },
         { path: "favorites", element: <Favorites /> },
       ],
     },
+    {
+      path: "",
+      element: <AuthLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Registeration /> },
+        { path: "verify-user", element: <Verify /> },
+        { path: "forget-password", element: <ForgetPassword /> },
+        { path: "reset-password", element: <ResetPassword /> },
+        {
+          path: "change-password",
+          element: (
+            <ProtectedRoute>
+              <ChangePassword />
+            </ProtectedRoute>
+          ),
+        },
+      ],
+    },
+
     {
       path: "",
       element: (
@@ -87,18 +88,16 @@ function App() {
         { path: "facilities", element: <FacilitiesList /> },
       ],
     },
-
   ]);
 
   return (
     <>
-    <ThemeProvider theme={theme}>
-    <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
 
-      <ToastContainer />
-      <RouterProvider router={routes}></RouterProvider>
-       
-    </ThemeProvider>
+        <ToastContainer />
+        <RouterProvider router={routes}></RouterProvider>
+      </ThemeProvider>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Link, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import CustomInput from "../../../Shared/Components/CustomInput/CustomInput";
 import CustomPasswordInput from "../../../Shared/Components/CustomPasswordInput/CustomPasswordInput";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import axios from "axios";
 import useObjectUrl from "../../../../hooks/useObjectUrl";
 import { useRef } from "react";
 import UploadImgBox from "../../../Shared/Components/UploadImgBox/UploadImgBox";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 
 interface RegisterResponse {
   success: boolean;
@@ -51,7 +52,7 @@ export default function Registeration() {
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-  const { url } = useObjectUrl(selectedImg && selectedImg?.[0]);
+  const url = useObjectUrl(selectedImg && selectedImg?.[0]);
 
   const onSubmit = async (data: User) => {
     console.log(data);
@@ -198,22 +199,9 @@ export default function Registeration() {
             isError={errors?.profileImage}
             errorMessage={errors?.profileImage?.message}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              backgroundColor: "#3252DF",
-              width: { xs: "95%", sm: "80%" },
-              height: "3rem",
-              borderRadius: "0.25rem",
-              textTransform: "none",
-              mt: "10px",
-              fontSize: "17px",
-            }}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Sign up"}
-          </Button>
+          <Box sx={{mt: "10px"}}>
+              <FormButton isSubmitting={isSubmitting} btnText="Sign up" />
+          </Box>
         </Box>
       </form>
     </Container>
