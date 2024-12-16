@@ -5,7 +5,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { red ,grey} from "@mui/material/colors";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/Validations";
@@ -64,21 +64,20 @@ const ForgetPassword = () => {
             If you already have an account register
             <Typography component="span" display={"block"}>
               You can{" "}
-              <Box
+              <Box 
                 ml={1}
-                sx={{ color: red[600] }}
+                sx={{ color: red[600] , textDecoration:'none' }}
                 fontWeight={600}
-                component={"span"}>
-                <Link className="formLinks" to="/login">
+                component={Link} to={'/login'}>
+               
                   Login here !
-                </Link>
+            
               </Box>
             </Typography>
           </Typography>
         </Box>
 
-        <Box component="div" mt={"96px"}>
-          <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <Box component="form" mt={"96px"} onSubmit={handleSubmit(onSubmitHandler)}>
             <Box
               sx={{
                 display: "flex",
@@ -116,19 +115,17 @@ const ForgetPassword = () => {
                   {errors?.email?.message}
                 </FormHelperText>
               )}
-            </Box>
-            <Button
+                    <Button
               disabled={isSubmitting}
               type="submit"
               sx={{
                 mt: { md: "63px", xs: "2rem" },
                 backgroundColor: "#3252DF",
-                color: "white",
-                width: "70%",
+                color: 'white',
                 py: "0.8rem",
                 textTransform: "none",
                 "&.Mui-disabled": {
-                  background: "#949fcf",
+                  background: grey[300],
                   color: "#c0c0c0",
                 },
               }}>
@@ -138,7 +135,8 @@ const ForgetPassword = () => {
                 "Send mail"
               )}
             </Button>
-          </form>
+            </Box>
+      
         </Box>
       </Box>
     </>

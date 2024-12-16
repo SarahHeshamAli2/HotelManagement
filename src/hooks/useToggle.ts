@@ -9,7 +9,7 @@ const useToggle =(defaultValue:boolean)=>{
 
     const toggleFunction= ():void =>{
         
-        setValue(!value)     
+        setValue(prevValue => !prevValue)     
           
     }
 
