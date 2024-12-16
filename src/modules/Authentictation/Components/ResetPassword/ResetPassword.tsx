@@ -194,10 +194,9 @@ const ResetPassword = () => {
               />
             </Box>
 
-            <Box sx={{mt: { md: "50px", xs: "2rem" }}}>
+            <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
               <FormButton isSubmitting={isSubmitting} btnText='Reset' />
             </Box>
-      
         </Box>
       </Box>
     </>
