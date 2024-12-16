@@ -76,20 +76,20 @@ const ResetPassword = () => {
           </Typography>
         </Box>
 
-        <Box component="div" mt={"96px"}>
-          <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <Box onSubmit={handleSubmit(onSubmitHandler)} component="form" mt={"96px"} display={'flex'} sx={{width:'100%' , flexDirection:'column'}}>
+          
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: { xs: "95%", sm: "80%" },
+                
                 paddingBottom: "0.5rem",
-                my: "1rem",
+               
               }}>
               <Typography
                 variant="subtitle1"
                 component="label"
-                htmlFor="name-textfield"
+                htmlFor="email"
                 sx={{ color: "#152C5B", fontSize: "16px" }}>
                 {"Email"}
               </Typography>
@@ -98,8 +98,10 @@ const ResetPassword = () => {
                 defaultValue=""
                 variant="filled"
                 size="small"
+                id="email"
                 placeholder="Please type here ..."
                 sx={{
+                  width: { xs: "95%", sm: "80%" },
                   "& .MuiFilledInput-root": {
                     "&:before": { borderBottom: "none" },
                     "&:hover:not(.Mui-disabled):before": {
@@ -129,12 +131,11 @@ const ResetPassword = () => {
                 flexDirection: "column",
                 width: { xs: "95%", sm: "80%" },
                 paddingBottom: "0.5rem",
-                my: "1rem",
               }}>
               <Typography
                 variant="subtitle1"
                 component="label"
-                htmlFor="name-textfield"
+                htmlFor="otp"
                 sx={{ color: "#152C5B", fontSize: "16px" }}>
                 {"OTP"}
               </Typography>
@@ -143,6 +144,7 @@ const ResetPassword = () => {
                 defaultValue=""
                 variant="filled"
                 size="small"
+                id="otp"
                 placeholder="Please type here ..."
                 sx={{
                   "& .MuiFilledInput-root": {
@@ -169,7 +171,7 @@ const ResetPassword = () => {
               )}
             </Box>
 
-            <Box sx={{ my: "1rem" }}>
+            <Box >
               <CustomPasswordInput
                 label="Password"
                 register={{ ...register("password", validationRules.password) }}
@@ -195,7 +197,6 @@ const ResetPassword = () => {
             <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
               <FormButton isSubmitting={isSubmitting} btnText='Reset' />
             </Box>
-          </form>
         </Box>
       </Box>
     </>
