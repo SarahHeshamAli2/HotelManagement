@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormHelperText,
   TextField,
   Typography,
@@ -10,10 +9,10 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getValidationRules } from "../../../../services/Validations";
 import { AUTH_URLS, axiosInstance } from "../../../../services/urls";
-import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import CustomPasswordInput from "../../../Shared/Components/CustomPasswordInput/CustomPasswordInput";
 import { ResetPasswordFormData } from "../../../../services/interfaces";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 const ResetPassword = () => {
   const location = useLocation();
   const myLocation = location.state;
@@ -77,20 +76,20 @@ const ResetPassword = () => {
           </Typography>
         </Box>
 
-        <Box component="div" mt={"96px"}>
-          <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <Box onSubmit={handleSubmit(onSubmitHandler)} component="form" mt={"96px"} display={'flex'} sx={{width:'100%' , flexDirection:'column'}}>
+          
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: { xs: "95%", sm: "80%" },
+                
                 paddingBottom: "0.5rem",
-                my: "1rem",
+               
               }}>
               <Typography
                 variant="subtitle1"
                 component="label"
-                htmlFor="name-textfield"
+                htmlFor="email"
                 sx={{ color: "#152C5B", fontSize: "16px" }}>
                 {"Email"}
               </Typography>
@@ -99,8 +98,10 @@ const ResetPassword = () => {
                 defaultValue=""
                 variant="filled"
                 size="small"
+                id="email"
                 placeholder="Please type here ..."
                 sx={{
+                  width: { xs: "95%", sm: "80%" },
                   "& .MuiFilledInput-root": {
                     "&:before": { borderBottom: "none" },
                     "&:hover:not(.Mui-disabled):before": {
@@ -130,12 +131,11 @@ const ResetPassword = () => {
                 flexDirection: "column",
                 width: { xs: "95%", sm: "80%" },
                 paddingBottom: "0.5rem",
-                my: "1rem",
               }}>
               <Typography
                 variant="subtitle1"
                 component="label"
-                htmlFor="name-textfield"
+                htmlFor="otp"
                 sx={{ color: "#152C5B", fontSize: "16px" }}>
                 {"OTP"}
               </Typography>
@@ -144,6 +144,7 @@ const ResetPassword = () => {
                 defaultValue=""
                 variant="filled"
                 size="small"
+                id="otp"
                 placeholder="Please type here ..."
                 sx={{
                   "& .MuiFilledInput-root": {
@@ -170,7 +171,7 @@ const ResetPassword = () => {
               )}
             </Box>
 
-            <Box sx={{ my: "1rem" }}>
+            <Box >
               <CustomPasswordInput
                 label="Password"
                 register={{ ...register("password", validationRules.password) }}
@@ -193,28 +194,9 @@ const ResetPassword = () => {
               />
             </Box>
 
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              sx={{
-                mt: { md: "63px", xs: "2rem" },
-                backgroundColor: "#3252DF",
-                color: "white",
-                width: "70%",
-                py: "0.8rem",
-                textTransform: "none",
-                "&.Mui-disabled": {
-                  background: "#949fcf",
-                  color: "#c0c0c0",
-                },
-              }}>
-              {isSubmitting ? (
-                <CircularProgress sx={{ color: "white" }} size={"1rem"} />
-              ) : (
-                "Send mail"
-              )}
-            </Button>
-          </form>
+            <Box sx={{mt: { md: "63px", xs: "2rem" }}}>
+              <FormButton isSubmitting={isSubmitting} btnText='Reset' />
+            </Box>
         </Box>
       </Box>
     </>
