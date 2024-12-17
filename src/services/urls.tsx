@@ -32,4 +32,14 @@ export const AUTH_URLS = {
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
+export const ROOMS_URLS = {
+  getAllRooms : `/admin/rooms`
+}
+
+
+export const Ads_URLS = {
+  getAllAds : '/admin/ads',
+  createNewAd: '/admin/ads'
+}
+
 export { axiosInstance, IMAGE_URL };
