@@ -31,5 +31,8 @@ export const AUTH_URLS = {
   changePassword: `/admin/users/change-password`,
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
+export const ROOMS_URLS ={
+  GET_ALL_ROOMS:`/admin/rooms`
+}
 
 export { axiosInstance, IMAGE_URL };
