@@ -10,6 +10,8 @@ import {
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces";
 import { CircularProgress } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
+import { toast } from "react-toastify";
+import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -28,8 +30,10 @@ export default function RoomsList() {
       console.log(response.data.data.rooms);
       setRooms(response.data.data.rooms);
       setCount(response.data.data.totalCount);
-    } catch (error) {
+      toast.success("Get all rooms successfully");
+    } catch (error: any) {
       console.log(error);
+      toast.error(error.response.data.message || "something went wrong");
     } finally {
       setLoading(false);
     }
@@ -38,13 +42,18 @@ export default function RoomsList() {
     getRooms({ size: 5, page: 1 });
     console.log("here");
   }, []);
-  console.log("Loading state:", loading);
-  console.log("Rooms state:", rooms);
-  console.log("Count state:", count);
+
   return (
     <>
       <CustomTable
-        columnTitles={["Room Number", "Image", "Price", "Discount", "Capacity"]}
+        columnTitles={[
+          "Room Number",
+          "Image",
+          "Price",
+          "Discount",
+          "Capacity",
+          "",
+        ]}
         count={count}
         getListFn={getRooms}
       >
@@ -83,6 +92,9 @@ export default function RoomsList() {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {room.capacity}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <ActionMenu />
                 </StyledTableCell>
               </StyledTableRow>
             ))
