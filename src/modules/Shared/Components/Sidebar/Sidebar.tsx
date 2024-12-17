@@ -83,9 +83,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/users" />}
+          component={<Link to="/users" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/users") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/users") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
