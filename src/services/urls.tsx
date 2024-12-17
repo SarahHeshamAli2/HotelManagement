@@ -42,4 +42,8 @@ export const Ads_URLS = {
 }
 
 
+export const BOOKING_URLS ={
+  GET_ALL_BOOKINGS:`/admin/booking`
+}
+
 export { axiosInstance, IMAGE_URL };
