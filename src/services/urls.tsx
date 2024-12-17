@@ -35,4 +35,8 @@ export const ROOMS_URLS ={
   GET_ALL_ROOMS:`/admin/rooms`
 }
 
+export const BOOKING_URLS ={
+  GET_ALL_BOOKINGS:`/admin/booking`
+}
+
 export { axiosInstance, IMAGE_URL };
