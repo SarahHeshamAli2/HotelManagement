@@ -30,6 +30,14 @@ export const AUTH_URLS = {
   resetPassword: `/admin/users/reset-password`,
   changePassword: `/admin/users/change-password`,
 };
+
+//  FACILITIES 
+export const FACILITIES_URLS = {
+  GET_FACILITIES:`/admin/room-facilities`
+}
+
+
+
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
 export { axiosInstance, IMAGE_URL };
