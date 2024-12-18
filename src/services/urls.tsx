@@ -47,4 +47,6 @@ export const BOOKING_URLS ={
   GET_ALL_BOOKINGS:`/admin/booking`
 }
 
+export const getUsersData = '/admin/users';
+
 export { axiosInstance, IMAGE_URL };

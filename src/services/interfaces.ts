@@ -14,3 +14,8 @@ export interface changePasswordFormData extends User {
   newPassword?: string ,
   
 }
+
+export interface UserListType extends User {
+  _id?: string,
+  role?: string,
+}
