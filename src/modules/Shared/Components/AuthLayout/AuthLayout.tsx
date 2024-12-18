@@ -5,20 +5,32 @@ import LoginImg from "../../../../assets/bg-login.png";
 import ForgetImg from "../../../../assets/bg-forget.png";
 import Logo from "../Logo/Logo";
 
+const renderImg = (pathname: string) => {
+  if (pathname === "/register") {
+    return RegisterImg;
+  } else if (pathname === "/login") {
+    return LoginImg;
+  } else {
+    return ForgetImg;
+  }
+};
 export default function AuthLayout() {
   const { pathname } = useLocation();
-  const renderImg = () => {
-    if (pathname === "/register") {
-      return RegisterImg;
-    } else if (pathname === "/login") {
-      return LoginImg;
-    } else {
-      return ForgetImg;
-    }
-  };
+
   return (
-    <Grid2 container spacing={2} sx={{height:{sm:'100vh'}}} columns={{ xs: 6, sm: 12 }}>
-      <Grid2 size={6} sx={{ height: { xs: "70%", sm: "100%" } }}>
+    <Grid2
+      container
+      spacing={2}
+      sx={{ height: { sm: "100vh" } }}
+      columns={{ xs: 6, sm: 12 }}
+    >
+      <Grid2
+        size={6}
+        sx={{
+          height: { xs: "70%", sm: "100%" },
+          top: "0",
+        }}
+      >
         <Logo />
         <Outlet />
       </Grid2>
@@ -26,13 +38,16 @@ export default function AuthLayout() {
         size={6}
         sx={{
           height: { xs: "30%", sm: "100%" },
-          position: "relative",
+          position: { xs: "relative", sm: "fixed" },
+          right: { sm: 0 },
+          paddingLeft: { xs: "0.5rem", sm: "0" },
+          marginX: { xs: "1.5rem", sm: "0" },
           borderRadius: "15%",
         }}
       >
         <Box
           component="img"
-          src={renderImg()}
+          src={renderImg(pathname)}
           sx={{
             width: "100%",
             height: { xs: "100%", sm: "auto" },
@@ -47,7 +62,7 @@ export default function AuthLayout() {
             position: "absolute",
             top: 0,
             left: 0,
-            width: "100%",
+            width: "auto",
             height: "100%",
             backgroundColor: "rgba(23, 33, 33, 0.15)",
             borderRadius: "3%",
@@ -57,7 +72,7 @@ export default function AuthLayout() {
           sx={{
             position: "absolute",
             top: { xs: "50%", sm: "92%" },
-            left: { xs: "45%", sm: "52%", md: "50%", lg: "42%" },
+            left: { xs: "55%", sm: "52%", md: "55%", lg: "45%" },
             width: { xs: "auto", md: "max-content", lg: "max-content" },
             transform: "translate(-60%,-50%)",
             color: "white",

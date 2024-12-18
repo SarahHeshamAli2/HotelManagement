@@ -31,5 +31,19 @@ export const AUTH_URLS = {
   changePassword: `/admin/users/change-password`,
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
+export const ROOMS_URLS = {
+  getAllRooms : `/admin/rooms`
+}
+
+
+export const Ads_URLS = {
+  getAllAds : '/admin/ads',
+  createNewAd: '/admin/ads'
+}
+
+
+export const BOOKING_URLS ={
+  GET_ALL_BOOKINGS:`/admin/booking`
+}
 
 export { axiosInstance, IMAGE_URL };

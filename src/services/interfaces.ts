@@ -14,3 +14,18 @@ export interface changePasswordFormData extends User {
   newPassword?: string ,
   
 }
+export interface ad {
+  room :
+    {
+      roomNumber:string,
+      price : string,
+      discount : string,
+      capacity : string,
+    }
+
+    isActive : boolean,
+    _id:string
+
+
+
+}

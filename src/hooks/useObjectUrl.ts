@@ -17,7 +17,7 @@ const useObjectUrl = (image:  File | string| null) => {
       URL.revokeObjectURL(objectUrl);
     };
   }, [image]);
-  return { url };
+  return url;
 };
 
 export default useObjectUrl;

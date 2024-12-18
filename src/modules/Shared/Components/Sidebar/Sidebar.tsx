@@ -83,9 +83,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/users" />}
+          component={<Link to="/users" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/users") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/users") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -105,9 +105,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/rooms" />}
+          component={<Link to="/rooms" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/rooms") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/rooms") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -127,9 +127,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/advertisments" />}
+          component={<Link to="/advertisments" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -149,9 +149,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/booking" />}
+          component={<Link to="/booking" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/booking") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/booking") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -171,9 +171,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/facilities" />}
+          component={<Link to="/facilities" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -195,7 +195,7 @@ export default function SidebarComponent({
         <MenuItem
           component={<Link to="/change-password" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
