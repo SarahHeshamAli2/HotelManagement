@@ -27,6 +27,9 @@ export interface ad {
     isActive : boolean,
     _id:string
 
-  
+}
 
+export interface UserListType extends User {
+  _id?: string,
+  role?: string,
 }

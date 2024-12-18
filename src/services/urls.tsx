@@ -35,9 +35,6 @@ export const ROOMS_URLS ={
   GET_ALL_ROOMS:`/admin/rooms`
 }
 
-export const BOOKING_URLS ={
-  GET_ALL_BOOKINGS:`/admin/booking`
-}
 
 
 
@@ -48,5 +45,12 @@ export const Ads_URLS = {
   UpdateAd :(AdId)=> `admin/ads/${AdId}`,
   getAdById :(AdId)=> `/admin/ads/${AdId}`,
 }
+
+
+export const BOOKING_URLS ={
+  GET_ALL_BOOKINGS:`/admin/booking`
+}
+
+export const getUsersData = '/admin/users';
 
 export { axiosInstance, IMAGE_URL };
