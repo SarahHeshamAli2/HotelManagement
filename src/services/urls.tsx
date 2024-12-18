@@ -31,15 +31,22 @@ export const AUTH_URLS = {
   changePassword: `/admin/users/change-password`,
 };
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
-
-export const ROOMS_URLS = {
-  getAllRooms : `/admin/rooms`
+export const ROOMS_URLS ={
+  GET_ALL_ROOMS:`/admin/rooms`
 }
+
+export const BOOKING_URLS ={
+  GET_ALL_BOOKINGS:`/admin/booking`
+}
+
+
 
 
 export const Ads_URLS = {
   getAllAds : '/admin/ads',
-  createNewAd: '/admin/ads'
+  createNewAd: '/admin/ads',
+  UpdateAd :(AdId)=> `admin/ads/${AdId}`,
+  getAdById :(AdId)=> `/admin/ads/${AdId}`,
 }
 
 export { axiosInstance, IMAGE_URL };

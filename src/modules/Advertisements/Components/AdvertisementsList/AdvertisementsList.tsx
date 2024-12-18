@@ -1,52 +1,53 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import useAds from "../../../../hooks/useAds";
-import { ad } from "../../../../services/interfaces";
+
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React from "react";
+import React, { useEffect } from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 import {
+  CircularProgress,
   FormControl,
-  FormHelperText,
   MenuItem,
   TextField,
 } from "@mui/material";
 import useRooms from "../../../../hooks/useRooms";
 import { Ads_URLS, axiosInstance } from "../../../../services/urls";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import FormButton from '../../../Shared/Components/FormButton/FormButton';
+import CustomTable from "../../../Shared/Components/CustomTable/CustomTable";
+import { StyledTableCell, StyledTableRow } from "../../../../helperStyles/helperStyles";
+import NoData from "../../../Shared/Components/NoData/NoData";
+
+import useAds from "../../../../hooks/useAds";
+import { ad } from "../../../../services/interfaces";
 
 interface roomDataForm  {
   discount : string,
-  roomNumber:string,
-  isActive : string,
+  isActive : string|undefined|null,
   room:string,
-  _id : string
+  _id : string,
+  roomNumber:'string'
 }
 
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
+  const [isEdited, setIsEdited] = React.useState(false);
+  const [adId, setAdId] = React.useState(false);
+  const [isActive, setIsActive] = React.useState<boolean>();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
 
-
+  const{Ads,AdsCount,getAd,Loading,setIsChanged}=useAds()
   
 
   const { Rooms } = useRooms();
-  const { Ads, trigger } = useAds();
 
   const style = {
     position: "absolute",
@@ -60,67 +61,140 @@ export default function AdvertisementsList() {
   };
 
   const {
-    register,
     handleSubmit,
-    formState: { errors ,isSubmitting},
-  } = useForm   <roomDataForm>  ({mode:'onChange'});
+    reset,
+    control,
+    setValue,
 
-  const createNewAd = async(data:roomDataForm) => {
-    await axiosInstance
-      .post(Ads_URLS.createNewAd, data)
+  
+    formState: { errors ,isSubmitting},
+
+  } = useForm   <roomDataForm>  ({mode:'onChange',defaultValues:{
+    isActive:null
+  }});
+
+
+  useEffect(() => {
+    setValue('isActive', isActive || 'false'); 
+  }, [Loading, isActive]);
+
+  const onSbumitHandler=async (data:roomDataForm)=>{
+
+
+    setIsChanged(true)
+    await axiosInstance[isEdited?'put':'post'](isEdited?Ads_URLS.UpdateAd(adId) : Ads_URLS.createNewAd, isEdited ? 
+   {'isActive':data.isActive,
+    "discount":data.discount}
+    : data)
       .then((response) => {
-        console.log(response);
-        trigger();
+        
+        
+        console.log(response.data.data);
+        
         handleClose()
         toast.success(response?.data?.message||"add has been created succ");
+        reset()
+        setIsChanged(false)
       })
+
       .catch((error) => {
         console.log(error);
         toast.error(error?.response?.data?.message)
       });
-    console.log(data);
-  };
+      console.log(data);
 
+  }
 
+const handleAddNewAd=()=>{
+  handleOpen()
+  setIsLoading(false)
+  setIsEdited(false)
+  setValue('isActive','')
+  setValue('discount','')
+}
+
+const getAdById=(id:string)=>{
+  handleOpen()
+  setIsLoading(true)
+  axiosInstance.get(Ads_URLS.getAdById(id)).then((resp)=>{
+    setIsLoading(false)
+    const value =resp?.data?.data?.ads
+    setIsEdited(true)
+    console.log(resp.data.data.ads._id);
+    
+    setAdId(resp.data.data.ads._id)
+    setValue('discount',value?.room?.discount)
+    setValue('isActive', value?.isActive || 'false');
+    setIsActive(value?.isActive || 'false');
+    setValue('roomNumber',resp.data.data.ads._id)
+    setIsActive(value?.isActive)
+  }).catch((err)=>{
+    console.log(err);
+    
+  })
+}
 
 
   return (
     <>
-      <button onClick={handleOpen}>Add new add</button>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Room Name</TableCell>
-              <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Discount</TableCell>
-              <TableCell align="right">Capacity</TableCell>
-              <TableCell align="right">Active</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Ads?.map((ad: ad) => (
-              <TableRow
-                key={ad._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {ad?.room?.roomNumber}
-                </TableCell>
-                <TableCell align="right">{ad?.room?.price}</TableCell>
-                <TableCell align="right">{ad?.room?.discount}</TableCell>
-                <TableCell align="right">{ad?.room?.capacity}</TableCell>
-                <TableCell align="right">
-                  {ad?.isActive == true ? "Yes" : "No"}
-                </TableCell>
-                <TableCell align="right">{<ActionMenu />}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <button onClick={handleAddNewAd}>add new ad</button>
+    <CustomTable      columnTitles={[
+          "Room Name",
+          "Price",
+          "Discount",
+          "Capacity",
+          "Active",
+          "Actions",
+          
+        ]}
+        count={Number(AdsCount)? AdsCount : 5}
+        getListFn={getAd  }
+        >
 
-      <div>
+{Loading && (
+          <CircularProgress
+            sx={{
+              color: "blue",
+              marginTop: "4rem",
+              marginInline: "auto",
+              display: "flex",
+            }}
+            size={"4rem"}
+          />
+        )}
+        {!Loading && Ads?.length > 0
+          ? Ads?.map((ad:ad) => (
+            
+              <StyledTableRow key={ad._id}>
+                <StyledTableCell component="th" scope="row" align="center">
+           
+                {ad?.room?.roomNumber}
+                </StyledTableCell>
+
+                <StyledTableCell align="center">{ad?.room?.price}</StyledTableCell>
+                <StyledTableCell align="center">
+                {ad?.room?.discount}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {ad?.room?.capacity}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                {ad?.isActive == true ? "Yes" : "No"}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                 
+                  <ActionMenu  editFunction={()=>getAdById(ad._id)}/>
+                </StyledTableCell>
+                
+              </StyledTableRow>
+              
+            ))
+          : !Loading && <NoData />}
+
+        </CustomTable>
+
+
+        <div>
         <Modal
           open={open}
           onClose={handleClose}
@@ -138,104 +212,127 @@ export default function AdvertisementsList() {
               </Button>
             </Box>
             <Box id="modal-modal-description" sx={{ mt: 2 }}>
-              <FormControl
-                component={"form"}
-                onSubmit={handleSubmit(createNewAd)}
-                sx={{ width: "100%"}}>
-                <TextField
-                  select
-                  defaultValue={''}
-                  fullWidth
-                  label={"Room Name"}
-                  sx={{
-                    backgroundColor: "#F5F6F8",
-                    ":hover": { outline: "red" },
-                  }}
-               
-                {...register("room", {
-                    required: "please enter room name",
-                  })}                  >
+           
 
-              
-                  {Rooms?.map((room:roomDataForm) => (
+            {
+              isLoading ?      <CircularProgress
+              sx={{
+                color: "blue",
+                marginTop: "4rem",
+                marginInline: "auto",
+                display: "flex",
+              }}
+              size={"4rem"}
+            /> :     <FormControl sx={{width:'100%'}} component={'form'} onSubmit={handleSubmit(onSbumitHandler)}>
 
-                 <MenuItem value={room?._id} key={room?._id}>
-                 {room?.roomNumber}
-                 </MenuItem>
-                  ))}
-                
-                </TextField>
-                {errors.room && (
-                  <FormHelperText
-                    sx={{
-                      color: "#EB5148",
-                      paddingBottom: "0.3rem",
-                      fontWeight: "bold",
-                    }}>
-                    {errors?.room?.message}
-                  </FormHelperText>
-                )}
-                <TextField
-                defaultValue=''
-              
-                  fullWidth
-                  label={"Discount"}
-                  sx={{ backgroundColor: "#F5F6F8", my: "1rem" }}
-                  
-                  
-                  {...register("discount", {
-                                    required: "please enter discount range",
-                                    pattern: {
-                                      value: /^[0-9]*$/,
-                                      message: "please enter numbers only",
-                                    },
-                                  })}
-                  
-                  ></TextField>
-                {errors.discount && (
-                  <FormHelperText
-                    sx={{
-                      color: "#EB5148",
-                      paddingBottom: "0.3rem",
-                      fontWeight: "bold",
-                    }}>
-                    {errors?.discount?.message}
-                  </FormHelperText>
-                )}
-                <TextField
-                select
-                defaultValue=''
-                  {...register("isActive", {
-                    required: "please enter ad is active or not",
-                  })}
-                  fullWidth
-                  label={"Active"}
-                  sx={{
-                    backgroundColor: "#F5F6F8",
-                    ":hover": { outline: "red" },
-                  }}
-                  >
-                  <MenuItem value={"true"}>Yes</MenuItem>
-                  <MenuItem value={"false"}>No</MenuItem>
-                </TextField>
-                {errors.isActive && (
-                  <FormHelperText
-                    sx={{
-                      color: "#EB5148",
-                      paddingBottom: "0.3rem",
-                      fontWeight: "bold",
-                    }}>
-                    {errors?.isActive?.message}
-                  </FormHelperText>
-                )}
-               <Box sx={{display:'flex' , my:'1rem',width:'40%',justifyContent:'end' , alignSelf:'end'} }>
-                 <FormButton isSubmitting={isSubmitting}  btnText="save"/>
-                </Box>
-              </FormControl>
+              {!isEdited?     <Box >
+                     {/* Room Select */}
+                     <Controller
+                     
+                       name="room"
+                       control={control}
+                       rules={{ required: "Please select a room" }}
+                       render={({ field }) => (
+                        
+                         <TextField
+                           {...field}
+                           select
+                           defaultValue={''}
+                           label="Room Name"
+                           error={!!errors.room}
+                           helperText={errors.room?.message}
+                           sx={{ backgroundColor: "#F5F6F8" }}
+                           fullWidth
+                         >
+                           {Rooms?.map((room:roomDataForm) => (
+                             <MenuItem key={room._id} value={room._id}>
+                               {room.roomNumber}
+                              
+                             </MenuItem>
+                           ))}
+                         </TextField>
+                       )}
+                     />
+                   </Box> :''}
+                   <Box my={'1rem'}>
+                     <Controller
+                       name="discount"
+                       
+                       control={control}
+                       rules={{
+                         required: "Please enter discount",
+                         pattern: { value: /^[0-9]*$/, message: "Numbers only" },
+                       }}
+                       render={({ field }) => (
+                    <>
+                    {isEdited ?       <label>Discount Amount :</label>
+ :''                    }
+                         <TextField
+                         
+                         label={isEdited?'':'Discount'}
+                           {...field}
+                           error={!!errors.discount}
+                           helperText={errors.discount?.message}
+                           sx={{ backgroundColor: "#F5F6F8" }}
+                           fullWidth
+                         />
+                    </>
+                       )}
+                     />
+                   </Box>
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+                   <Box >
+                     <Controller
+                       name="isActive"
+                       control={control}
+                       rules={{ required: "Please select if active" }}
+                       render={({ field }) => (
+                     <>
+        {isEdited ?                      <label>is active ad:</label>
+ :''}
+                     <TextField
+                       {...field}
+                       defaultValue={''}
+                       select
+                       label={isEdited?'':'Active'}
+                       error={!!errors.isActive}
+                       helperText={errors.isActive?.message}
+                       sx={{ backgroundColor: "#F5F6F8" }}
+                       fullWidth
+                     >
+                       <MenuItem value="true">Yes</MenuItem>
+                       <MenuItem value="false">No</MenuItem>
+                     </TextField>
+                     </>
+                       )}
+                     />
+       
+                   </Box>
+                   
+                   <Box sx={{display:'flex' , my:'1rem',width:'40%',justifyContent:'end' , alignSelf:'end'} }>
+                        <FormButton isSubmitting={isSubmitting}  btnText="save"/>
+                       </Box>
+                   </FormControl>
+       
+            }
             </Box>
           </Box>
         </Modal>
-      </div>
+      </div> 
+
     </>
   );
 }

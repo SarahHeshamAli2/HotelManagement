@@ -127,9 +127,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/advertisments" />}
+          component={<Link to="/advertisments" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
