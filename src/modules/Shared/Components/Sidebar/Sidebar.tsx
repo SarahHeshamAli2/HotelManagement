@@ -171,9 +171,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/facilities" />}
+          component={<Link to="/facilities" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
