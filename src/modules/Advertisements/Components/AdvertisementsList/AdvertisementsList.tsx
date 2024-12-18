@@ -27,7 +27,7 @@ import { ad } from "../../../../services/interfaces";
 
 interface roomDataForm  {
   discount : string,
-  isActive : string|undefined|null,
+  isActive : boolean|undefined|null|string,
   room:string,
   _id : string,
   roomNumber:'string'
@@ -39,7 +39,6 @@ export default function AdvertisementsList() {
   const [adId, setAdId] = React.useState(false);
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -69,13 +68,16 @@ export default function AdvertisementsList() {
   
     formState: { errors ,isSubmitting},
 
-  } = useForm   <roomDataForm>  ({mode:'onChange',defaultValues:{
-    isActive:null
+  } = useForm   <roomDataForm>  ({mode:'onChange',defaultValues: {
+    isActive: null,
+    discount: "",
+    room: "",
+  
   }});
 
 
   useEffect(() => {
-    setValue('isActive', isActive || 'false'); 
+    setValue('isActive', isActive ); 
   }, [Loading, isActive]);
 
   const onSbumitHandler=async (data:roomDataForm)=>{
@@ -89,19 +91,20 @@ export default function AdvertisementsList() {
       .then((response) => {
         
         
-        console.log(response.data.data);
         
         handleClose()
         toast.success(response?.data?.message||"add has been created succ");
-        reset()
-        setIsChanged(false)
+        reset({
+          isActive: "false", 
+          discount: "",
+          room: "",
+        });        setIsChanged(false)
       })
 
       .catch((error) => {
         console.log(error);
-        toast.error(error?.response?.data?.message)
+        toast.error(error?.response?.data?.message|| 'something wrong went')
       });
-      console.log(data);
 
   }
 
@@ -111,6 +114,7 @@ const handleAddNewAd=()=>{
   setIsEdited(false)
   setValue('isActive','')
   setValue('discount','')
+
 }
 
 const getAdById=(id:string)=>{
@@ -120,7 +124,6 @@ const getAdById=(id:string)=>{
     setIsLoading(false)
     const value =resp?.data?.data?.ads
     setIsEdited(true)
-    console.log(resp.data.data.ads._id);
     
     setAdId(resp.data.data.ads._id)
     setValue('discount',value?.room?.discount)
@@ -133,6 +136,10 @@ const getAdById=(id:string)=>{
     
   })
 }
+
+React.useEffect(() => {
+  setValue("isActive", isActive === null ? "false" : String(isActive));
+}, [isActive, setValue]);
 
 
   return (
@@ -226,7 +233,6 @@ const getAdById=(id:string)=>{
             /> :     <FormControl sx={{width:'100%'}} component={'form'} onSubmit={handleSubmit(onSbumitHandler)}>
 
               {!isEdited?     <Box >
-                     {/* Room Select */}
                      <Controller
                      
                        name="room"
@@ -237,11 +243,12 @@ const getAdById=(id:string)=>{
                          <TextField
                            {...field}
                            select
-                           defaultValue={''}
                            label="Room Name"
                            error={!!errors.room}
                            helperText={errors.room?.message}
                            sx={{ backgroundColor: "#F5F6F8" }}
+             
+
                            fullWidth
                          >
                            {Rooms?.map((room:roomDataForm) => (
@@ -305,7 +312,6 @@ const getAdById=(id:string)=>{
  :''}
                      <TextField
                        {...field}
-                       defaultValue={''}
                        select
                        label={isEdited?'':'Active'}
                        error={!!errors.isActive}
