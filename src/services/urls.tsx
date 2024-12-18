@@ -35,6 +35,18 @@ export const ROOMS_URLS ={
   GET_ALL_ROOMS:`/admin/rooms`
 }
 
+
+
+
+
+export const Ads_URLS = {
+  getAllAds : '/admin/ads',
+  createNewAd: '/admin/ads',
+  UpdateAd :(AdId:boolean)=> `admin/ads/${AdId}`,
+  getAdById :(AdId:string)=> `/admin/ads/${AdId}`,
+}
+
+
 export const BOOKING_URLS ={
   GET_ALL_BOOKINGS:`/admin/booking`
 }
