@@ -109,11 +109,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="rooms" />}
+          component={<Link to="/rooms" />}
           rootStyles={{
-            backgroundColor: isActive("rooms")
-              ? "rgba(0, 0, 0, 0.2)"
-              : "transparent",
+            backgroundColor: isActive("/rooms") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -135,9 +133,7 @@ export default function SidebarComponent({
         <MenuItem
           component={<Link to="/advertisments" />}
           rootStyles={{
-            backgroundColor: isActive("/advertisments")
-              ? "rgba(0, 0, 0, 0.2)"
-              : "transparent",
+            backgroundColor: isActive("/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -157,11 +153,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="booking" />}
+          component={<Link to="/booking" />}
           rootStyles={{
-            backgroundColor: isActive("booking")
-              ? "rgba(0, 0, 0, 0.2)"
-              : "transparent",
+            backgroundColor: isActive("/booking") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -181,11 +175,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="facilities" />}
+          component={<Link to="/facilities" />}
           rootStyles={{
-            backgroundColor: isActive("facilities")
-              ? "rgba(0, 0, 0, 0.2)"
-              : "transparent",
+            backgroundColor: isActive("/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -209,9 +201,7 @@ export default function SidebarComponent({
         <MenuItem
           component={<Link to="/change-password" />}
           rootStyles={{
-            backgroundColor: isActive("change-password")
-              ? "rgba(0, 0, 0, 0.2)"
-              : "transparent",
+            backgroundColor: isActive("/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box

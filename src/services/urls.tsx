@@ -29,6 +29,14 @@ export const AUTH_URLS = {
   changePassword: `/admin/users/change-password`,
 };
 
+//  FACILITIES 
+export const FACILITIES_URLs = {
+  GET_FACILITIES:`/admin/room-facilities`,
+  ADD_FACILITIES:`/admin/room-facilities`
+}
+
+
+
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
 export const ROOMS_URLS = {

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React, { useEffect } from "react";
+import React from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 import {
@@ -40,7 +40,7 @@ import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirm
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
   const [isEdited, setIsEdited] = React.useState(false);
-  const [adId, setAdId] = React.useState(false);
+  const [adId, setAdId] = React.useState<string>("");
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -84,10 +84,6 @@ export default function AdvertisementsList() {
       room: "",
     },
   });
-
-  useEffect(() => {
-    setValue("isActive", isActive);
-  }, [Loading, isActive]);
 
   const onSbumitHandler = async (data: roomDataForm) => {
     setIsChanged(true);
@@ -158,12 +154,11 @@ export default function AdvertisementsList() {
   };
   React.useEffect(() => {
     setValue("isActive", isActive === null ? "false" : String(isActive));
-  }, [isActive, setValue]);
+  }, [isActive, setValue, Loading]);
 
   return (
     <>
       <DashboardHeading label="ADS" item="Ads" handleClick={handleAddNewAd} />
-      {/* <button onClick={handleAddNewAd}>add new ad</button> */}
       <CustomTable
         columnTitles={[
           "Room Name",

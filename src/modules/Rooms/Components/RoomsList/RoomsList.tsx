@@ -12,8 +12,8 @@ import { CircularProgress } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import { toast } from "react-toastify";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
-import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -37,13 +37,13 @@ export default function RoomsList() {
           params: { size, page },
         }
       );
-      console.log(response?.data?.data?.rooms);
-      setRooms(response?.data?.data?.rooms);
-      setCount(response?.data?.data?.totalCount);
+      console.log(response.data.data.rooms);
+      setRooms(response.data.data.rooms);
+      setCount(response.data.data.totalCount);
       toast.success("Get all rooms successfully");
     } catch (error: any) {
       console.log(error);
-      toast.error(error?.response?.data?.message || "something went wrong");
+      toast.error(error.response.data.message || "something went wrong");
     } finally {
       setLoading(false);
     }
@@ -66,6 +66,7 @@ export default function RoomsList() {
   };
   useEffect(() => {
     getRooms({ size: 5, page: 1 });
+    console.log("here");
   }, []);
 
   return (
@@ -106,11 +107,11 @@ export default function RoomsList() {
           ? rooms.map((room) => (
               <StyledTableRow key={room._id}>
                 <StyledTableCell component="th" scope="row" align="center">
-                  {room?.roomNumber}
+                  {room.roomNumber}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <img
-                    src={room?.images[0]}
+                    src={room.images[0]}
                     style={{
                       width: "56px",
                       height: "56px",
@@ -119,15 +120,15 @@ export default function RoomsList() {
                     alt="Room"
                   />
                 </StyledTableCell>
-                <StyledTableCell align="center">{room?.price}</StyledTableCell>
+                <StyledTableCell align="center">{room.price}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {room?.discount}
+                  {room.discount}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {room?.capacity}
+                  {room.capacity}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu handleOpenDelete={()=>handleOpen(room._id)}/>
+                  <ActionMenu handleOpenDelete={() => handleOpen(room?._id)}/>
                 </StyledTableCell>
               </StyledTableRow>
             ))
