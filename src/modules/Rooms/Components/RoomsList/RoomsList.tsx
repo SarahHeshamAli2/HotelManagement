@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { GetRoomsResponse, Room } from "../../../../interfaces/RoomsInterfaces";
-import { axiosInstance, ROOMS_URLS } from "../../../../services/urls";
-import CustomTable from "../../../Shared/Components/CustomTable/CustomTable";
+import { useCallback, useEffect, useState } from 'react';
+import { GetRoomsResponse, Room } from '../../../../interfaces/RoomsInterfaces';
+import { axiosInstance, ROOMS_URLS } from '../../../../services/urls';
+import CustomTable from '../../../Shared/Components/CustomTable/CustomTable';
 
 import {
   StyledTableCell,
@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import ViewModal from '../../../Shared/Components/ViewModal/ViewModal';
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -22,16 +23,19 @@ export default function RoomsList() {
   const [deleting, setDeleting] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string >('');
+  const [viewId, setViewId] = useState<string>('');
+	const [view, setView] = useState(false);
+
   const handleOpen = (id: string) => {
     setSelectedId(id);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
-  let getRooms = async ({ size, page }: PaginationOptions) => {
+  const getRooms = async ({ size, page }: PaginationOptions) => {
     try {
       setLoading(true);
-      let response = await axiosInstance.get<GetRoomsResponse>(
+      const response = await axiosInstance.get<GetRoomsResponse>(
         ROOMS_URLS.getAllRooms,
         {
           params: { size, page },
@@ -68,6 +72,24 @@ export default function RoomsList() {
     getRooms({ size: 5, page: 1 });
     console.log("here");
   }, []);
+
+  const handleView = (id: string) => {
+		setViewId(id);
+		setView(true);
+		console.log(view);
+	};
+
+	const viewRoom = useCallback(async () => {
+		const response = await axiosInstance.get(
+			ROOMS_URLS.getRoomDetails(viewId)
+		);
+		console.log(response?.data?.data);
+		return response?.data?.data;
+	}, [viewId]);
+
+	useEffect(() => {
+		viewRoom();
+	}, [viewRoom]);
 
   return (
     <>
@@ -128,12 +150,13 @@ export default function RoomsList() {
                   {room.capacity}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu handleOpenDelete={() => handleOpen(room?._id)}/>
+                  <ActionMenu handleShowView={() => handleView(room?._id)} handleOpenDelete={() => handleOpen(room?._id)}/>
                 </StyledTableCell>
               </StyledTableRow>
             ))
           : !loading && <NoData />}
       </CustomTable>
+      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
     </>
   );
 }
