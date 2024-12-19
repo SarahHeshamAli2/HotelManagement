@@ -1,8 +1,8 @@
 // axios instance
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from 'axios';
 
-const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
-const IMAGE_URL = "https://upskilling-egypt.com:3000";
+const BASE_URL = 'https://upskilling-egypt.com:3000/api/v0';
+const IMAGE_URL = 'https://upskilling-egypt.com:3000';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -10,11 +10,11 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // axios interceptors
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+	const token = localStorage.getItem('token');
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
 });
 
 //* USER AUTHENTICATION
@@ -41,7 +41,8 @@ export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
 export const ROOMS_URLS = {
   getAllRooms: `/admin/rooms`,
-  deleteRoom:(id:string)=>`/admin/rooms/${id}`
+  deleteRoom:(id:string)=>`/admin/rooms/${id}`,
+  getRoomDetails: (id: string) => `/admin/rooms/${id}`,
 };
 
 export const Ads_URLS = {
@@ -55,6 +56,7 @@ export const Ads_URLS = {
 
 export const BOOKING_URLS = {
   getAllBookings: `/admin/booking`,
+  getBookingDetails: (id: string) => `/admin/booking/${id}`,
 };
 
 export const getUsersData = "/admin/users";
@@ -67,9 +69,8 @@ export const ROOM_URLS = {
 //facilities endpoints
 export const FACILITIES_URLS = {
   getFacilities: `/admin/room-facilities`,
-  deleteFacility:(id:string)=>`/admin/room-facilities/${id}`
-
-
+  deleteFacility:(id:string)=>`/admin/room-facilities/${id}`,
+  getFacilityDetails: (id:string)=>`/admin/room-facilities/${id}`
 };
 
 export { axiosInstance, IMAGE_URL };
