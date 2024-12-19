@@ -30,9 +30,10 @@ export const AUTH_URLS = {
 };
 
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
+
 export const ROOMS_URLS = {
-  GET_ALL_ROOMS: `/admin/rooms`,
-  DELETE_ROOM:(id:string)=>`/admin/rooms/${id}`
+  getAllRooms: `/admin/rooms`,
+  deleteRoom:(id:string)=>`/admin/rooms/${id}`
 };
 
 export const Ads_URLS = {
@@ -40,10 +41,12 @@ export const Ads_URLS = {
   createNewAd: "/admin/ads",
   UpdateAd: (AdId: boolean) => `admin/ads/${AdId}`,
   getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+  deleteAd:(id:string)=>`/admin/ads/${id}`
+
 };
 
 export const BOOKING_URLS = {
-  GET_ALL_BOOKINGS: `/admin/booking`,
+  getAllBookings: `/admin/booking`,
 };
 
 export const getUsersData = "/admin/users";
@@ -56,6 +59,9 @@ export const ROOM_URLS = {
 //facilities endpoints
 export const FACILITIES_URLS = {
   getFacilities: `/admin/room-facilities`,
+  deleteFacility:(id:string)=>`/admin/room-facilities/${id}`
+
+
 };
 
 export { axiosInstance, IMAGE_URL };

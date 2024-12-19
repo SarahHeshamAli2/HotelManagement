@@ -15,7 +15,6 @@ import {
 import { axiosInstance, BOOKING_URLS } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";
-import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function BookingList() {
@@ -27,7 +26,7 @@ export default function BookingList() {
     try {
       setLoading(true);
       let response = await axiosInstance.get<GetBookingsResponse>(
-        BOOKING_URLS.GET_ALL_BOOKINGS,
+        BOOKING_URLS.getAllBookings,
         {
           params: { size, page },
         }
@@ -95,7 +94,7 @@ export default function BookingList() {
                   {booking?.user?.userName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu />
+                  view
                 </StyledTableCell>
               </StyledTableRow>
             ))

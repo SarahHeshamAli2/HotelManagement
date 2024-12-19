@@ -35,6 +35,7 @@ interface roomDataForm {
   roomNumber: "string";
 }
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
@@ -44,6 +45,14 @@ export default function AdvertisementsList() {
   const [isLoading, setIsLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [deleting, setDeleting] = React.useState<boolean>(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [selectedId, setSelectedId] = React.useState<string>("");
+  const handleOpenDelete = (id: string) => {
+    setSelectedId(id);
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => setOpenDelete(false);
 
   const { Ads, AdsCount, getAd, Loading, setIsChanged } = useAds();
 
@@ -132,7 +141,21 @@ export default function AdvertisementsList() {
         console.log(err);
       });
   };
-
+  const deleteAd = async () => {
+    try {
+      setIsChanged(true);
+      setDeleting(true);
+      await axiosInstance.delete(Ads_URLS.deleteAd(selectedId));
+      toast.success("Ad deleted successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "something went wrong");
+    } finally {
+      setIsChanged(false);
+      setDeleting(false);
+      handleCloseDelete();
+    }
+  };
   React.useEffect(() => {
     setValue("isActive", isActive === null ? "false" : String(isActive));
   }, [isActive, setValue]);
@@ -184,13 +207,17 @@ export default function AdvertisementsList() {
                   {ad?.isActive == true ? "Yes" : "No"}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu editFunction={() => getAdById(ad._id)} />
+                  <ActionMenu
+                    editFunction={() => getAdById(ad._id)}
+                    handleOpenDelete={() => handleOpenDelete(ad?._id)}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))
           : !Loading && <NoData />}
       </CustomTable>
 
+      {/*ADD & Edit Model */}
       <div>
         <Modal
           open={open}
@@ -321,6 +348,14 @@ export default function AdvertisementsList() {
           </Box>
         </Modal>
       </div>
+      {/*Delete Modal */}
+      <DeleteConfirmation
+        handleClose={handleCloseDelete}
+        open={openDelete}
+        deleteFn={deleteAd}
+        deleteItem="Ad"
+        deleting={deleting}
+      />
     </>
   );
 }

@@ -19,6 +19,7 @@ export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [count, setCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleting, setDeleting] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string >('');
   const handleOpen = (id: string) => {
@@ -31,7 +32,7 @@ export default function RoomsList() {
     try {
       setLoading(true);
       let response = await axiosInstance.get<GetRoomsResponse>(
-        ROOMS_URLS.GET_ALL_ROOMS,
+        ROOMS_URLS.getAllRooms,
         {
           params: { size, page },
         }
@@ -49,16 +50,19 @@ export default function RoomsList() {
   };
   const deleteRoom = async () => {
     try {
+      setDeleting(true)
       await axiosInstance.delete(
-        ROOMS_URLS.DELETE_ROOM(selectedId)
+        ROOMS_URLS.deleteRoom(selectedId)
       );
       toast.success("Room deleted successfully");
       getRooms({ size: 5, page: 1 });
     } catch (error: any) {
       console.log(error);
       toast.error(error?.response?.data?.message || "something went wrong");
+    }finally{
+      setDeleting(false)
+      handleClose();
     }
-    handleClose();
   };
   useEffect(() => {
     getRooms({ size: 5, page: 1 });
@@ -72,6 +76,7 @@ export default function RoomsList() {
         open={open}
         deleteFn={deleteRoom}
         deleteItem="Room"
+        deleting={deleting}
       />
       <CustomTable
         columnTitles={[
