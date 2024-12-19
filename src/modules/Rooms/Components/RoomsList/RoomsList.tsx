@@ -16,7 +16,7 @@ import DashboardHeading from "../../../Shared/Components/DashboardHeading/Dashbo
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const [count, h] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   let getRooms = async ({ size, page }: PaginationOptions) => {
