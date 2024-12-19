@@ -1,19 +1,23 @@
+
 import { axiosInstance, ROOMS_URLS } from '../services/urls';
 import useFetch from './useFetch';
 
 
 export default function useRooms() {
-
+    
 
     const getAllRooms = async(page?:string,size?:string)=>{
-      const response = await  axiosInstance.get(ROOMS_URLS.getAllRooms,{
+
+      
+      const response = await  axiosInstance.get(ROOMS_URLS.GET_ALL_ROOMS,{
+        
         params :{
             page:page,
             size:size
         }
-
+        
       })
-
+      
       return response
     }
 
@@ -27,3 +31,4 @@ export default function useRooms() {
     Loading:loading
    }
 }
+

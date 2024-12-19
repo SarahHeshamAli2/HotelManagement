@@ -12,10 +12,11 @@ import { CircularProgress } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import { toast } from "react-toastify";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const [count, h] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   let getRooms = async ({ size, page }: PaginationOptions) => {
@@ -45,6 +46,7 @@ export default function RoomsList() {
 
   return (
     <>
+      <DashboardHeading label="Rooms" item="Room" />
       <CustomTable
         columnTitles={[
           "Room Number",

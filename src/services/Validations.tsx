@@ -62,3 +62,14 @@ export const getValidationRules = (watch: UseFormWatch<User> | null) => {
     },
   };
 };
+export const getRoomValidationRules = () => {
+  return {
+    imgs: {
+      required: getRequiredMessage("Images"),
+      // validate: (value: FileList | null | undefined) =>
+      //   value && value!.length > 6 ? "Please upload at least 5 images" : false,
+      validate: (files: File[] | null) =>
+        files!.length <= 5 || "You can only upload up to 5 images",
+    },
+  };
+};

@@ -14,6 +14,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces";
+import { AxiosResponse } from "axios";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -98,7 +99,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 interface CustomTableProps {
   columnTitles: string[];
   count: number;
-  getListFn: ({ size, page }: PaginationOptions) => Promise<void>;
+  getListFn: ({ size, page }: PaginationOptions) => Promise<AxiosResponse<void>|void>;
   children: ReactNode;
 }
 
@@ -135,7 +136,7 @@ export default function CustomTable({
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              {columnTitles.map((column, index) => (
+              {columnTitles?.map((column, index) => (
                 <StyledTableCell key={index} align="center">
                   {column}
                 </StyledTableCell>
@@ -170,3 +171,4 @@ export default function CustomTable({
     </ThemeProvider>
   );
 }
+
