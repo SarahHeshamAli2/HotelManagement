@@ -1,8 +1,8 @@
 // axios instance
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from 'axios';
 
-const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
-const IMAGE_URL = "https://upskilling-egypt.com:3000";
+const BASE_URL = 'https://upskilling-egypt.com:3000/api/v0';
+const IMAGE_URL = 'https://upskilling-egypt.com:3000';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -10,11 +10,11 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // axios interceptors
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+	const token = localStorage.getItem('token');
+	if (token) {
+		config.headers.Authorization = `Bearer ${token}`;
+	}
+	return config;
 });
 
 //* USER AUTHENTICATION
@@ -39,22 +39,25 @@ export const FACILITIES_URLs = {
 
 
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
+
 export const ROOMS_URLS = {
-  GET_ALL_ROOMS: `/admin/rooms`,
-  DELETE_ROOM:(id:string)=>`/admin/rooms/${id}`
+  getAllRooms: `/admin/rooms`,
+  deleteRoom:(id:string)=>`/admin/rooms/${id}`,
+  getRoomDetails: (id: string) => `/admin/rooms/${id}`,
 };
 
 export const Ads_URLS = {
   getAllAds: "/admin/ads",
   createNewAd: "/admin/ads",
-  UpdateAd: (adId: string) => `admin/ads/${adId}`,
-  getAdById: (adId: string) => `/admin/ads/${adId}`,
-  DeleteAd: (adId: string) => `/admin/ads/${adId}`,
+  UpdateAd: (AdId: string) => `admin/ads/${AdId}`,
+  getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+  deleteAd:(id:string)=>`/admin/ads/${id}`
 
 };
 
 export const BOOKING_URLS = {
-  GET_ALL_BOOKINGS: `/admin/booking`,
+  getAllBookings: `/admin/booking`,
+  getBookingDetails: (id: string) => `/admin/booking/${id}`,
 };
 
 export const getUsersData = "/admin/users";
@@ -62,11 +65,15 @@ export const getUsersData = "/admin/users";
 // Room endpoints
 export const ROOM_URLS = {
   createRoom: `/admin/rooms`,
+  updateRoom: (roomId: string) => `/admin/rooms/${roomId}`,
+  getRoomById: (roomId: string) => `/admin/rooms/${roomId}`,
 };
 
 //facilities endpoints
 export const FACILITIES_URLS = {
   getFacilities: `/admin/room-facilities`,
+  deleteFacility:(id:string)=>`/admin/room-facilities/${id}`,
+  getFacilityDetails: (id:string)=>`/admin/room-facilities/${id}`
 };
 
 export { axiosInstance, IMAGE_URL };

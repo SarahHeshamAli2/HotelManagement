@@ -9,7 +9,7 @@ export default function useRooms() {
     const getAllRooms = async(page?:string,size?:string)=>{
 
       
-      const response = await  axiosInstance.get(ROOMS_URLS.GET_ALL_ROOMS,{
+      const response = await  axiosInstance.get(ROOMS_URLS.getAllRooms,{
         
         params :{
             page:page,

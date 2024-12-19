@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { axiosInstance, getUsersData } from '../../../../services/urls';
 import { UserListType } from '../../../../services/interfaces';
 import CustomTable from '../../../Shared/Components/CustomTable/CustomTable';
@@ -9,33 +9,60 @@ import {
 } from '../../../../helperStyles/helperStyles';
 import { PaginationOptions } from '../../../../interfaces/PaginationInterfaces';
 import NoData from '../../../Shared/Components/NoData/NoData';
+import { useSearchParams } from 'react-router-dom';
+import DashboardHeading from '../../../Shared/Components/DashboardHeading/DashboardHeading';
 
 export default function UsersList() {
 	const [usersData, setUsersData] = useState([]);
 	const [totalCount, setTotalCount] = useState(0);
 	const [loading, setLoading] = useState(false);
+	const [searchParams] = useSearchParams();
 
-	const getUsers = async ({ size, page }: PaginationOptions) => {
-		try {
-			setLoading(true);
-			const response = await axiosInstance.get(getUsersData, {
-				params: { size, page },
-			});
-			console.log(response.data.data);
-			setUsersData(response.data?.data?.users);
-			setTotalCount(response.data?.data?.totalCount);
-		} catch (error: unknown) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+  const getUsers = async ({ size, page }: PaginationOptions) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.get(getUsersData, {
+        params: { size, page },
+      });
+      console.log(response.data.data);
+      setUsersData(response.data?.data?.users);
+      setTotalCount(response.data?.data?.totalCount);
+    } catch (error: unknown) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-	useEffect(() => {
-		getUsers({ size: 5, page: 1 });
-	}, []);
+  useEffect(() => {
+    getUsers({ size: 5, page: 1 });
+  }, []);
 
-	const usersList = usersData.map((user: UserListType) => (
+	// const getFilteredUsers = useCallback(async () => {
+	// 	try {
+	// 		setLoading(true);
+	// 		console.log(searchParams.get('name'));
+	// 		const response = await axiosInstance.get(getUsersData, {
+	// 			params: {
+	// 				pageSize: 5,
+	// 				pageNumber: Number(searchParams.get('pageNum')),
+	// 				userName: searchParams.get('name'),
+	// 			},
+	// 		});
+	// 		console.log(response?.data?.data);
+	// 		return response?.data;
+	// 	} catch (error: unknown) {
+	// 		console.log(error);
+	// 	} finally {
+	// 		setLoading(false);
+	// 	}
+	// }, [searchParams]);
+
+	// useEffect(() => {
+	// 	getFilteredUsers();
+	// }, [getFilteredUsers]);
+
+	const usersList = usersData?.map((user: UserListType) => (
 		<StyledTableRow key={user._id}>
 			<StyledTableCell align='center'>{user.userName}</StyledTableCell>
 			<StyledTableCell align='center'>{user.email}</StyledTableCell>
@@ -45,30 +72,34 @@ export default function UsersList() {
 		</StyledTableRow>
 	));
 
-	return (
-		<CustomTable
-			columnTitles={['Username', 'Email', 'Phone number', 'Country', 'Role']}
-			count={totalCount}
-			getListFn={getUsers}
-		>
-			{loading ? (
-				<CircularProgress
-					sx={{
-						color: 'blue',
-						marginTop: '4rem',
-						marginInline: 'auto',
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						textAlign: 'center',
-					}}
-					size={'4rem'}
-				/>
-			) : usersData.length > 0 ? (
-				usersList
-			) : (
-				<NoData />
-			)}
-		</CustomTable>
-	);
+  return (
+    <>
+      <DashboardHeading label="Users" item="User" />
+
+      <CustomTable
+        columnTitles={["Username", "Email", "Phone number", "Country", "Role"]}
+        count={totalCount}
+        getListFn={getUsers}
+      >
+        {loading ? (
+          <CircularProgress
+            sx={{
+              color: "blue",
+              marginTop: "4rem",
+              marginInline: "auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+            size={"4rem"}
+          />
+        ) : usersData.length > 0 ? (
+          usersList
+        ) : (
+          <NoData />
+        )}
+      </CustomTable>
+    </>
+  );
 }
