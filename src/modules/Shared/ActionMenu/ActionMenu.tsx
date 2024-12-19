@@ -13,10 +13,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { blue } from "@mui/material/colors";
-interface actionMenu {
-  editFunction:()=>void
+
+interface ActionMenuProps {
+  editFunction?:()=>void,
+  handleOpenDelete?:()=>void
 }
-const ActionMenu = ({editFunction}:actionMenu )=> {
+
+const ActionMenu = ({editFunction,handleOpenDelete}:ActionMenuProps) => {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -102,7 +105,7 @@ return <>
                     <MenuItem ><VisibilityIcon sx={{color:blue[900] , mx:'10px' }}/>View</MenuItem>
                     <MenuItem onClick={editFunction
                     }><ModeEditOutlineIcon  sx={{color:blue[900] , mx:'10px' ,my:'5px'}}/> Edit</MenuItem>
-                    <MenuItem > <DeleteIcon  sx={{color:blue[900] , mx:'10px'}}/>Delete</MenuItem>
+                    <MenuItem onClick={handleOpenDelete}> <DeleteIcon  sx={{color:blue[900] , mx:'10px'}}/>Delete</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
