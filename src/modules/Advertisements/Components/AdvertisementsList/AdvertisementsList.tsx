@@ -46,6 +46,7 @@ export default function AdvertisementsList() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [viewId, setViewId] = React.useState<string>('');
   const [view, setView] = React.useState<boolean>(false);
+  const [viewData, setViewData] = React.useState({});
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [deleting, setDeleting] = React.useState<boolean>(false);
@@ -170,7 +171,7 @@ const viewAd = useCallback(async () => {
     Ads_URLS.getAdById(viewId)
   );
   console.log(response?.data?.data);
-  return response?.data?.data;
+  setViewData(response?.data?.data);
 }, [viewId]);
 
 useEffect(() => {
@@ -373,7 +374,7 @@ useEffect(() => {
         deleteItem="Ad"
         deleting={deleting}
       />
-      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
+      <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   );
 }
