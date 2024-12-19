@@ -113,15 +113,6 @@ export default function RoomsForm() {
         for (const file of files) {
           formData.append("imgs", file);
         }
-        // const fileList = data[key];
-        // if (fileList) {
-        //   const files = Array.from(fileList);
-        //   for (let i = 0; i < files?.length; i++) {
-        //     if (files[i]) {
-        //       formData.append("imgs", files[i]);
-        //     }
-        //   }
-        // }
       } else if (key === "facilities") {
         if (
           Array.isArray(data[key]) &&
@@ -131,13 +122,7 @@ export default function RoomsForm() {
           data[key].forEach((facility: string) => {
             formData.append("facilities", facility);
           });
-        } else {
-          // facilities is not an array of strings
-          // handle the error or append the data in a different way
         }
-        // data[key].forEach((facility) => {
-        //   formData.append("facilities", facility);
-        // });
       } else {
         formData.append(key, data[key as keyof Room] as string);
       }
@@ -192,7 +177,10 @@ export default function RoomsForm() {
 
   const getFacilities = useCallback(async () => {
     const response = await axiosInstance.get<FacilityResponse>(
-      FACILITIES_URLS.getFacilities
+      FACILITIES_URLS.getFacilities,
+      {
+        params: { size: 100000, page: 1 },
+      }
     );
     return response?.data;
   }, []);
@@ -212,10 +200,6 @@ export default function RoomsForm() {
         setValue("capacity", response?.data?.data.room.capacity);
         setValue("discount", response?.data?.data.room.discount);
 
-        // setValue(
-        //   "facilities",
-        //   response?.data?.data?.room?.facilities.map((f) => f._id)
-        // );
         setValue(
           "facilities",
           response?.data?.data.room.facilities.map(

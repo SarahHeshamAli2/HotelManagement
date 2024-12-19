@@ -12,9 +12,20 @@ import { useRef } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
+
 import { blue } from "@mui/material/colors";
 
-const ActionMenu = ({ editFunction }) => {
+interface ActionMenuProps {
+  editFunction?: () => void;
+  handleOpenDelete?: () => void;
+  handleShowView: () => void;
+}
+
+const ActionMenu = ({
+  editFunction,
+  handleOpenDelete,
+  handleShowView,
+}: ActionMenuProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -93,7 +104,7 @@ const ActionMenu = ({ editFunction }) => {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem>
+                      <MenuItem onClick={handleShowView}>
                         <VisibilityIcon sx={{ color: blue[900], mx: "10px" }} />
                         View
                       </MenuItem>
@@ -103,7 +114,7 @@ const ActionMenu = ({ editFunction }) => {
                         />{" "}
                         Edit
                       </MenuItem>
-                      <MenuItem>
+                      <MenuItem onClick={handleOpenDelete}>
                         {" "}
                         <DeleteIcon sx={{ color: blue[900], mx: "10px" }} />
                         Delete

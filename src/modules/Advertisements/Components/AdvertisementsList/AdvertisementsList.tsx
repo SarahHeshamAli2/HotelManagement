@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 import {
@@ -26,6 +26,7 @@ import NoData from "../../../Shared/Components/NoData/NoData";
 
 import useAds from "../../../../hooks/useAds";
 import { ad } from "../../../../services/interfaces";
+import ViewModal from "../../../Shared/Components/ViewModal/ViewModal";
 
 interface roomDataForm {
   discount: string;
@@ -35,15 +36,26 @@ interface roomDataForm {
   roomNumber: "string";
 }
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
   const [isEdited, setIsEdited] = React.useState(false);
-  const [adId, setAdId] = React.useState(false);
+  const [adId, setAdId] = React.useState<string>("");
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [viewId, setViewId] = React.useState<string>('');
+  const [view, setView] = React.useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [deleting, setDeleting] = React.useState<boolean>(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const [selectedId, setSelectedId] = React.useState<string>("");
+  const handleOpenDelete = (id: string) => {
+    setSelectedId(id);
+    setOpenDelete(true);
+  };
+  const handleCloseDelete = () => setOpenDelete(false);
 
   const { Ads, AdsCount, getAd, Loading, setIsChanged } = useAds();
 
@@ -75,10 +87,6 @@ export default function AdvertisementsList() {
       room: "",
     },
   });
-
-  useEffect(() => {
-    setValue("isActive", isActive);
-  }, [Loading, isActive]);
 
   const onSbumitHandler = async (data: roomDataForm) => {
     setIsChanged(true);
@@ -132,15 +140,46 @@ export default function AdvertisementsList() {
         console.log(err);
       });
   };
-
+  const deleteAd = async () => {
+    try {
+      setIsChanged(true);
+      setDeleting(true);
+      await axiosInstance.delete(Ads_URLS.deleteAd(selectedId));
+      toast.success("Ad deleted successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "something went wrong");
+    } finally {
+      setIsChanged(false);
+      setDeleting(false);
+      handleCloseDelete();
+    }
+  };
   React.useEffect(() => {
     setValue("isActive", isActive === null ? "false" : String(isActive));
-  }, [isActive, setValue]);
+  }, [isActive, setValue, Loading]);
+
+  const handleView = (id: string) => {
+  setViewId(id);
+  setView(true);
+  console.log(view);
+};
+
+const viewAd = useCallback(async () => {
+  const response = await axiosInstance.get(
+    Ads_URLS.getAdById(viewId)
+  );
+  console.log(response?.data?.data);
+  return response?.data?.data;
+}, [viewId]);
+
+useEffect(() => {
+  viewAd();
+}, [viewAd]);
 
   return (
     <>
       <DashboardHeading label="ADS" item="Ads" handleClick={handleAddNewAd} />
-      {/* <button onClick={handleAddNewAd}>add new ad</button> */}
       <CustomTable
         columnTitles={[
           "Room Name",
@@ -184,13 +223,18 @@ export default function AdvertisementsList() {
                   {ad?.isActive == true ? "Yes" : "No"}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu editFunction={() => getAdById(ad._id)} />
+                  <ActionMenu
+                    handleShowView={() => handleView(ad._id)}
+                    editFunction={() => getAdById(ad._id)}
+                    handleOpenDelete={() => handleOpenDelete(ad?._id)}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))
           : !Loading && <NoData />}
       </CustomTable>
 
+      {/*ADD & Edit Model */}
       <div>
         <Modal
           open={open}
@@ -321,6 +365,15 @@ export default function AdvertisementsList() {
           </Box>
         </Modal>
       </div>
+      {/*Delete Modal */}
+      <DeleteConfirmation
+        handleClose={handleCloseDelete}
+        open={openDelete}
+        deleteFn={deleteAd}
+        deleteItem="Ad"
+        deleting={deleting}
+      />
+      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
     </>
   );
 }

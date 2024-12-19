@@ -33,7 +33,7 @@ const DashboardHeading = ({
             fontWeight: "600",
           }}
         >
-          {label} Table Details
+          {label} Table Details 
         </Typography>
         <Typography
           variant="subtitle1"
@@ -45,7 +45,7 @@ const DashboardHeading = ({
           You can check all details
         </Typography>
       </Box>
-      <Button
+      {item =='Booking'||item =='User'?'':<Button
         component={Link}
         to={linkTo(item)}
         onClick={handleClick}
@@ -67,7 +67,7 @@ const DashboardHeading = ({
         </Typography>
         <AddCircleOutlineIcon sx={{ display: { xs: "block", md: "none" } }} />
         {item}
-      </Button>
+      </Button>}
     </Stack>
   );
 };
