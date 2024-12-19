@@ -40,6 +40,7 @@ export const FACILITIES_URLs = {
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 export const ROOMS_URLS = {
   GET_ALL_ROOMS: `/admin/rooms`,
+  DELETE_ROOM:(id:string)=>`/admin/rooms/${id}`
 };
 
 export const Ads_URLS = {
