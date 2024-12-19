@@ -45,7 +45,7 @@ body {
   box-sizing: border-box;
 }
 
-.hiddenMenu{
+.hiddenMenu {
   display: none;
 }
 
@@ -64,5 +64,3 @@ body {
     display: none !important;
   }
 }
-
-

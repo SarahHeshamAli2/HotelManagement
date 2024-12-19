@@ -12,6 +12,7 @@ import { useRef } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
+
 import { blue } from "@mui/material/colors";
 
 interface ActionMenuProps {
@@ -20,7 +21,11 @@ interface ActionMenuProps {
   handleShowView: () => void;
 }
 
-const ActionMenu = ({ editFunction, handleOpenDelete, handleShowView }: ActionMenuProps) => {
+const ActionMenu = ({
+  editFunction,
+  handleOpenDelete,
+  handleShowView,
+}: ActionMenuProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
