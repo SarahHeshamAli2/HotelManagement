@@ -37,7 +37,6 @@ export default function BookingList() {
       console.log(response.data.data.booking);
       setBookings(response.data.data.booking);
       setCount(response.data.data.totalCount);
-      toast.success("Get all bookings successfully");
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message || "something went wrong");
