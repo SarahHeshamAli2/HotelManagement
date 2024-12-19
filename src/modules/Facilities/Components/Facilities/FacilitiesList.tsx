@@ -1,5 +1,5 @@
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { axiosInstance, FACILITIES_URLS, FACILITIES_URLs  } from "../../../../services/urls"
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable"
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces"
@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
+import ViewModal from "../../../Shared/Components/ViewModal/ViewModal";
 
 const FacilitiesList = () => {
     const {
@@ -30,6 +31,9 @@ const FacilitiesList = () => {
     const [deleting, setDeleting] = useState<boolean>(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedId, setSelectedId] = useState<string>("");
+    const [viewId, setViewId] = useState<string>('');
+    const [view, setView] = useState<boolean>(false);
+
     const handleOpenDelete = (id: string) => {
       setSelectedId(id);
       setOpenDelete(true);
@@ -97,6 +101,24 @@ const FacilitiesList = () => {
   useEffect(() =>{
     getFacilities({size:5,page:1})
   },[])
+
+  const handleView = (id: string) => {
+  setViewId(id);
+  setView(true);
+  console.log(view);
+};
+
+const viewFacility = useCallback(async () => {
+  const response = await axiosInstance.get(
+    FACILITIES_URLS.getFacilityDetails(viewId)
+  );
+  console.log(response?.data?.data);
+  return response?.data?.data;
+}, [viewId]);
+
+useEffect(() => {
+  viewFacility();
+}, [viewFacility]);
 
     const style = {
     position: 'absolute',
@@ -204,7 +226,7 @@ const FacilitiesList = () => {
                 {formatDate(item.updatedAt)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                <ActionMenu editFunction={editFacility} handleOpenDelete={()=>handleOpenDelete(item._id)}/>
+                <ActionMenu handleShowView={() => handleView(item._id)} editFunction={editFacility} handleOpenDelete={()=>handleOpenDelete(item._id)}/>
               </StyledTableCell>
           </StyledTableRow>
         ))
@@ -213,6 +235,7 @@ const FacilitiesList = () => {
         )
         } 
        </CustomTable>
+       <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
     </>
   )
 }

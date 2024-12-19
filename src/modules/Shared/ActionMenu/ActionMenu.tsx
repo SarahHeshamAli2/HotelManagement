@@ -17,9 +17,10 @@ import { blue } from "@mui/material/colors";
 interface ActionMenuProps {
   editFunction?: () => void;
   handleOpenDelete?: () => void;
+  handleShowView: () => void;
 }
 
-const ActionMenu = ({ editFunction, handleOpenDelete }: ActionMenuProps) => {
+const ActionMenu = ({ editFunction, handleOpenDelete, handleShowView }: ActionMenuProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
 
@@ -98,7 +99,7 @@ const ActionMenu = ({ editFunction, handleOpenDelete }: ActionMenuProps) => {
                       aria-labelledby="composition-button"
                       onKeyDown={handleListKeyDown}
                     >
-                      <MenuItem>
+                      <MenuItem onClick={handleShowView}>
                         <VisibilityIcon sx={{ color: blue[900], mx: "10px" }} />
                         View
                       </MenuItem>

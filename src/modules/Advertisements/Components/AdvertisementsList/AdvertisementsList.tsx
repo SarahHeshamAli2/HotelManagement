@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 import {
@@ -28,6 +28,7 @@ import useAds from "../../../../hooks/useAds";
 import { ad } from "../../../../services/interfaces";
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
+import ViewModal from "../../../Shared/Components/ViewModal/ViewModal";
 
 interface roomDataForm {
   discount: string;
@@ -43,6 +44,8 @@ export default function AdvertisementsList() {
   const [adId, setAdId] = React.useState<string>("");
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
+  const [viewId, setViewId] = React.useState<string>('');
+  const [view, setView] = React.useState<boolean>(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [deleting, setDeleting] = React.useState<boolean>(false);
@@ -156,6 +159,24 @@ export default function AdvertisementsList() {
     setValue("isActive", isActive === null ? "false" : String(isActive));
   }, [isActive, setValue, Loading]);
 
+  const handleView = (id: string) => {
+  setViewId(id);
+  setView(true);
+  console.log(view);
+};
+
+const viewAd = useCallback(async () => {
+  const response = await axiosInstance.get(
+    Ads_URLS.getAdById(viewId)
+  );
+  console.log(response?.data?.data);
+  return response?.data?.data;
+}, [viewId]);
+
+useEffect(() => {
+  viewAd();
+}, [viewAd]);
+
   return (
     <>
       <DashboardHeading label="ADS" item="Ads" handleClick={handleAddNewAd} />
@@ -203,6 +224,7 @@ export default function AdvertisementsList() {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <ActionMenu
+                    handleShowView={() => handleView(ad._id)}
                     editFunction={() => getAdById(ad._id)}
                     handleOpenDelete={() => handleOpenDelete(ad?._id)}
                   />
@@ -351,6 +373,7 @@ export default function AdvertisementsList() {
         deleteItem="Ad"
         deleting={deleting}
       />
+      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
     </>
   );
 }
