@@ -33,7 +33,7 @@ const DashboardHeading = ({
             fontWeight: "600",
           }}
         >
-          {label} TaDetailsble 
+          {label} Table Details 
         </Typography>
         <Typography
           variant="subtitle1"

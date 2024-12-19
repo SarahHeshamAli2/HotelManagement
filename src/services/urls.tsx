@@ -46,8 +46,10 @@ export const ROOMS_URLS = {
 export const Ads_URLS = {
   getAllAds: "/admin/ads",
   createNewAd: "/admin/ads",
-  UpdateAd: (AdId: boolean) => `admin/ads/${AdId}`,
-  getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+  UpdateAd: (adId: string) => `admin/ads/${adId}`,
+  getAdById: (adId: string) => `/admin/ads/${adId}`,
+  DeleteAd: (adId: string) => `/admin/ads/${adId}`,
+
 };
 
 export const BOOKING_URLS = {

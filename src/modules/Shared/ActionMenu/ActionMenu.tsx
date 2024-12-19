@@ -16,7 +16,7 @@ import { blue } from "@mui/material/colors";
 
 interface ActionMenuProps {
   editFunction?:()=>void,
-  handleOpenDelete?:()=>void
+  handleOpenDelete?:()=>void,
 }
 
 const ActionMenu = ({editFunction,handleOpenDelete}:ActionMenuProps) => {
@@ -62,7 +62,7 @@ return <>
 
 
 
-<Stack direction="row"  spacing={2} justifyContent={'end'}>
+<Stack  direction="row"  spacing={2} justifyContent={'end'}>
       
       <div >
         <Button
@@ -83,6 +83,7 @@ return <>
           transition
           disablePortal
           sx={{zIndex:'999'}}
+          
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -95,7 +96,10 @@ return <>
               <Paper  >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
-                  sx={{zIndex:'999999'}}
+                  
+                  sx={{zIndex:'999999' } }
+
+                  
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
