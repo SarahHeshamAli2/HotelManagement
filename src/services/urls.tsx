@@ -40,13 +40,16 @@ export const FACILITIES_URLs = {
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 export const ROOMS_URLS = {
   GET_ALL_ROOMS: `/admin/rooms`,
+  DELETE_ROOM:(id:string)=>`/admin/rooms/${id}`
 };
 
 export const Ads_URLS = {
   getAllAds: "/admin/ads",
   createNewAd: "/admin/ads",
-  UpdateAd: (AdId: boolean) => `admin/ads/${AdId}`,
-  getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+  UpdateAd: (adId: string) => `admin/ads/${adId}`,
+  getAdById: (adId: string) => `/admin/ads/${adId}`,
+  DeleteAd: (adId: string) => `/admin/ads/${adId}`,
+
 };
 
 export const BOOKING_URLS = {

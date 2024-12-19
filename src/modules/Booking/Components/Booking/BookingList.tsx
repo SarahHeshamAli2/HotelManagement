@@ -16,6 +16,7 @@ import { axiosInstance, BOOKING_URLS } from "../../../../services/urls";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function BookingList() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -44,11 +45,12 @@ export default function BookingList() {
   };
   useEffect(() => {
     getBookings({ size: 5, page: 1 });
-    console.log("here");
   }, []);
 
   return (
     <>
+      <DashboardHeading label="Bookings" item="Booking" />
+
       <CustomTable
         columnTitles={[
           "Room Number",
@@ -75,22 +77,22 @@ export default function BookingList() {
         )}
         {!loading && bookings.length > 0
           ? bookings.map((booking) => (
-              <StyledTableRow key={booking._id}>
+              <StyledTableRow key={booking?._id}>
                 <StyledTableCell component="th" scope="row" align="center">
-                  {booking.room.roomNumber}
+                  {booking?.room?.roomNumber}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {booking.totalPrice}
+                  {booking?.totalPrice}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {formatDate(booking.startDate)}
+                  {formatDate(booking?.startDate)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {formatDate(booking.endDate)}
+                  {formatDate(booking?.endDate)}
                 </StyledTableCell>
 
                 <StyledTableCell align="center">
-                  {booking.user.userName}
+                  {booking?.user?.userName}
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <ActionMenu />

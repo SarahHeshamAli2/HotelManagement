@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React, { useEffect } from "react";
+import React from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 import {
@@ -35,16 +35,27 @@ interface roomDataForm {
   roomNumber: "string";
 }
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
   const [isEdited, setIsEdited] = React.useState(false);
-  const [adId, setAdId] = React.useState(false);
+  const [adId, setAdId] = React.useState<string>('');
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  
+
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const handleOpenDelete = (adId:string) => {setOpenDelete(true);
+    setAdId(adId)
+  }
+  const handleCloseDelete = () => setOpenDelete(false);
+
+
+  
   const { Ads, AdsCount, getAd, Loading, setIsChanged } = useAds();
 
   const { Rooms } = useRooms();
@@ -76,9 +87,34 @@ export default function AdvertisementsList() {
     },
   });
 
-  useEffect(() => {
-    setValue("isActive", isActive);
-  }, [Loading, isActive]);
+
+
+  const deleteFunction = (adId:string)=>{
+    setIsLoading(true)
+    setIsChanged(true)
+
+
+axiosInstance.delete(Ads_URLS.DeleteAd(adId)).then((response)=>{
+
+  console.log(response);
+  toast.success('ad deleted successfully !')
+  handleCloseDelete()
+  setIsEdited(true);
+  setIsLoading(false)
+  setIsChanged(false)
+
+}).catch((error)=>{
+  console.log(error);
+  toast.error(error?.response?.data?.message)
+  handleCloseDelete()
+
+})
+
+
+    
+  }
+
+ 
 
   const onSbumitHandler = async (data: roomDataForm) => {
     setIsChanged(true);
@@ -135,12 +171,11 @@ export default function AdvertisementsList() {
 
   React.useEffect(() => {
     setValue("isActive", isActive === null ? "false" : String(isActive));
-  }, [isActive, setValue]);
+  }, [isActive, setValue,Loading]);
 
   return (
     <>
       <DashboardHeading label="ADS" item="Ads" handleClick={handleAddNewAd} />
-      {/* <button onClick={handleAddNewAd}>add new ad</button> */}
       <CustomTable
         columnTitles={[
           "Room Name",
@@ -184,7 +219,8 @@ export default function AdvertisementsList() {
                   {ad?.isActive == true ? "Yes" : "No"}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu editFunction={() => getAdById(ad._id)} />
+                  <ActionMenu editFunction={() => getAdById(ad._id)}  handleOpenDelete={()=>handleOpenDelete(ad._id)
+                  } />
                 </StyledTableCell>
               </StyledTableRow>
             ))
@@ -320,6 +356,9 @@ export default function AdvertisementsList() {
             </Box>
           </Box>
         </Modal>
+
+        <DeleteConfirmation open={openDelete} handleClose={handleCloseDelete} deleteFn={()=>deleteFunction(adId)
+        } deleteItem="Ad"/>
       </div>
     </>
   );

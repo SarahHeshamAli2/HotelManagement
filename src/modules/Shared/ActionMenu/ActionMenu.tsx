@@ -14,7 +14,12 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { blue } from "@mui/material/colors";
 
-const ActionMenu = ({editFunction}) => {
+interface ActionMenuProps {
+  editFunction?:()=>void,
+  handleOpenDelete?:()=>void,
+}
+
+const ActionMenu = ({editFunction,handleOpenDelete}:ActionMenuProps) => {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLButtonElement>(null)
 
@@ -57,7 +62,7 @@ return <>
 
 
 
-<Stack direction="row"  spacing={2} justifyContent={'end'}>
+<Stack  direction="row"  spacing={2} justifyContent={'end'}>
       
       <div >
         <Button
@@ -78,6 +83,7 @@ return <>
           transition
           disablePortal
           sx={{zIndex:'999'}}
+          
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -90,7 +96,10 @@ return <>
               <Paper  >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
-                  sx={{zIndex:'999999'}}
+                  
+                  sx={{zIndex:'999999' } }
+
+                  
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
@@ -100,7 +109,7 @@ return <>
                     <MenuItem ><VisibilityIcon sx={{color:blue[900] , mx:'10px' }}/>View</MenuItem>
                     <MenuItem onClick={editFunction
                     }><ModeEditOutlineIcon  sx={{color:blue[900] , mx:'10px' ,my:'5px'}}/> Edit</MenuItem>
-                    <MenuItem > <DeleteIcon  sx={{color:blue[900] , mx:'10px'}}/>Delete</MenuItem>
+                    <MenuItem onClick={handleOpenDelete}> <DeleteIcon  sx={{color:blue[900] , mx:'10px'}}/>Delete</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
