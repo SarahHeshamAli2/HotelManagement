@@ -33,7 +33,8 @@ export const AUTH_URLS = {
 
 //  FACILITIES 
 export const FACILITIES_URLS = {
-  GET_FACILITIES:`/admin/room-facilities`
+  GET_FACILITIES:`/admin/room-facilities`,
+  ADD_FACILITIES:`/admin/room-facilities`
 }
 
 
