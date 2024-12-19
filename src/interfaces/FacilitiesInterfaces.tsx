@@ -1,5 +1,5 @@
 export interface facility{
-    _id: number,
+    _id: string,
     name: string,
     createdBy: {
         _id: number,

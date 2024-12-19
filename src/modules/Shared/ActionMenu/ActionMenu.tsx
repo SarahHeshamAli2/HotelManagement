@@ -13,7 +13,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { blue } from "@mui/material/colors";
-import { useLocation } from "react-router-dom";
 
 interface ActionMenuProps {
   editFunction?: () => void;
@@ -23,8 +22,6 @@ interface ActionMenuProps {
 const ActionMenu = ({ editFunction, handleOpenDelete }: ActionMenuProps) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
-  const { pathname } = useLocation();
-  console.log(pathname);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);

@@ -1,6 +1,6 @@
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 import { useEffect, useState } from "react"
-import { axiosInstance, FACILITIES_URLs  } from "../../../../services/urls"
+import { axiosInstance, FACILITIES_URLS, FACILITIES_URLs  } from "../../../../services/urls"
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable"
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces"
 import { StyledTableCell, StyledTableRow } from "../../../../helperStyles/helperStyles" 
@@ -11,6 +11,7 @@ import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mu
 import { useForm } from "react-hook-form" 
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";
+import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 const FacilitiesList = () => {
     const {
@@ -26,6 +27,14 @@ const FacilitiesList = () => {
   const[loading,setLoading] = useState(false)
   const[count, setCount] = useState<number>(0)
 
+    const [deleting, setDeleting] = useState<boolean>(false);
+    const [openDelete, setOpenDelete] = useState(false);
+    const [selectedId, setSelectedId] = useState<string>("");
+    const handleOpenDelete = (id: string) => {
+      setSelectedId(id);
+      setOpenDelete(true);
+    };
+    const handleCloseDelete = () => setOpenDelete(false);
 
   const getFacilities = async ({size , page}:PaginationOptions) =>{
     setLoading(true)
@@ -47,6 +56,22 @@ const FacilitiesList = () => {
       setLoading(false)
     }
   }
+  const deleteFacility = async () => {
+      try {
+        setDeleting(true)
+        await axiosInstance.delete(
+          FACILITIES_URLS.deleteFacility(selectedId)
+        );
+        toast.success("Facility deleted successfully");
+        getFacilities({ size: 5, page: 1 });
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || "something went wrong");
+      }finally{
+        setDeleting(false)
+        handleCloseDelete();
+      }
+    };
 
   interface addData{
   name:string
@@ -70,7 +95,7 @@ const FacilitiesList = () => {
   }
 
   useEffect(() =>{
-    getFacilities({size:10,page:1})
+    getFacilities({size:5,page:1})
   },[])
 
     const style = {
@@ -92,7 +117,14 @@ const FacilitiesList = () => {
     <div>
       <DashboardHeading label="Facilities" item="Facility" handleClick={handleOpen} />
     </div>
-
+      <DeleteConfirmation
+        handleClose={handleCloseDelete}
+        open={openDelete}
+        deleteFn={deleteFacility}
+        deleteItem="Facility"
+        deleting={deleting}
+      />
+    
      <Box component="div">
      <Modal
         open={open}
@@ -172,7 +204,7 @@ const FacilitiesList = () => {
                 {formatDate(item.updatedAt)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                <ActionMenu editFunction={editFacility} />
+                <ActionMenu editFunction={editFacility} handleOpenDelete={()=>handleOpenDelete(item._id)}/>
               </StyledTableCell>
           </StyledTableRow>
         ))
