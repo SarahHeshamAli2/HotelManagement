@@ -5,16 +5,20 @@ import { Link } from "react-router-dom";
 const linkTo = (item: string) => {
   if (item === "Room") {
     return "new-room";
-  } else if (item === "Facility") {
-    return "new-facility";
-  } else if (item === "Ads") {
-    return "new-ads";
   } else {
     return "";
   }
 };
 
-const DashboardHeading = ({ item, label }: { item: string; label: string }) => {
+const DashboardHeading = ({
+  item,
+  label,
+  handleClick,
+}: {
+  item: string;
+  label: string;
+  handleClick?: () => void;
+}) => {
   return (
     <Stack
       direction={"row"}
@@ -44,6 +48,7 @@ const DashboardHeading = ({ item, label }: { item: string; label: string }) => {
       <Button
         component={Link}
         to={linkTo(item)}
+        onClick={handleClick}
         sx={{
           backgroundColor: "#203FC7",
           color: "white",

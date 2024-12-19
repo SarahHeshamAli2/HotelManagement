@@ -56,40 +56,14 @@ const UploadImgBox = ({
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragOver(false);
-    // const files = Array.from(e.dataTransfer.files);
-    // if (files.length) {
-    //   console.log(files);
-    //   setValue!("imgs", files, { shouldValidate: false });
-    //   toast.success("Image uploaded successfully");
-    // }
-
     const files = Array.from(e.dataTransfer.files || []);
-    const updatedFiles = [...(currentImgs ?? []), ...files].slice(0, 5);
+    const updatedFiles = [...(currentImgs ?? []), ...files];
     if (updatedFiles.length > 5) {
       toast.error("You can only upload up to 5 images");
       return;
     }
     setValue!("imgs", updatedFiles, { shouldValidate: true });
-    // new
-    // const files = Array.from(e.dataTransfer.files);
-    // setValue!("imgs", files, {
-    //   shouldValidate: true,
-    // });
-    // if (files.length) {
-    //   console.log(files);
-    //   toast.success("Image uploaded successfully");
-    // }
-
-    // old
-    // const file = e.dataTransfer.files[0];
-    // if (file) {
-    //   const url = URL.createObjectURL(file);
-    //   setValue!("imgs", e.dataTransfer.files, { shouldValidate: false });
-    //   // setImgUrl!((prevUrls) => [...prevUrls, url]);
-    //   // trigger!("imgs");
-    //   // setValue!("imgs", [...(currentImgs || []), file]);
-    //   toast.success("Image uploaded successfully");
-    // }
+    toast.success("Image uploaded successfully");
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
@@ -99,7 +73,6 @@ const UploadImgBox = ({
   const handleDragLeave = () => {
     setDragOver(false);
   };
-  // const validationRules = getRoomValidationRules();
   return (
     <>
       {pathname === "/register" && (
@@ -184,8 +157,6 @@ const UploadImgBox = ({
             name="imgs"
             control={control}
             rules={{ ...validationRules?.imgs }}
-            // rules={{ required: "images required" }}
-
             render={() => (
               <>
                 <TextField
@@ -199,27 +170,8 @@ const UploadImgBox = ({
                     htmlInput: { accept: "image/*", multiple: true },
                   }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    //   const files = Array.from(e.target.files || []);
-                    //   const currentFiles = currentImgs ? [...currentImgs] : [];
-                    //   const newFiles = Array.from(
-                    //     currentFiles.concat(files).slice(0, 5)
-                    //   );
-                    //   if (url!.length > 5) {
-                    //     toast.error("You can only upload up to 5 images");
-                    //     return;
-                    //   }
-                    //   const dataTransfer = new DataTransfer();
-                    //   newFiles.forEach((file) => dataTransfer.items.add(file));
-                    //   field.onChange(files);
-                    //   setValue!("imgs", files, {
-                    //     shouldValidate: true,
-                    //   });
-                    // }}
                     const files = Array.from(e.target.files || []);
-                    const updatedFiles = [
-                      ...(currentImgs ?? []),
-                      ...files,
-                    ].slice(0, 5);
+                    const updatedFiles = [...(currentImgs ?? []), ...files];
                     if (updatedFiles.length > 5) {
                       toast.error("You can only upload up to 5 images");
                       return;

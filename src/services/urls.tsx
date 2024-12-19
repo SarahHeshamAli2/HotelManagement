@@ -30,10 +30,31 @@ export const AUTH_URLS = {
 };
 
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
+export const ROOMS_URLS = {
+  GET_ALL_ROOMS: `/admin/rooms`,
+};
+
+export const Ads_URLS = {
+  getAllAds: "/admin/ads",
+  createNewAd: "/admin/ads",
+  UpdateAd: (AdId: boolean) => `admin/ads/${AdId}`,
+  getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+};
+
+export const BOOKING_URLS = {
+  GET_ALL_BOOKINGS: `/admin/booking`,
+};
+
+export const getUsersData = "/admin/users";
 
 // Room endpoints
 export const ROOM_URLS = {
   createRoom: `/admin/rooms`,
+};
+
+//facilities endpoints
+export const FACILITIES_URLS = {
+  getFacilities: `/admin/room-facilities`,
 };
 
 export { axiosInstance, IMAGE_URL };

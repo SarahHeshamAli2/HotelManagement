@@ -30,7 +30,6 @@ const ShowUploadImgBox = ({
           <Box
             component={"img"}
             src={imgUrl instanceof File ? URL.createObjectURL(imgUrl) : imgUrl}
-            // src={imgUrl instanceof File ? URL.createObjectURL(imgUrl) : ""}
             sx={{
               height: height,
               borderRadius: "10px",

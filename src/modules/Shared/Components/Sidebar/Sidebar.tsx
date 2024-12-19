@@ -85,9 +85,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="users" />}
+          component={<Link to="/users" />}
           rootStyles={{
-            backgroundColor: isActive("users")
+            backgroundColor: isActive("/users")
               ? "rgba(0, 0, 0, 0.2)"
               : "transparent",
           }}
@@ -133,9 +133,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="advertisments" />}
+          component={<Link to="/advertisments" />}
           rootStyles={{
-            backgroundColor: isActive("advertisments")
+            backgroundColor: isActive("/advertisments")
               ? "rgba(0, 0, 0, 0.2)"
               : "transparent",
           }}

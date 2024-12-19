@@ -28,18 +28,15 @@ export type User = {
   password: string;
   confirmPassword: string;
   profileImage: FileList | null;
-  // profileImage: File | null;
 };
 export default function Registeration() {
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    // setError,
     watch,
   } = useForm<User>({
     defaultValues: {
-      // profileImage: [],
       profileImage: new DataTransfer().files,
       userName: "",
       phoneNumber: "",
@@ -54,23 +51,13 @@ export default function Registeration() {
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-  // const { url } = useObjectUrl(selectedImg);
-  const { url } = useObjectUrl(selectedImg);
-  // const { url } = useObjectUrl(selectedImg && selectedImg?.[0]);
-  console.log(typeof selectedImg);
-  console.log(url);
+  const url = useObjectUrl(selectedImg);
+
   const onSubmit = async (data: User) => {
     console.log(data);
     const formData = new FormData();
-    // if (!data.profileImage) {
-    //   setError("profileImage", {
-    //     type: "manual",
-    //     message: "Profile Image is required",
-    //   });
-    // }
     for (const key in data) {
       if (key === "profileImage" && data[key]) {
-        // if (key === "profileImage" && data[key] && data[key]?.length > 0) {
         formData.append(key, data[key]?.[0]);
       } else {
         formData.append(key, data[key as keyof User] as string);

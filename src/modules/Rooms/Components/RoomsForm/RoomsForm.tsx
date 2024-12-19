@@ -12,25 +12,39 @@ import {
 } from "@mui/material";
 import CustomInput from "../../../Shared/Components/CustomInput/CustomInput";
 
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import UploadImgBox from "../../../Shared/Components/UploadImgBox/UploadImgBox";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
   getRequiredMessage,
   getRoomValidationRules,
 } from "../../../../services/Validations";
 import useObjectUrl from "../../../../hooks/useObjectUrl";
-import { axiosInstance, ROOM_URLS } from "../../../../services/urls";
+import {
+  axiosInstance,
+  FACILITIES_URLS,
+  ROOM_URLS,
+} from "../../../../services/urls";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ShowUploadImgBox from "../../../Shared/Components/ShowUploadImgBox/ShowUploadImgBox";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import useFetch from "../../../../hooks/useFetch";
 
 interface RoomResponse {
   success: boolean;
   message: string;
   data: Room;
 }
+interface FacilityResponse {
+  success: boolean;
+  message: string;
+  data: { facilities: RoomFacilities[] };
+}
+type RoomFacilities = {
+  _id: string;
+  name: string;
+};
 export type Room = {
   roomNumber: string;
   price: string;
@@ -52,7 +66,6 @@ export default function RoomsForm() {
     control,
   } = useForm<Room>({
     defaultValues: {
-      // imgs: [],
       imgs: undefined,
       roomNumber: "",
       price: "",
@@ -67,12 +80,7 @@ export default function RoomsForm() {
   const facilities = watch("facilities");
   const imgs = getValues("imgs");
   const validationRules = getRoomValidationRules();
-  const { url } = useObjectUrl(imgs);
-  console.log(url);
-  const menuItems = [
-    { value: "66ffd9526475e2d50daa20ea", label: "Ten" },
-    { value: "66e3457d6475e2d50da5fef8", label: "Twenty" },
-  ];
+  const url = useObjectUrl(imgs);
 
   const onSubmit = async (data: Room) => {
     console.log(data);
@@ -141,6 +149,16 @@ export default function RoomsForm() {
     const updatedFiles = imgs.filter((_, i) => i !== index);
     setValue("imgs", updatedFiles, { shouldValidate: true });
   };
+
+  const getFacilities = useCallback(async () => {
+    const response = await axiosInstance.get<FacilityResponse>(
+      FACILITIES_URLS.getFacilities
+    );
+    return response?.data;
+  }, []);
+  const { data: facilitiesList, loading: facilitiesLoading } =
+    useFetch<FacilityResponse>(getFacilities);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack
@@ -252,24 +270,33 @@ export default function RoomsForm() {
             >
               Facilities
             </InputLabel>
-            <Select
-              labelId="Facilities-select-label"
-              id="Facilities-select"
-              value={facilities}
-              sx={{
-                height: "40px",
-              }}
-              multiple={true}
-              {...register("facilities", {
+            <Controller
+              name="facilities"
+              control={control}
+              rules={{
                 required: getRequiredMessage("Facilities"),
-              })}
-            >
-              {menuItems.map((menuItem) => (
-                <MenuItem key={menuItem.value} value={menuItem.value}>
-                  {menuItem.label}
-                </MenuItem>
-              ))}
-            </Select>
+              }}
+              render={({ field }) => (
+                <Select
+                  labelId="Facilities-select-label"
+                  id="Facilities-select"
+                  value={field.value}
+                  onChange={(event) => {
+                    field.onChange(event);
+                  }}
+                  sx={{ height: "40px" }}
+                  multiple
+                >
+                  {!facilitiesLoading &&
+                    facilitiesList?.data?.facilities?.map((facility) => (
+                      <MenuItem key={facility._id} value={facility._id}>
+                        {facility.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              )}
+            />
+
             <FormHelperText
               sx={{
                 color: "#EB5148",
@@ -292,7 +319,6 @@ export default function RoomsForm() {
           setValue={setValue}
           control={control}
           trigger={trigger}
-          // setImgUrl={setUrl}
           validationRules={validationRules}
           currentImgs={imgs}
         />
@@ -313,19 +339,7 @@ export default function RoomsForm() {
                 height="80px"
                 width="150px"
                 deleteUrl={() => {
-                  // const urlToRemove = url;
-                  // removeObjectURL(url);
-
                   handleRemoveImage(index);
-                  // removeObjectURL(+url);
-                  // const dataTransfer = new DataTransfer();
-                  // Array.from(imgs).forEach((file) => {
-                  //   if (URL.createObjectURL(file) !== url) {
-                  //     dataTransfer.items.add(file);
-                  //   }
-                  // });
-                  // const files = Array.from(e.dataTransfer.files);
-                  // setValue("imgs", dataTransfer.files);
                 }}
               />
             ))}
