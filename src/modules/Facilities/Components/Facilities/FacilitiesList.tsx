@@ -1,6 +1,9 @@
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function FacilitiesList() {
   return (
-    <div>FacilitiesList</div>
-  )
+    <div>
+      <DashboardHeading label="Facilities" item="Facility" />
+    </div>
+  );
 }

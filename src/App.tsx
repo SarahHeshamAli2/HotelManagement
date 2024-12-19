@@ -79,12 +79,10 @@ function App() {
       children: [
         { path: "dashboard", element: <Dashboard /> },
         { path: "rooms", element: <RoomsList /> },
-        { path: "rooms/new-room", element: <RoomsForm /> },
         { path: "rooms/:roomId", element: <RoomsForm /> },
         { path: "users", element: <UsersList /> },
         { path: "advertisments", element: <AdvertisementsList /> },
         { path: "booking", element: <BookingList /> },
-
         { path: "facilities", element: <FacilitiesList /> },
       ],
     },

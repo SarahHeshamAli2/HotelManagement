@@ -28,16 +28,18 @@ export type User = {
   password: string;
   confirmPassword: string;
   profileImage: FileList | null;
+  // profileImage: File | null;
 };
 export default function Registeration() {
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    setError,
+    // setError,
     watch,
   } = useForm<User>({
     defaultValues: {
+      // profileImage: [],
       profileImage: new DataTransfer().files,
       userName: "",
       phoneNumber: "",
@@ -52,17 +54,20 @@ export default function Registeration() {
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-  const url = useObjectUrl(selectedImg && selectedImg?.[0]);
-
+  // const { url } = useObjectUrl(selectedImg);
+  const { url } = useObjectUrl(selectedImg);
+  // const { url } = useObjectUrl(selectedImg && selectedImg?.[0]);
+  console.log(typeof selectedImg);
+  console.log(url);
   const onSubmit = async (data: User) => {
     console.log(data);
     const formData = new FormData();
-    if (!data.profileImage) {
-      setError("profileImage", {
-        type: "manual",
-        message: "Profile Image is required",
-      });
-    }
+    // if (!data.profileImage) {
+    //   setError("profileImage", {
+    //     type: "manual",
+    //     message: "Profile Image is required",
+    //   });
+    // }
     for (const key in data) {
       if (key === "profileImage" && data[key]) {
         // if (key === "profileImage" && data[key] && data[key]?.length > 0) {
@@ -135,6 +140,7 @@ export default function Registeration() {
           <CustomInput
             label="User Name"
             type="text"
+            placeholder="Please type here ..."
             register={{
               ...register("userName", {
                 required: getRequiredMessage("User Name"),
@@ -142,6 +148,9 @@ export default function Registeration() {
             }}
             isError={errors?.userName}
             errorMessage={errors?.userName?.message}
+            bgColor="#F5F6F8"
+            widthXS="95%"
+            widthSM="80%"
           />
           <Box
             sx={{
@@ -153,26 +162,38 @@ export default function Registeration() {
             <CustomInput
               label="Phone Number"
               type="tel"
+              placeholder="Please type here ..."
               register={{
                 ...register("phoneNumber", validationRules.phoneNumber),
               }}
               isError={errors?.phoneNumber}
               errorMessage={errors?.phoneNumber?.message}
+              bgColor="#F5F6F8"
+              widthXS="95%"
+              widthSM="80%"
             />
             <CustomInput
               label="Country"
               type="text"
+              placeholder="Please type here ..."
               register={{ ...register("country", validationRules.country) }}
               isError={errors?.country}
               errorMessage={errors?.country?.message}
+              bgColor="#F5F6F8"
+              widthXS="95%"
+              widthSM="80%"
             />
           </Box>
           <CustomInput
             label="Email Address"
             type="email"
+            placeholder="Please type here ..."
             register={{ ...register("email", validationRules.email) }}
             isError={errors?.email}
             errorMessage={errors?.email?.message}
+            bgColor="#F5F6F8"
+            widthXS="95%"
+            widthSM="80%"
           />
           <CustomPasswordInput
             label="Password"
@@ -196,11 +217,11 @@ export default function Registeration() {
             register={{
               ...register("profileImage", validationRules.profileImage),
             }}
-            isError={errors?.profileImage}
+            isError={errors?.profileImage?.message}
             errorMessage={errors?.profileImage?.message}
           />
-          <Box sx={{mt: "10px"}}>
-              <FormButton isSubmitting={isSubmitting} btnText="Sign up" />
+          <Box sx={{ mt: "10px" }}>
+            <FormButton isSubmitting={isSubmitting} btnText="Sign up" />
           </Box>
         </Box>
       </form>
