@@ -2,15 +2,17 @@ import { Box, Button, Modal, Typography } from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { red } from '@mui/material/colors';
 import { useLocation } from 'react-router-dom';
+import nodataImg from '../../../../assets/nodata.jpg';
+import { formatDate } from '../../../../helperFunctions/helperFunctions';
 
 interface Iprops {
 	view: boolean;
 	closeView: () => void;
+	viewData: unknown;
 }
 
-const ViewModal = ({ view, closeView }: Iprops) => {
-	// const [open, setOpen] = useState(true);
-	console.log(open);
+const ViewModal = ({ view, closeView, viewData }: Iprops) => {
+	console.log(viewData);
 	const style = {
 		position: 'absolute',
 		top: '30%',
@@ -22,7 +24,6 @@ const ViewModal = ({ view, closeView }: Iprops) => {
 		p: 4,
 	};
 	const { pathname } = useLocation();
-	// const handleOpen = () => setOpen(true);
 	const handleClose = () => {
 		closeView();
 	};
@@ -53,7 +54,86 @@ const ViewModal = ({ view, closeView }: Iprops) => {
 							<HighlightOffIcon sx={{ color: red[600] }} />
 						</Button>
 					</Box>
-					{/* <div>{children}</div> */}
+					<Box>
+						{pathname.includes('rooms') ? (
+							<Box sx={{textAlign: 'center'}}>
+								<img
+									src={
+										viewData?.room?.images[0]
+											? viewData?.room?.images[0]
+											: nodataImg
+									}
+									style={{
+										width: '200px',
+										height: '200px',
+										borderRadius: '10px',
+									}}
+									alt='Room'
+								/>
+
+								<Typography variant='body1'>
+									Room Number: {viewData?.room?.roomNumber}
+								</Typography>
+								<Typography variant='body1'>
+									Capacity: {viewData?.room?.capacity}
+								</Typography>
+								<Typography variant='body1'>
+									Discount: {viewData?.room?.discount}
+								</Typography>
+								<Typography variant='body1'>
+									Price: {viewData?.room?.price}
+								</Typography>
+								<Typography variant='body1'>
+									Facilities:{' '}
+									{viewData?.room?.facilities.map(
+										(facility) => `${facility.name}, `
+									)}
+								</Typography>
+							</Box>
+						) : pathname.includes('booking') ? (
+							<Box>
+								<Typography variant='body1'>
+									Price: {viewData?.booking?.totalPrice}
+								</Typography>
+								<Typography variant='body1'>
+									Room Number: {viewData?.booking?.room?.roomNumber}
+								</Typography>
+								<Typography variant='body1'>
+									Status: {viewData?.booking?.status}
+								</Typography>
+								<Typography variant='body1'>
+									User: {viewData?.booking?.user?.userName}
+								</Typography>
+								<Typography variant='body1'>
+									Start date: {formatDate(viewData?.booking?.startDate)}
+								</Typography>
+								<Typography variant='body1'>
+									End date: {formatDate(viewData?.booking?.endDate)}
+								</Typography>
+							</Box>
+						) : pathname.includes('facilities') ? (
+							<>
+								<Typography variant='body1'>
+									Facility Name: {viewData?.facility?.name}
+								</Typography>
+							</>
+						) : (
+							<>
+                <Typography variant='body1'>
+									Active: {viewData?.ads?.isActive ? 'Yes' : 'No'}
+								</Typography>
+                <Typography variant='body1'>
+									Active: {viewData?.ads?.room.roomNumber}
+								</Typography>
+                <Typography variant='body1'>
+									Capacity: {viewData?.ads?.room.capacity}
+								</Typography>
+                <Typography variant='body1'>
+									Price: {viewData?.ads?.room.capacity}
+								</Typography>
+              </>
+						)}
+					</Box>
 				</Box>
 			</Modal>
 		</div>
@@ -61,7 +141,6 @@ const ViewModal = ({ view, closeView }: Iprops) => {
 };
 
 export default ViewModal;
-
 
 // const [viewId, setViewId] = useState<string>('');
 //   const [view, setView] = useState(false);

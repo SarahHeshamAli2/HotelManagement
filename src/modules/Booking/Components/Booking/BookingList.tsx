@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 import ViewModal from '../../../Shared/Components/ViewModal/ViewModal';
+import { blue } from '@mui/material/colors';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export default function BookingList() {
 	const [bookings, setBookings] = useState<Booking[]>([]);
@@ -24,6 +26,7 @@ export default function BookingList() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [viewId, setViewId] = useState<string>('');
 	const [view, setView] = useState<boolean>(false);
+  const [viewData, setViewData] = useState({});
 
   let getBookings = async ({ size, page }: PaginationOptions) => {
     try {
@@ -59,7 +62,7 @@ const viewBooking = useCallback(async () => {
     BOOKING_URLS.getBookingDetails(viewId)
   );
   console.log(response?.data?.data);
-  return response?.data?.data;
+  setViewData(response?.data?.data);
 }, [viewId]);
 
 useEffect(() => {
@@ -115,14 +118,15 @@ useEffect(() => {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <Button onClick={() => handleView(booking?._id)}>
-                    view
+                    <VisibilityIcon sx={{ color: blue[900], mx: "10px" }} />
+                    View
                   </Button>
                 </StyledTableCell>
               </StyledTableRow>
             ))
           : !loading && <NoData />}
       </CustomTable>
-      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
+      <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   );
 }

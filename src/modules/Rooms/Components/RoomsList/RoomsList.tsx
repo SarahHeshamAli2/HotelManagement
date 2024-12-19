@@ -28,7 +28,8 @@ export default function RoomsList() {
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string>("");
   const [viewId, setViewId] = useState<string>("");
-  const [view, setView] = useState(false);
+  const [view, setView] = useState<boolean>(false);
+  const [viewData, setViewData] = useState({});
 
   const handleOpen = (id: string) => {
     setSelectedId(id);
@@ -83,7 +84,7 @@ export default function RoomsList() {
   const viewRoom = useCallback(async () => {
     const response = await axiosInstance.get(ROOMS_URLS.getRoomDetails(viewId));
     console.log(response?.data?.data);
-    return response?.data?.data;
+    setViewData(response?.data?.data);
   }, [viewId]);
 
   useEffect(() => {
@@ -161,7 +162,7 @@ export default function RoomsList() {
             ))
           : !loading && <NoData />}
       </CustomTable>
-      <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
+      <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   );
 }

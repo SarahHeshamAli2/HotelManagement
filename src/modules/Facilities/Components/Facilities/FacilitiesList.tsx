@@ -34,6 +34,7 @@ const FacilitiesList = () => {
     const [selectedId, setSelectedId] = useState<string>("");
     const [viewId, setViewId] = useState<string>('');
     const [view, setView] = useState<boolean>(false);
+    const [viewData, setViewData] = useState({});
 
     const handleOpenDelete = (id: string) => {
       setSelectedId(id);
@@ -138,7 +139,7 @@ const viewFacility = useCallback(async () => {
     FACILITIES_URLS.getFacilityDetails(viewId)
   );
   console.log(response?.data?.data);
-  return response?.data?.data;
+  setViewData(response?.data?.data);
 }, [viewId]);
 
 useEffect(() => {
@@ -307,7 +308,7 @@ useEffect(() => {
         )
         } 
        </CustomTable>
-       <ViewModal view={view} closeView={() => setView(false)}></ViewModal>
+       <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   )
 }
