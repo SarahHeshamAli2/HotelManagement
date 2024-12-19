@@ -13,8 +13,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { blue } from "@mui/material/colors";
-
-const ActionMenu = ({editFunction}) => {
+interface actionMenu {
+  editFunction:()=>void
+}
+const ActionMenu = ({editFunction}:actionMenu )=> {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef<HTMLButtonElement>(null)
 
