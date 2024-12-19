@@ -4,9 +4,7 @@ import axios, { AxiosInstance } from "axios";
 const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
 const IMAGE_URL = "https://upskilling-egypt.com:3000";
 
-
-
- const axiosInstance:AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
@@ -23,16 +21,16 @@ axiosInstance.interceptors.request.use((config) => {
 export const AUTH_URLS = {
   registerAdmin: `/admin/users`,
   registerUser: `/portal/users`,
-  login: '/admin/users/login',
+  login: "/admin/users/login",
   register: ``,
   verify: ``,
-  forgetPassword:`/admin/users/forgot-password`,
+  forgetPassword: `/admin/users/forgot-password`,
   resetPassword: `/admin/users/reset-password`,
   changePassword: `/admin/users/change-password`,
 };
 
 //  FACILITIES 
-export const FACILITIES_URLS = {
+export const FACILITIES_URLs = {
   GET_FACILITIES:`/admin/room-facilities`,
   ADD_FACILITIES:`/admin/room-facilities`
 }
@@ -40,14 +38,31 @@ export const FACILITIES_URLS = {
 
 
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
-export const ROOMS_URLS ={
-  GET_ALL_ROOMS:`/admin/rooms`
-}
+export const ROOMS_URLS = {
+  GET_ALL_ROOMS: `/admin/rooms`,
+};
 
-export const BOOKING_URLS ={
-  GET_ALL_BOOKINGS:`/admin/booking`
-}
+export const Ads_URLS = {
+  getAllAds: "/admin/ads",
+  createNewAd: "/admin/ads",
+  UpdateAd: (AdId: boolean) => `admin/ads/${AdId}`,
+  getAdById: (AdId: string) => `/admin/ads/${AdId}`,
+};
 
-export const getUsersData = '/admin/users';
+export const BOOKING_URLS = {
+  GET_ALL_BOOKINGS: `/admin/booking`,
+};
+
+export const getUsersData = "/admin/users";
+
+// Room endpoints
+export const ROOM_URLS = {
+  createRoom: `/admin/rooms`,
+};
+
+//facilities endpoints
+export const FACILITIES_URLS = {
+  getFacilities: `/admin/room-facilities`,
+};
 
 export { axiosInstance, IMAGE_URL };

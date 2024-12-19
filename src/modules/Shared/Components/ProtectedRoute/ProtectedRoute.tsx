@@ -8,7 +8,6 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { loginData } = useContext(AuthContext);
-  console.log(loginData?.role)
 
   if (localStorage.getItem('token') || loginData?.role === 'admin') {
     return <>{children}</>;

@@ -1,5 +1,6 @@
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 import { useEffect, useState } from "react"
-import { axiosInstance, FACILITIES_URLS } from "../../../../services/urls"
+import { axiosInstance, FACILITIES_URLs  } from "../../../../services/urls"
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable"
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces"
 /* import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mui/material" */
@@ -7,18 +8,19 @@ import { StyledTableCell, StyledTableRow } from "../../../../helperStyles/helper
 import NoData from "../../../Shared/Components/NoData/NoData"
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu"
 import { facility, getFacilitesResponse } from "../../../../interfaces/FacilitiesInterfaces"
-import { CircularProgress } from "@mui/material"
-/* import { useForm } from "react-hook-form" */
+import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mui/material"
+import { useForm } from "react-hook-form" 
+import { toast } from "react-toastify";
 
 
 const FacilitiesList = () => {
-/*   const {
+    const {
     register,
     formState:{errors , isSubmitting},
     handleSubmit
     
-  } =useForm()
- */
+  } =useForm<addData>()
+ 
 
 
   const[facilities , setFacilities]=useState<facility[]>([])
@@ -29,7 +31,7 @@ const FacilitiesList = () => {
   const getFacilities = async ({size , page}:PaginationOptions) =>{
     setLoading(true)
     try {
-      const response = await axiosInstance.get<getFacilitesResponse>(FACILITIES_URLS.GET_FACILITIES,
+      const response = await axiosInstance.get<getFacilitesResponse>(FACILITIES_URLs.GET_FACILITIES,
       {
         params: {size,page}
       }
@@ -47,25 +49,31 @@ const FacilitiesList = () => {
     }
   }
 
-/*  interface addData{
+  interface addData{
   name:string
  }
   const addFacility = async(data:addData) => {
     try {
-      const response = await axiosInstance.post(FACILITIES_URLS.ADD_FACILITIES, data)
+      const response = await axiosInstance.post(FACILITIES_URLs.ADD_FACILITIES, data)
       console.log(response)
+      toast.success("facility added successfully")
+      getFacilities({size:10 ,page:1})
       
     } catch (error) {
       console.log(error)
     }
 
-  } */
+  }
+
+  const editFacility=()=>{
+
+  }
 
   useEffect(() =>{
     getFacilities({size:10,page:1})
   },[])
 
-/*   const style = {
+    const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -75,34 +83,48 @@ const FacilitiesList = () => {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  }; */
-/*   
+  }; 
+  
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false); */
+    const handleClose = () => setOpen(false); 
   return (
     <>
-{/*     <Box component="div">
-     <Button onClick={handleOpen} variant="contained">Contained</Button>
+     <Box component="div">
+     
      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{padding:"50px"}}
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add
+          Add Facility
           </Typography>
           <form onSubmit={handleSubmit(addFacility)} >
-           <TextField id="filled-basic" label="name" variant="filled" sx={{width:"100%"}} />
-           <Button type="submit" variant="contained">Contained</Button>
+           <TextField 
+            id="filled-basic"
+            label="name" 
+            variant="filled" 
+            sx={{width:"100%"}} 
+            {...register("name" , {
+              required:"please enter name"
+            }             
+            )}
+            />
+            {errors.name && <Typography component="span" sx={{color:"red" , display:"block"}}>{errors.name.message}</Typography>}
+           <Button type="submit" variant="contained" disabled={isSubmitting} sx={{textAlign:"end" , mt:"25px"}} >
+            {isSubmitting ? "...loading" : "Save"}
+           </Button>
           </form>
-
-
         </Box>
     </Modal>
-    </Box> */}
+    </Box> 
+    <div>
+      <DashboardHeading label="Facilities" item="Facility" handleClick={handleOpen} />
+    </div>
     
        <CustomTable columnTitles={["Name","createdAt" ,"createdBy","updatedAt" ," "]}
        count={count}
@@ -136,7 +158,7 @@ const FacilitiesList = () => {
                 {item.updatedAt}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                <ActionMenu />
+                <ActionMenu editFunction={editFacility}/>
               </StyledTableCell>
           </StyledTableRow>
         ))
