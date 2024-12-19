@@ -40,22 +40,20 @@ import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirm
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
   const [isEdited, setIsEdited] = React.useState(false);
-  const [adId, setAdId] = React.useState<string>('');
+  const [adId, setAdId] = React.useState<string>("");
   const [isActive, setIsActive] = React.useState<boolean>();
   const [isLoading, setIsLoading] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  
-
+  const [deleting, setDeleting] = React.useState<boolean>(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const handleOpenDelete = (adId:string) => {setOpenDelete(true);
-    setAdId(adId)
-  }
+  const [selectedId, setSelectedId] = React.useState<string>("");
+  const handleOpenDelete = (id: string) => {
+    setSelectedId(id);
+    setOpenDelete(true);
+  };
   const handleCloseDelete = () => setOpenDelete(false);
 
-
-  
   const { Ads, AdsCount, getAd, Loading, setIsChanged } = useAds();
 
   const { Rooms } = useRooms();
@@ -86,35 +84,6 @@ export default function AdvertisementsList() {
       room: "",
     },
   });
-
-
-
-  const deleteFunction = (adId:string)=>{
-    setIsLoading(true)
-    setIsChanged(true)
-
-
-axiosInstance.delete(Ads_URLS.DeleteAd(adId)).then((response)=>{
-
-  console.log(response);
-  toast.success('ad deleted successfully !')
-  handleCloseDelete()
-  setIsEdited(true);
-  setIsLoading(false)
-  setIsChanged(false)
-
-}).catch((error)=>{
-  console.log(error);
-  toast.error(error?.response?.data?.message)
-  handleCloseDelete()
-
-})
-
-
-    
-  }
-
- 
 
   const onSbumitHandler = async (data: roomDataForm) => {
     setIsChanged(true);
@@ -168,10 +137,24 @@ axiosInstance.delete(Ads_URLS.DeleteAd(adId)).then((response)=>{
         console.log(err);
       });
   };
-
+  const deleteAd = async () => {
+    try {
+      setIsChanged(true);
+      setDeleting(true);
+      await axiosInstance.delete(Ads_URLS.deleteAd(selectedId));
+      toast.success("Ad deleted successfully");
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "something went wrong");
+    } finally {
+      setIsChanged(false);
+      setDeleting(false);
+      handleCloseDelete();
+    }
+  };
   React.useEffect(() => {
     setValue("isActive", isActive === null ? "false" : String(isActive));
-  }, [isActive, setValue,Loading]);
+  }, [isActive, setValue, Loading]);
 
   return (
     <>
@@ -219,14 +202,17 @@ axiosInstance.delete(Ads_URLS.DeleteAd(adId)).then((response)=>{
                   {ad?.isActive == true ? "Yes" : "No"}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu editFunction={() => getAdById(ad._id)}  handleOpenDelete={()=>handleOpenDelete(ad._id)
-                  } />
+                  <ActionMenu
+                    editFunction={() => getAdById(ad._id)}
+                    handleOpenDelete={() => handleOpenDelete(ad?._id)}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))
           : !Loading && <NoData />}
       </CustomTable>
 
+      {/*ADD & Edit Model */}
       <div>
         <Modal
           open={open}
@@ -356,10 +342,15 @@ axiosInstance.delete(Ads_URLS.DeleteAd(adId)).then((response)=>{
             </Box>
           </Box>
         </Modal>
-
-        <DeleteConfirmation open={openDelete} handleClose={handleCloseDelete} deleteFn={()=>deleteFunction(adId)
-        } deleteItem="Ad"/>
       </div>
+      {/*Delete Modal */}
+      <DeleteConfirmation
+        handleClose={handleCloseDelete}
+        open={openDelete}
+        deleteFn={deleteAd}
+        deleteItem="Ad"
+        deleting={deleting}
+      />
     </>
   );
 }
