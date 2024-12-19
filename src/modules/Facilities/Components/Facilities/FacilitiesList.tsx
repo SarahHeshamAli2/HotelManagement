@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { axiosInstance, FACILITIES_URLs  } from "../../../../services/urls"
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable"
 import { PaginationOptions } from "../../../../interfaces/PaginationInterfaces"
-/* import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mui/material" */
 import { StyledTableCell, StyledTableRow } from "../../../../helperStyles/helperStyles" 
 import NoData from "../../../Shared/Components/NoData/NoData"
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu"
@@ -11,7 +10,7 @@ import { facility, getFacilitesResponse } from "../../../../interfaces/Facilitie
 import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form" 
 import { toast } from "react-toastify";
-
+import { formatDate } from "../../../../helperFunctions/helperFunctions";
 
 const FacilitiesList = () => {
     const {
@@ -56,6 +55,7 @@ const FacilitiesList = () => {
     try {
       const response = await axiosInstance.post(FACILITIES_URLs.ADD_FACILITIES, data)
       console.log(response)
+      handleClose()
       toast.success("facility added successfully")
       getFacilities({size:10 ,page:1})
       
@@ -80,9 +80,8 @@ const FacilitiesList = () => {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    padding:"40px"
   }; 
   
     const [open, setOpen] = useState(false);
@@ -90,41 +89,56 @@ const FacilitiesList = () => {
     const handleClose = () => setOpen(false); 
   return (
     <>
+    <div>
+      <DashboardHeading label="Facilities" item="Facility" handleClick={handleOpen} />
+    </div>
+
      <Box component="div">
-     
      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{padding:"50px"}}
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          Add Facility
+             Add Facility
           </Typography>
-          <form onSubmit={handleSubmit(addFacility)} >
-           <TextField 
-            id="filled-basic"
-            label="name" 
-            variant="filled" 
-            sx={{width:"100%"}} 
+          <form style={{marginTop:"80px"}} onSubmit={handleSubmit(addFacility)} >
+           <TextField
+           hiddenLabel
+           id="filled-hidden-label-small"
+           defaultValue=""
+           placeholder="Name"
+           variant="filled"
+           size="small"
+           sx={{
+            width: { xs: "95%", sm: "80%" ,lg :"100%" },
+            backgroundColor: "#F5F6F8",
+            "& .MuiFilledInput-root": {
+              "&:before": { borderBottom: "none" },
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottom: "none",
+              },
+              "&:after": { borderBottom: "none" },
+            },
+            }}
+
             {...register("name" , {
               required:"please enter name"
             }             
             )}
-            />
+            />    
             {errors.name && <Typography component="span" sx={{color:"red" , display:"block"}}>{errors.name.message}</Typography>}
-           <Button type="submit" variant="contained" disabled={isSubmitting} sx={{textAlign:"end" , mt:"25px"}} >
-            {isSubmitting ? "...loading" : "Save"}
-           </Button>
+            <Box component="div" sx={{textAlign:"end"}}>
+              <Button type="submit" variant="contained" disabled={isSubmitting} sx={{textAlign:"end" , mt:"25px"}} >
+              {isSubmitting ? "...loading" : "Save"}
+            </Button>
+            </Box>
           </form>
         </Box>
     </Modal>
     </Box> 
-    <div>
-      <DashboardHeading label="Facilities" item="Facility" handleClick={handleOpen} />
-    </div>
     
        <CustomTable columnTitles={["Name","createdAt" ,"createdBy","updatedAt" ," "]}
        count={count}
@@ -149,16 +163,16 @@ const FacilitiesList = () => {
                 {item.name}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                {item.createdAt}
+                {formatDate(item.createdAt)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
                 {item.createdBy.userName}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                {item.updatedAt}
+                {formatDate(item.updatedAt)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                <ActionMenu editFunction={editFacility}/>
+                <ActionMenu editFunction={editFacility} />
               </StyledTableCell>
           </StyledTableRow>
         ))

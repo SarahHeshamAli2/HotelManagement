@@ -5,8 +5,8 @@ export interface facility{
         _id: number,
         userName:string
     },
-    createdAt:number,
-    updatedAt: number
+    createdAt:string,
+    updatedAt: string
     totalCount:number
 }
 export interface getFacilitesResponse{
