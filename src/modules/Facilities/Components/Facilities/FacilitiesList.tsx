@@ -18,7 +18,8 @@ const FacilitiesList = () => {
     const {
     register,
     formState:{errors , isSubmitting},
-    handleSubmit
+    handleSubmit,
+    setValue
     
   } =useForm<addData>()
  
@@ -48,11 +49,8 @@ const FacilitiesList = () => {
         params: {size,page}
       }
       )
-
       setFacilities(response?.data?.data?.facilities|| [])
       setCount(response?.data?.data?.totalCount || 0)
-      
-    
     } catch (error) {
       console.log(error)
     }
@@ -93,9 +91,36 @@ const FacilitiesList = () => {
     }
 
   }
+  
+  const[selectedFacility , setSelectedFacility]=useState<facility |null>(null)
+  const [openEdit, setOpenEdit] = useState(false);
+  
+  const handleOpenEdit = (item:facility) =>{
+    setOpenEdit(true);
+    setSelectedFacility(item)
+    setValue("name" , item.name)
+ 
+  } 
+  const handleCloseEdit = () =>{
+    setSelectedFacility(null);
+    setOpenEdit(false);
+  }  
 
-  const editFacility=()=>{
-
+  const editFacility= async(data :addData)=>{
+    if (!selectedFacility || !selectedFacility._id) {
+      toast.error("Invalid facility selected for editing.");
+      return;
+  }
+    try {
+      const response = await axiosInstance.put(FACILITIES_URLs.UPDATE_FACILITIES(selectedFacility?._id) , data)
+      console.log(response)
+      handleCloseEdit()
+      toast.success("Updated facility successfully")
+      getFacilities({size:10,page:1}) 
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to update facility. Please try again.")
+    }
   }
 
   useEffect(() =>{
@@ -193,6 +218,53 @@ useEffect(() => {
         </Box>
     </Modal>
     </Box> 
+
+    <Box component="div">
+     <Modal
+        open={openEdit}
+        onClose={handleCloseEdit}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+             Edit Facility
+          </Typography>
+          <form style={{marginTop:"80px"}} onSubmit={handleSubmit(editFacility)} >
+           <TextField
+           hiddenLabel
+           id="filled-hidden-label-small"
+           defaultValue={selectedFacility?.name || ""}
+           placeholder="Name"
+           variant="filled"
+           size="small"
+           sx={{
+            width: { xs: "95%", sm: "80%" ,lg :"100%" },
+            backgroundColor: "#F5F6F8",
+            "& .MuiFilledInput-root": {
+              "&:before": { borderBottom: "none" },
+              "&:hover:not(.Mui-disabled):before": {
+                borderBottom: "none",
+              },
+              "&:after": { borderBottom: "none" },
+            },
+            }}
+
+            {...register("name" , {
+              required:"please enter name"
+            }             
+            )}
+            />    
+            {errors.name && <Typography component="span" sx={{color:"red" , display:"block"}}>{errors.name.message}</Typography>}
+            <Box component="div" sx={{textAlign:"end"}}>
+              <Button type="submit" variant="contained" disabled={isSubmitting} sx={{textAlign:"end" , mt:"25px"}} >
+              {isSubmitting ? "...loading" : "Save"}
+            </Button>
+            </Box>
+          </form>
+        </Box>
+    </Modal>
+    </Box> 
     
        <CustomTable columnTitles={["Name","createdAt" ,"createdBy","updatedAt" ," "]}
        count={count}
@@ -226,7 +298,7 @@ useEffect(() => {
                 {formatDate(item.updatedAt)}
               </StyledTableCell>
               <StyledTableCell component="th" scope="row" align="center">
-                <ActionMenu handleShowView={() => handleView(item._id)} editFunction={editFacility} handleOpenDelete={()=>handleOpenDelete(item._id)}/>
+                <ActionMenu handleShowView={() => handleView(item._id)} editFunction={() =>handleOpenEdit(item)} handleOpenDelete={()=>handleOpenDelete(item._id)}/>
               </StyledTableCell>
           </StyledTableRow>
         ))
