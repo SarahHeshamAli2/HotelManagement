@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GetRoomsResponse, Room } from "../../../../interfaces/RoomsInterfaces";
 import { axiosInstance, ROOMS_URLS } from "../../../../services/urls";
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable";
+import nodataImg from "../../../../assets/nodata.jpg";
 
 import {
   StyledTableCell,
@@ -47,7 +48,6 @@ export default function RoomsList() {
       console.log(response.data.data.rooms);
       setRooms(response.data.data.rooms);
       setCount(response.data.data.totalCount);
-      toast.success("Get all rooms successfully");
     } catch (error: any) {
       console.log(error);
       toast.error(error.response.data.message || "something went wrong");
@@ -132,7 +132,7 @@ export default function RoomsList() {
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   <img
-                    src={room.images[0]}
+                    src={room.images[0] ? room.images[0] : nodataImg}
                     style={{
                       width: "56px",
                       height: "56px",
