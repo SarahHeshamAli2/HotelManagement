@@ -26,6 +26,8 @@ import NoData from "../../../Shared/Components/NoData/NoData";
 
 import useAds from "../../../../hooks/useAds";
 import { ad } from "../../../../services/interfaces";
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 interface roomDataForm {
   discount: string;
@@ -34,8 +36,6 @@ interface roomDataForm {
   _id: string;
   roomNumber: "string";
 }
-import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
-import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 
 export default function AdvertisementsList() {
   const [open, setOpen] = React.useState(false);
