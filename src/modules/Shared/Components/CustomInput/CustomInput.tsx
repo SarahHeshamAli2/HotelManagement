@@ -2,11 +2,16 @@ import { Box, FormHelperText, TextField, Typography } from "@mui/material";
 import { FieldError, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface CustomInputProps {
-  label: string;
+  label?: string;
   type: string;
   register?: ReturnType<UseFormRegister<FieldValues>>;
   isError?: FieldError | undefined | boolean;
   errorMessage?: string;
+  placeholder?: string;
+  bgColor?: string;
+  placeColor?: string;
+  widthSM?: string;
+  widthXS?: string;
 }
 
 const CustomInput = ({
@@ -15,20 +20,25 @@ const CustomInput = ({
   register,
   isError,
   errorMessage,
+  placeholder,
+  bgColor,
+  placeColor,
+  widthSM,
+  widthXS,
 }: CustomInputProps) => {
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        width: { xs: "95%", sm: "80%" },
+        width: { xs: widthXS, sm: widthSM },
         paddingBottom: "0.4rem",
       }}
     >
       <Typography
         variant="subtitle1"
         component="label"
-        htmlFor="name-textfield"
+        htmlFor={`${label}-textfield`}
         sx={{ color: "#152C5B", fontSize: "16px" }}
       >
         {label}
@@ -40,7 +50,7 @@ const CustomInput = ({
         defaultValue=""
         variant="filled"
         size="small"
-        placeholder={"Please type here ..."}
+        placeholder={placeholder}
         sx={{
           "& .MuiFilledInput-root": {
             border: type === "file" ? "2px dashed #3252DF" : "none",
@@ -48,9 +58,14 @@ const CustomInput = ({
             "&:before": { borderBottom: "none" },
             "&:hover:not(.Mui-disabled):before": { borderBottom: "none" },
             "&:after": { borderBottom: "none" },
+            borderRadius: placeColor === "#000000" ? "0.5rem" : "",
           },
-
-          backgroundColor: "#F5F6F8",
+          "& .MuiInputBase-input::placeholder": {
+            color: placeColor,
+            opacity: placeColor === "#000000" ? 1 : 0.4,
+            fontWeight: placeColor === "#000000" ? "500" : "normal",
+          },
+          backgroundColor: bgColor,
         }}
         {...register}
       />

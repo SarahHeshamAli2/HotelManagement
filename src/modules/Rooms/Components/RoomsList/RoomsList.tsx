@@ -12,6 +12,7 @@ import { CircularProgress } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import { toast } from "react-toastify";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
+import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -45,6 +46,7 @@ export default function RoomsList() {
 
   return (
     <>
+      <DashboardHeading label="Rooms" item="Room" />
       <CustomTable
         columnTitles={[
           "Room Number",
