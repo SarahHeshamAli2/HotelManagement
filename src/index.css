@@ -60,3 +60,9 @@ body {
     display: none !important;
   }
 }
+
+.MuiSelect-root,
+.MuiMenuItem-root {
+  color: black !important;
+  background-color: white !important; /* Ensure contrast */
+}

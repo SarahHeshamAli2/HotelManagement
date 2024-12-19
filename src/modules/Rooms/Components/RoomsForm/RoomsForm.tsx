@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CustomInput from "../../../Shared/Components/CustomInput/CustomInput";
 
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import UploadImgBox from "../../../Shared/Components/UploadImgBox/UploadImgBox";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -28,13 +28,25 @@ import {
 import { toast } from "react-toastify";
 import axios from "axios";
 import ShowUploadImgBox from "../../../Shared/Components/ShowUploadImgBox/ShowUploadImgBox";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import {
+  Link as RouterLink,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import useFetch from "../../../../hooks/useFetch";
 
 interface RoomResponse {
   success: boolean;
   message: string;
   data: Room;
+}
+interface RoomDetailResponse {
+  success: boolean;
+  message: string;
+  data: {
+    room: Room;
+  };
 }
 interface FacilityResponse {
   success: boolean;
@@ -50,8 +62,9 @@ export type Room = {
   price: string;
   capacity: string;
   discount: string;
-  facilities: string[];
+  facilities: string[] | RoomFacilities[];
   imgs: File[];
+  images?: string[];
 };
 export default function RoomsForm() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -79,58 +92,71 @@ export default function RoomsForm() {
   const navigate = useNavigate();
   const facilities = watch("facilities");
   const imgs = getValues("imgs");
+  const uploadedImgs = getValues("images");
   const validationRules = getRoomValidationRules();
   const url = useObjectUrl(imgs);
+  const { roomId } = useParams();
+  const { pathname } = useLocation();
+  const newRoom = pathname.includes("new-room");
 
   const onSubmit = async (data: Room) => {
     console.log(data);
-    // await trigger("imgs");
     const formData = new FormData();
     for (const key in data) {
       if (key === "imgs") {
-        const fileList = data[key];
-        if (fileList) {
-          const files = Array.from(fileList);
-          // Convert FileList to File[]
-          for (let i = 0; i < files.length; i++) {
-            if (files[i]) {
-              formData.append("imgs", files[i]);
-            }
-          }
+        if (uploadedImgs) {
+          const filesFromUrls = await convertUrlsToFiles(uploadedImgs || []);
+          filesFromUrls.forEach((file) => formData.append("imgs", file));
         }
-        // const files = data[key];
-        // if (files) {
-        //   for (let i = 0; i < 6; i++) {
+        const fileList = data.imgs;
+        const files = Array.from(fileList);
+        for (const file of files) {
+          formData.append("imgs", file);
+        }
+        // const fileList = data[key];
+        // if (fileList) {
+        //   const files = Array.from(fileList);
+        //   for (let i = 0; i < files?.length; i++) {
         //     if (files[i]) {
         //       formData.append("imgs", files[i]);
         //     }
         //   }
         // }
-        // for (let i = 0; i < data[key]!.length; i++) {
-        //   formData.append("imgs", data[key]?.[i]);
-        // }
-        // data[key].forEach((file) => {
-        //   formData.append("imgs", file);
-        // });
       } else if (key === "facilities") {
-        // for (let i = 0; i < data[key].length; i++) {
-        //   formData.append("facilities", data[key][i]);
-        // }
-        data[key].forEach((facility) => {
-          formData.append("facilities", facility);
-        });
+        if (
+          Array.isArray(data[key]) &&
+          data[key].every((facility) => typeof facility === "string")
+        ) {
+          // facilities is an array of strings
+          data[key].forEach((facility: string) => {
+            formData.append("facilities", facility);
+          });
+        } else {
+          // facilities is not an array of strings
+          // handle the error or append the data in a different way
+        }
+        // data[key].forEach((facility) => {
+        //   formData.append("facilities", facility);
+        // });
       } else {
         formData.append(key, data[key as keyof Room] as string);
       }
     }
 
     try {
-      const response = await axiosInstance.post<RoomResponse>(
-        ROOM_URLS.createRoom,
+      const response = await axiosInstance?.[
+        newRoom ? "post" : "put"
+      ]<RoomResponse>(
+        newRoom
+          ? ROOM_URLS.createRoom
+          : `${ROOM_URLS.updateRoom(roomId ?? "")}`,
         formData
       );
       if (response.status === 201) {
         toast.success(response?.data?.message || "Room created successfully");
+        navigate("/rooms");
+      } else if (response.status === 200) {
+        toast.success(response?.data?.message || "Room updated successfully");
         navigate("/rooms");
       }
     } catch (error: unknown) {
@@ -145,10 +171,24 @@ export default function RoomsForm() {
     }
   };
   const handleRemoveImage = (index: number) => {
-    console.log(index);
-    const updatedFiles = imgs.filter((_, i) => i !== index);
+    const updatedFiles = imgs && imgs!.filter((_, i) => i !== index);
     setValue("imgs", updatedFiles, { shouldValidate: true });
   };
+  async function convertUrlsToFiles(urls: string[]) {
+    // Function to fetch a single image and convert it to a File
+    const urlToFile = async (url: string) => {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      // Extract file name from the URL
+      const fileName = url.split("/").pop();
+      // Create a File object
+      return new File([blob], fileName!, { type: blob.type });
+    };
+    // Map through the URLs and convert each to a File
+    const filePromises = urls.map((url) => urlToFile(url));
+
+    return Promise.all(filePromises);
+  }
 
   const getFacilities = useCallback(async () => {
     const response = await axiosInstance.get<FacilityResponse>(
@@ -158,6 +198,41 @@ export default function RoomsForm() {
   }, []);
   const { data: facilitiesList, loading: facilitiesLoading } =
     useFetch<FacilityResponse>(getFacilities);
+  console.log(uploadedImgs);
+
+  useEffect(() => {
+    if (!newRoom) {
+      const getFacilities = async () => {
+        const response = await axiosInstance.get<RoomDetailResponse>(
+          ROOM_URLS.getRoomById(roomId!)
+        );
+        console.log(response);
+        setValue("roomNumber", response?.data?.data.room.roomNumber);
+        setValue("price", response?.data?.data.room.price);
+        setValue("capacity", response?.data?.data.room.capacity);
+        setValue("discount", response?.data?.data.room.discount);
+
+        // setValue(
+        //   "facilities",
+        //   response?.data?.data?.room?.facilities.map((f) => f._id)
+        // );
+        setValue(
+          "facilities",
+          response?.data?.data.room.facilities.map(
+            (f: RoomFacilities | string) =>
+              typeof f === "string" ? f : f["_id"]
+          )
+        );
+
+        if (response?.data?.data.room.images) {
+          convertUrlsToFiles(response?.data?.data.room.images).then((files) => {
+            setValue("imgs", files);
+          });
+        }
+      };
+      getFacilities();
+    }
+  }, [newRoom]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -263,8 +338,11 @@ export default function RoomsForm() {
               id="Facilities-select-label"
               sx={{
                 width: "100%",
-                transform: facilities.length === 0 ? "translateY(8px)" : "",
-                pl: facilities.length === 0 ? "10px" : 0,
+                transform:
+                  facilities && facilities?.length === 0
+                    ? "translateY(8px)"
+                    : "",
+                pl: facilities && facilities?.length === 0 ? "10px" : 0,
                 position: "absolute",
               }}
             >
@@ -280,17 +358,21 @@ export default function RoomsForm() {
                 <Select
                   labelId="Facilities-select-label"
                   id="Facilities-select"
-                  value={field.value}
+                  value={facilities}
                   onChange={(event) => {
                     field.onChange(event);
                   }}
-                  sx={{ height: "40px" }}
+                  sx={{
+                    height: "40px",
+                    color: "#152C5B !important",
+                  }}
                   multiple
                 >
                   {!facilitiesLoading &&
-                    facilitiesList?.data?.facilities?.map((facility) => (
-                      <MenuItem key={facility._id} value={facility._id}>
-                        {facility.name}
+                    facilitiesList?.data?.facilities &&
+                    facilitiesList?.data?.facilities.map((facility) => (
+                      <MenuItem key={facility?._id} value={facility?._id}>
+                        {facility?.name}
                       </MenuItem>
                     ))}
                 </Select>
@@ -323,7 +405,7 @@ export default function RoomsForm() {
           currentImgs={imgs}
         />
 
-        {imgs?.length > 0 && (
+        {(imgs?.length > 0 || (uploadedImgs && uploadedImgs!.length > 0)) && (
           <Box
             sx={{
               display: "flex",
@@ -332,7 +414,7 @@ export default function RoomsForm() {
               justifyContent: "center",
             }}
           >
-            {imgs.map((url, index) => (
+            {imgs?.map((url, index) => (
               <ShowUploadImgBox
                 key={index}
                 imgUrl={url}

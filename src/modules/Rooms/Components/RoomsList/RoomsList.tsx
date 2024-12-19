@@ -13,11 +13,13 @@ import NoData from "../../../Shared/Components/NoData/NoData";
 import { toast } from "react-toastify";
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu";
 import DashboardHeading from "../../../Shared/Components/DashboardHeading/DashboardHeading";
+import { useNavigate } from "react-router-dom";
 
 export default function RoomsList() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [count, setCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   let getRooms = async ({ size, page }: PaginationOptions) => {
     try {
@@ -96,7 +98,11 @@ export default function RoomsList() {
                   {room.capacity}
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  <ActionMenu />
+                  <ActionMenu
+                    editFunction={() => {
+                      navigate(`/rooms/${room._id}`);
+                    }}
+                  />
                 </StyledTableCell>
               </StyledTableRow>
             ))

@@ -50,6 +50,8 @@ export const getUsersData = "/admin/users";
 // Room endpoints
 export const ROOM_URLS = {
   createRoom: `/admin/rooms`,
+  updateRoom: (roomId: string) => `/admin/rooms/${roomId}`,
+  getRoomById: (roomId: string) => `/admin/rooms/${roomId}`,
 };
 
 //facilities endpoints
