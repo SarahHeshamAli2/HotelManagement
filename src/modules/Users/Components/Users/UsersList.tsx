@@ -1,5 +1,5 @@
 import { CircularProgress } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { axiosInstance, getUsersData } from '../../../../services/urls';
 import { UserListType } from '../../../../services/interfaces';
 import CustomTable from '../../../Shared/Components/CustomTable/CustomTable';
@@ -9,14 +9,12 @@ import {
 } from '../../../../helperStyles/helperStyles';
 import { PaginationOptions } from '../../../../interfaces/PaginationInterfaces';
 import NoData from '../../../Shared/Components/NoData/NoData';
-import { useSearchParams } from 'react-router-dom';
 import DashboardHeading from '../../../Shared/Components/DashboardHeading/DashboardHeading';
 
 export default function UsersList() {
 	const [usersData, setUsersData] = useState([]);
 	const [totalCount, setTotalCount] = useState(0);
 	const [loading, setLoading] = useState(false);
-	const [searchParams] = useSearchParams();
 
   const getUsers = async ({ size, page }: PaginationOptions) => {
     try {
