@@ -89,6 +89,7 @@ export default function AuthLayout() {
             {pathname === "/login" && "Sign in to Roamhome"}
             {pathname === "/forget-password" && "Forgot Password"}
             {pathname === "/reset-password" && "Reset Password"}
+            {pathname === "/change-password" && "Change Password"}
           </Typography>
           <Typography
             variant="body1"

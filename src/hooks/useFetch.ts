@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface FetchState<T>{
     data: T | null,
     loading: boolean,
     error: string | null   ,
-    trigger : ()=>void 
+    setData : Dispatch<SetStateAction<T | null>>,
+    setIsChanged : Dispatch<SetStateAction<boolean>>,
 }
 
-const useFetch = <T>(fetchFun: ()  => Promise<T>,pageNum?:string| null):FetchState<T> => {
+const useFetch = <T>(fetchFun: ()  => Promise<T>):FetchState<T> => {
     const [data,setData] = useState<T | null>(null)
     const [loading,setLoading] = useState<boolean>(true)
+    const [isChanged,setIsChanged] = useState<boolean>(true)
     const [error,setError] =useState<string|null>(null)
-    const [counter, setCounter] = useState<null|undefined|number>()
 
-    const trigger = () => setCounter((prevCount)=>prevCount+1)
 
     useEffect(() => {
       let mounted = true;
       const fetchData =async () => {
         try {
           const response = await fetchFun();
+            
           setData(response)
+          
         } catch (err ) {
           if (mounted) {
               if (err instanceof Error) {
@@ -33,6 +35,7 @@ const useFetch = <T>(fetchFun: ()  => Promise<T>,pageNum?:string| null):FetchSta
         finally{
           if (mounted) {
               setLoading(false);
+              setIsChanged(false)
             }
         }
       }
@@ -48,8 +51,8 @@ const useFetch = <T>(fetchFun: ()  => Promise<T>,pageNum?:string| null):FetchSta
         return () => {
           mounted = false;
         };
-    },[counter])
-  return {data,loading,error,trigger};
+    },[isChanged])
+  return {data,loading,error,setData,setIsChanged};
 }
 
 export default useFetch

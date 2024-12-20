@@ -45,6 +45,10 @@ body {
   box-sizing: border-box;
 }
 
+.hiddenMenu {
+  display: none;
+}
+
 .MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium {
   color: #3a3a3d !important;
   font-family: "Poppins" !important;

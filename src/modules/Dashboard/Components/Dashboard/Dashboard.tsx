@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
-import axios from "axios";
-import { getDashboard } from "../../../../services/urls";
+import { axiosInstance, getDashboard } from "../../../../services/urls";
 import CircleChart from "../../../Charts/Chart";
 import UsersChart from "../../../Charts/UsersChart";
 
@@ -31,7 +30,7 @@ export default function Home() {
 
   const getDashboardData = async () => {
     try {
-      const response = await axios.get(getDashboard, {
+      const response = await axiosInstance.get(getDashboard, {
         headers: { Authorization: localStorage.getItem("token") },
       });
       console.log(response?.data?.data);
