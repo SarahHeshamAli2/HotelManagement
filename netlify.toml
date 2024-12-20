@@ -1,8 +1,7 @@
 # example netlify.toml
 [build]
-  command = "npm run build"
-  functions = "netlify/functions"
-  publish = "dist"
+ command = "npm run build"
+  publish = "build"
 
   ## Uncomment to use this redirect for Single Page Applications like create-react-app.
   ## Not needed for static site generators.
@@ -10,6 +9,7 @@
    from = "/*"
    to = "/index.html"
    status = 200
+  NODE_OPTIONS = "--max_old_space_size=2048" # Increase memory allocation for Node.js
 
   ## (optional) Settings for Netlify Dev
   ## https://github.com/netlify/cli/blob/main/docs/netlify-dev.md#project-detection
