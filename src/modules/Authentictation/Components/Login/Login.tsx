@@ -74,7 +74,7 @@ const Login = () => {
 				</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Box>
-						<Box sx={{ mb: '2.8rem' }}>
+						<Box sx={{ mb: '2.8rem' , width:'80%'}}>
 							<CustomInput
 								label='Email Address'
 								type='email'
