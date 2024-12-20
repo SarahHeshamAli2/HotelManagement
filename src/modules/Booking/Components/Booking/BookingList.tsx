@@ -26,12 +26,13 @@ export default function BookingList() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [viewId, setViewId] = useState<string>('');
 	const [view, setView] = useState<boolean>(false);
+  const [viewLoading, setViewLoading] = useState<boolean>(false);
   const [viewData, setViewData] = useState({});
 
-  let getBookings = async ({ size, page }: PaginationOptions) => {
+  const getBookings = async ({ size, page }: PaginationOptions) => {
     try {
       setLoading(true);
-      let response = await axiosInstance.get<GetBookingsResponse>(
+      const response = await axiosInstance.get<GetBookingsResponse>(
         BOOKING_URLS.getAllBookings,
         {
           params: { size, page },
@@ -53,16 +54,23 @@ export default function BookingList() {
 
   const handleView = (id: string) => {
   setViewId(id);
+  setViewLoading(true);
   setView(true);
   console.log(view);
 };
 
 const viewBooking = useCallback(async () => {
-  const response = await axiosInstance.get(
-    BOOKING_URLS.getBookingDetails(viewId)
-  );
-  console.log(response?.data?.data);
-  setViewData(response?.data?.data);
+  try {
+    const response = await axiosInstance.get(
+      BOOKING_URLS.getBookingDetails(viewId)
+    );
+    console.log(response?.data?.data);
+    setViewData(response?.data?.data);
+  } catch (error) {
+    console.log(error)
+  } finally {
+    setViewLoading(false);
+  }
 }, [viewId]);
 
 useEffect(() => {
@@ -126,7 +134,7 @@ useEffect(() => {
             ))
           : !loading && <NoData />}
       </CustomTable>
-      <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
+      <ViewModal loading={viewLoading} viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   );
 }

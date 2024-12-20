@@ -34,6 +34,7 @@ const FacilitiesList = () => {
     const [selectedId, setSelectedId] = useState<string>("");
     const [viewId, setViewId] = useState<string>('');
     const [view, setView] = useState<boolean>(false);
+    const [viewLoading, setViewLoading] = useState<boolean>(false);
     const [viewData, setViewData] = useState({});
 
     const handleOpenDelete = (id: string) => {
@@ -131,15 +132,22 @@ const FacilitiesList = () => {
   const handleView = (id: string) => {
   setViewId(id);
   setView(true);
+  setViewLoading(true);
   console.log(view);
 };
 
 const viewFacility = useCallback(async () => {
-  const response = await axiosInstance.get(
-    FACILITIES_URLS.getFacilityDetails(viewId)
-  );
-  console.log(response?.data?.data);
-  setViewData(response?.data?.data);
+  try {
+    const response = await axiosInstance.get(
+      FACILITIES_URLS.getFacilityDetails(viewId)
+    );
+    console.log(response?.data?.data);
+    setViewData(response?.data?.data);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    setViewLoading(false);
+  }
 }, [viewId]);
 
 useEffect(() => {
@@ -308,7 +316,7 @@ useEffect(() => {
         )
         } 
        </CustomTable>
-       <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
+       <ViewModal loading={viewLoading} viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   )
 }
