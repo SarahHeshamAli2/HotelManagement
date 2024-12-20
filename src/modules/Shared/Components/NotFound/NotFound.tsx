@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";
-import NotFoundImage from "../../../../assets/notfound.jpg"
+import NotFoundImage from "../../../../assets/images/notfound.jpg"
 export default function NotFound() {
   return (
     <Box
