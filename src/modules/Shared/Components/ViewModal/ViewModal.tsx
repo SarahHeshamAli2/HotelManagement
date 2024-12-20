@@ -15,7 +15,7 @@ interface Iprops {
 	view: boolean;
 	loading: boolean;
 	closeView: () => void;
-	viewData: unknown;
+	viewData: any;
 }
 
 const ViewModal = ({ view, loading, closeView, viewData }: Iprops) => {
@@ -107,7 +107,7 @@ const ViewModal = ({ view, loading, closeView, viewData }: Iprops) => {
 									<Typography variant='body1'>
 										Facilities:{' '}
 										{viewData?.room?.facilities?.map(
-											(facility) => `${facility.name}, `
+											(facility: {name: string}) => `${facility.name}, `
 										)}
 									</Typography>
 								</Box>
