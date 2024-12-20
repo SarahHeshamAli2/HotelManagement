@@ -86,7 +86,7 @@ const FacilitiesList = () => {
       console.log(response)
       handleClose()
       toast.success("facility added successfully")
-      getFacilities({size:10 ,page:1})
+      getFacilities({size:5 ,page:1})
       
     } catch (error) {
       console.log(error)
@@ -118,7 +118,7 @@ const FacilitiesList = () => {
       console.log(response)
       handleCloseEdit()
       toast.success("Updated facility successfully")
-      getFacilities({size:10,page:1}) 
+      getFacilities({size:5,page:1}) 
     } catch (error) {
       console.log(error)
       toast.error("Failed to update facility. Please try again.")

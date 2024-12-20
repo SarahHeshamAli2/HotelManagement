@@ -58,6 +58,7 @@ export default function AdvertisementsList() {
     setOpenDelete(true);
   };
   const handleCloseDelete = () => setOpenDelete(false);
+  
 
   const { Ads, AdsCount, getAd, Loading, setIsChanged } = useAds();
 
