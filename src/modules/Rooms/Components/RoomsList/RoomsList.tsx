@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GetRoomsResponse, Room } from "../../../../interfaces/RoomsInterfaces";
 import { axiosInstance, ROOMS_URLS } from "../../../../services/urls";
 import CustomTable from "../../../Shared/Components/CustomTable/CustomTable";
-import nodataImg from "../../../../assets/nodata.jpg";
+import nodataImg from "../../../../assets/images/nodata.jpg";
 
 import {
   StyledTableCell,

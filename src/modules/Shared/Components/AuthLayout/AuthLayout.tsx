@@ -1,8 +1,8 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import { Outlet, useLocation } from "react-router-dom";
-import RegisterImg from "../../../../assets/bg-register.png";
-import LoginImg from "../../../../assets/bg-login.png";
-import ForgetImg from "../../../../assets/bg-forget.png";
+import RegisterImg from "../../../../assets/images/bg-register.png";
+import LoginImg from "../../../../assets/images/bg-login.png";
+import ForgetImg from "../../../../assets/images/bg-forget.png";
 import Logo from "../Logo/Logo";
 
 const renderImg = (pathname: string) => {

@@ -8,7 +8,7 @@ import {
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { red } from '@mui/material/colors';
 import { useLocation } from 'react-router-dom';
-import nodataImg from '../../../../assets/nodata.jpg';
+import nodataImg from '../../../../assets/images/nodata.jpg';
 import { formatDate } from '../../../../helperFunctions/helperFunctions';
 
 interface Iprops {

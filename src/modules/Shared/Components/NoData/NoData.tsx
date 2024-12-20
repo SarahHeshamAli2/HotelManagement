@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Nodata from "../../../../assets/nodata.jpg";
+import Nodata from "../../../../assets/images/nodata.jpg";
 
 export default function NoData() {
   return (
