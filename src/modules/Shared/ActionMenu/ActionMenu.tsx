@@ -57,9 +57,9 @@ return <>
 
 
 
-<Stack direction="row" spacing={2}>
+<Stack direction="row"  spacing={2} justifyContent={'end'}>
       
-      <div>
+      <div >
         <Button
         sx={{color:'unset'}}
           ref={anchorRef}
@@ -77,6 +77,7 @@ return <>
           placement="bottom-start"
           transition
           disablePortal
+          sx={{zIndex:'999'}}
         >
           {({ TransitionProps, placement }) => (
             <Grow
@@ -86,9 +87,10 @@ return <>
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              <Paper >
+              <Paper  >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
+                  sx={{zIndex:'999999'}}
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"

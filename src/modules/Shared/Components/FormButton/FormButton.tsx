@@ -2,7 +2,8 @@ import { Button, CircularProgress } from '@mui/material';
 
 interface BtnProps {
   isSubmitting: boolean,
-  btnText: string
+  btnText: string,
+
 }
 
 const FormButton = ({ isSubmitting, btnText }: BtnProps) => {
@@ -14,6 +15,7 @@ const FormButton = ({ isSubmitting, btnText }: BtnProps) => {
 			sx={{
 				backgroundColor: '#3252DF',
 				width: { xs: '95%', sm: '80%' },
+			
 				height: '3rem',
 				borderRadius: '0.25rem',
 				textTransform: 'none',

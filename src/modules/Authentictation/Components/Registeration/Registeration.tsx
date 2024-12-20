@@ -200,7 +200,7 @@ export default function Registeration() {
             errorMessage={errors?.profileImage?.message}
           />
           <Box sx={{mt: "10px"}}>
-              <FormButton isSubmitting={isSubmitting} btnText="Sign up" />
+              <FormButton customWidth={'95%'} isSubmitting={isSubmitting} btnText="Sign up" />
           </Box>
         </Box>
       </form>
