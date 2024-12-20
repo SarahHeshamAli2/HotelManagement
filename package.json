@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build": "npm run build"
+
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
