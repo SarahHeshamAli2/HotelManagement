@@ -46,6 +46,7 @@ export default function AdvertisementsList() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [viewId, setViewId] = React.useState<string>('');
   const [view, setView] = React.useState<boolean>(false);
+  const [viewLoading, setViewLoading] = React.useState<boolean>(false);
   const [viewData, setViewData] = React.useState({});
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -162,16 +163,23 @@ export default function AdvertisementsList() {
 
   const handleView = (id: string) => {
   setViewId(id);
+  setViewLoading(true);
   setView(true);
   console.log(view);
 };
 
 const viewAd = useCallback(async () => {
-  const response = await axiosInstance.get(
-    Ads_URLS.getAdById(viewId)
-  );
-  console.log(response?.data?.data);
-  setViewData(response?.data?.data);
+  try {
+    const response = await axiosInstance.get(
+      Ads_URLS.getAdById(viewId)
+    );
+    console.log(response?.data?.data);
+    setViewData(response?.data?.data);
+  } catch (error) {
+    console.log(error)
+  } finally {
+    setViewLoading(false);
+  }
 }, [viewId]);
 
 useEffect(() => {
@@ -374,7 +382,7 @@ useEffect(() => {
         deleteItem="Ad"
         deleting={deleting}
       />
-      <ViewModal viewData={viewData} view={view} closeView={() => setView(false)} />
+      <ViewModal loading={viewLoading} viewData={viewData} view={view} closeView={() => setView(false)} />
     </>
   );
 }
