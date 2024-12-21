@@ -159,7 +159,7 @@ export default function AdvertisementsList() {
     }
   };
   React.useEffect(() => {
-    setValue("isActive", isActive === null ? "false" : String(isActive));
+    setValue( 'isActive',String(!!isActive));
   }, [isActive, setValue, Loading]);
 
   const handleView = (id: string) => {
@@ -189,7 +189,9 @@ useEffect(() => {
 
   return (
     <>
+
       <DashboardHeading label="ADS" item="Ads" handleClick={handleAddNewAd} />
+      
       <CustomTable
         columnTitles={[
           "Room Name",
@@ -201,18 +203,11 @@ useEffect(() => {
         ]}
         count={Number(AdsCount) ? AdsCount : 5}
         getListFn={getAd}
+        loading={Loading}
       >
-        {Loading && (
-          <CircularProgress
-            sx={{
-              color: "blue",
-              marginTop: "4rem",
-              marginInline: "auto",
-              display: "flex",
-            }}
-            size={"4rem"}
-          />
-        )}
+        
+
+        
         {!Loading && Ads?.length > 0
           ? Ads?.map((ad: ad) => (
               <StyledTableRow key={ad._id}>
@@ -221,10 +216,10 @@ useEffect(() => {
                 </StyledTableCell>
 
                 <StyledTableCell align="center">
-                  {ad?.room?.price}
+                  {ad?.room?.price} EGP
                 </StyledTableCell>
                 <StyledTableCell align="center">
-                  {ad?.room?.discount}
+                  {ad?.room?.discount} EGP
                 </StyledTableCell>
                 <StyledTableCell align="center">
                   {ad?.room?.capacity}

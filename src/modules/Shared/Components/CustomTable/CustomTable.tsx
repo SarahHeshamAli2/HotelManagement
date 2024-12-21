@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ReactNode, useState } from "react";
 import { StyledTableCell, theme } from "../../../../helperStyles/helperStyles";
-import { Box, TableFooter, TablePagination } from "@mui/material";
+import { Box, CircularProgress, TableFooter, TablePagination } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
@@ -101,6 +101,7 @@ interface CustomTableProps {
   count: number;
   getListFn: ({ size, page }: PaginationOptions) => Promise<AxiosResponse<void>|void>;
   children: ReactNode;
+  loading:boolean
 }
 
 export default function CustomTable({
@@ -108,6 +109,7 @@ export default function CustomTable({
   count,
   getListFn,
   children,
+  loading,
 }: CustomTableProps) {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -132,8 +134,8 @@ export default function CustomTable({
 
   return (
     <ThemeProvider theme={theme}>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <TableContainer  sx={{ maxHeight: 440 }}   component={Paper}>
+        <Table stickyHeader sx={{ minWidth: 700 }}  aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columnTitles?.map((column, index) => (
@@ -143,7 +145,26 @@ export default function CustomTable({
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>{children}</TableBody>
+          <TableBody>{children}
+
+             {
+
+              loading && 
+              <TableRow >
+                          <StyledTableCell colSpan={columnTitles.length} align="center">
+                            <CircularProgress
+                              sx={{
+                                marginBlock:'2rem',
+                                color: "blue",
+                              }}
+                              size={"4rem"}
+                            />
+                          </StyledTableCell>
+                  </TableRow>
+
+             }
+
+          </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
