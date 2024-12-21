@@ -12,7 +12,7 @@ import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { Box, IconButton } from "@mui/material";
 import { useContext } from "react";
-import { AuthContext } from "../../../../Context/AuthContext";
+import { AuthContext } from "../../../../Context/Context";
 
 interface SidebarProps {
   onToggle: () => void;
@@ -33,7 +33,7 @@ export default function SidebarComponent({
   };
 
   // Helper function to determine if the path is active
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname.includes(path);
 
   return (
     <Sidebar
@@ -63,7 +63,9 @@ export default function SidebarComponent({
         <MenuItem
           component={<Link to="/dashboard" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/dashboard")
+              ? "rgba(0, 0, 0, 0.2)"
+              : "transparent",
           }}
         >
           <Box
@@ -83,9 +85,11 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/users" />}
+          component={<Link to="/users" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/users") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/users")
+              ? "rgba(0, 0, 0, 0.2)"
+              : "transparent",
           }}
         >
           <Box
@@ -105,9 +109,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/rooms" />}
+          component={<Link to="/rooms" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/rooms") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/rooms") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -127,9 +131,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/advertisments" />}
+          component={<Link to="/advertisments" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/advertisments") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -149,9 +153,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/booking" />}
+          component={<Link to="/booking" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/booking") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/booking") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -171,9 +175,9 @@ export default function SidebarComponent({
         </MenuItem>
 
         <MenuItem
-          component={<Link to="/dashboard/facilities" />}
+          component={<Link to="/facilities" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/facilities") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -188,14 +192,16 @@ export default function SidebarComponent({
             }}
           >
             <PrecisionManufacturingTwoToneIcon />
-            {!collapsed && <span style={{ marginLeft: "1rem" }}>Facilities</span>}
+            {!collapsed && (
+              <span style={{ marginLeft: "1rem" }}>Facilities</span>
+            )}
           </Box>
         </MenuItem>
 
         <MenuItem
           component={<Link to="/change-password" />}
           rootStyles={{
-            backgroundColor: isActive("/dashboard/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
+            backgroundColor: isActive("/change-password") ? "rgba(0, 0, 0, 0.2)" : "transparent",
           }}
         >
           <Box
@@ -210,7 +216,9 @@ export default function SidebarComponent({
             }}
           >
             <LockOpenTwoToneIcon />
-            {!collapsed && <span style={{ marginLeft: "1rem" }}>Change Password</span>}
+            {!collapsed && (
+              <span style={{ marginLeft: "1rem" }}>Change Password</span>
+            )}
           </Box>
         </MenuItem>
 

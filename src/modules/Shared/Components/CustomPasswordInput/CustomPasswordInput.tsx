@@ -40,7 +40,7 @@ const CustomPasswordInput = ({
       <Typography
         variant="subtitle1"
         component="label"
-        htmlFor="name-textfield"
+        htmlFor={label}
         sx={{ color: "#152C5B", fontSize: "16px" }}
       >
         {label}
@@ -48,7 +48,7 @@ const CustomPasswordInput = ({
       <TextField
         hiddenLabel
         type={value ? "text" : "password"}
-        id={`${label}-textfield`}
+        id={`${label}`}
         defaultValue=""
         variant="filled"
         size="small"

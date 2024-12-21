@@ -1,6 +1,6 @@
 import { ReactNode, useContext } from 'react'
-import { AuthContext } from '../../../../Context/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../../../../Context/Context';
 
 interface ProtectedRouteProps {
     children: ReactNode;
@@ -8,9 +8,8 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { loginData } = useContext(AuthContext);
-  console.log(loginData?.role)
 
-  if (localStorage.getItem('token') || loginData) {
+  if (localStorage.getItem('token') || loginData?.role === 'admin') {
     return <>{children}</>;
   } else {
     return <Navigate to="/login" />;
