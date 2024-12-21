@@ -162,8 +162,8 @@ export default function RoomsForm() {
   async function convertUrlsToFiles(urls: string[]) {
     // Function to fetch a single image and convert it to a File
     const urlToFile = async (url: string) => {
-      const response = await fetch(url);
-      const blob = await response.blob();
+      const response = await axios.get(url, { responseType: "blob" });
+      const blob = response.data;
       // Extract file name from the URL
       const fileName = url.split("/").pop();
       // Create a File object
@@ -171,7 +171,6 @@ export default function RoomsForm() {
     };
     // Map through the URLs and convert each to a File
     const filePromises = urls.map((url) => urlToFile(url));
-
     return Promise.all(filePromises);
   }
 
@@ -208,7 +207,11 @@ export default function RoomsForm() {
           )
         );
 
-        if (response?.data?.data.room.images) {
+        if (
+          response?.data?.data?.room?.images
+            ?.join("")
+            .replace("http://", "https://")
+        ) {
           convertUrlsToFiles(response?.data?.data.room.images).then((files) => {
             setValue("imgs", files);
           });
@@ -362,7 +365,6 @@ export default function RoomsForm() {
                 </Select>
               )}
             />
-
             <FormHelperText
               sx={{
                 color: "#EB5148",
