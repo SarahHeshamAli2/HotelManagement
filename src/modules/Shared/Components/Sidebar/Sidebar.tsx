@@ -12,7 +12,7 @@ import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import { Box, IconButton } from "@mui/material";
 import { useContext } from "react";
-import { AuthContext } from "../../../../Context/AuthContext";
+import { AuthContext } from "../../../../Context/Context";
 
 interface SidebarProps {
   onToggle: () => void;

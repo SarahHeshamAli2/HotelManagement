@@ -14,9 +14,9 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { AuthContext } from '.././../../../Context/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { IMAGE_URL } from '../../../../services/urls';
+import { AuthContext } from '../../../../Context/Context';
 
 const Navbar: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

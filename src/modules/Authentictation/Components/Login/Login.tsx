@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { AUTH_URLS, axiosInstance } from '../../../../services/urls';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext } from '../../../../Context/AuthContext';
 import CustomInput from '../../../Shared/Components/CustomInput/CustomInput';
 import CustomPasswordInput from '../../../Shared/Components/CustomPasswordInput/CustomPasswordInput';
 import { getValidationRules } from '../../../../services/Validations';
 import { User } from '../Registeration/Registeration';
 import axios from 'axios';
 import FormButton from '../../../Shared/Components/FormButton/FormButton';
+import { AuthContext } from '../../../../Context/Context';
 
 interface LoginFormData extends User {
 	email: string;
