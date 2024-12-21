@@ -18,33 +18,28 @@ export default function AuthContextProvider(props: any) {
   const saveLoginData = () => {
     const encodedToken: any = localStorage.getItem("token");
     const decodedToken: any = jwtDecode(encodedToken);
-    
-    if(loginData) {
-      getCurrentUser()
-  }
+
+    if (loginData) {
+      getCurrentUser();
+    }
     setLoginData(decodedToken);
   };
 
-
-  const getCurrentUser = ()=>{
-    axiosInstance.get(AUTH_URLS.get_current_user(loginData?._id)).then((response)=>{
-      console.log(response?.data?.data.user.profileImage);
-      setUserName(response?.data?.data?.user?.userName)
-      setProfileImage(response?.data?.data.user.profileImage)
-      
-    }).catch((err)=>{
-      console.log(err);
-      
-    })
-
-  }
+  const getCurrentUser = () => {
+    axiosInstance
+      .get(AUTH_URLS.get_current_user(loginData?._id))
+      .then((response) => {
+        console.log(response?.data?.data.user.profileImage);
+        setUserName(response?.data?.data?.user?.userName);
+        setProfileImage(response?.data?.data.user.profileImage);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     if (localStorage.getItem("token")) {
       saveLoginData();
-
-    
-      
- 
     }
   }, [loginData?.role]);
 
@@ -54,7 +49,9 @@ export default function AuthContextProvider(props: any) {
   };
 
   return (
-    <AuthContext.Provider value={{ loginData, saveLoginData, logout,userName,profileImage }}>
+    <AuthContext.Provider
+      value={{ loginData, saveLoginData, logout, userName, profileImage }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

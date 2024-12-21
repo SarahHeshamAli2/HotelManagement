@@ -1,12 +1,12 @@
-import { Link } from 'react-router-dom';
-import Footer from '../Footer/Footer';
+import Footer from "../Footer/Footer";
+import LandingPageNavbar from "../LandingPageNavbar/LandingPageNavbar";
 
 export default function LandingPageLayout() {
-	return (
-		<>
-			<Link to={'/login'}>Login</Link>
-			<div>LandingPageLayout</div>
-			<Footer />
-		</>
-	);
+  return (
+    <>
+      <LandingPageNavbar />
+      <div>LandingPageLayout</div>
+      <Footer />
+    </>
+  );
 }
