@@ -43,7 +43,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
-        { path: "details/:room-id", element: <DetailsPage /> },
+        { path: "details/:roomId", element: <DetailsPage /> },
         { path: "favorites", element: <Favorites /> },
       ],
     },
