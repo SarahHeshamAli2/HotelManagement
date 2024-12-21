@@ -36,30 +36,6 @@ export default function UsersList() {
     getUsers({ size: 5, page: 1 });
   }, []);
 
-	// const getFilteredUsers = useCallback(async () => {
-	// 	try {
-	// 		setLoading(true);
-	// 		console.log(searchParams.get('name'));
-	// 		const response = await axiosInstance.get(getUsersData, {
-	// 			params: {
-	// 				pageSize: 5,
-	// 				pageNumber: Number(searchParams.get('pageNum')),
-	// 				userName: searchParams.get('name'),
-	// 			},
-	// 		});
-	// 		console.log(response?.data?.data);
-	// 		return response?.data;
-	// 	} catch (error: unknown) {
-	// 		console.log(error);
-	// 	} finally {
-	// 		setLoading(false);
-	// 	}
-	// }, [searchParams]);
-
-	// useEffect(() => {
-	// 	getFilteredUsers();
-	// }, [getFilteredUsers]);
-
 	const usersList = usersData?.map((user: UserListType) => (
 		<StyledTableRow key={user._id}>
 			<StyledTableCell align='center'>{user.userName}</StyledTableCell>
