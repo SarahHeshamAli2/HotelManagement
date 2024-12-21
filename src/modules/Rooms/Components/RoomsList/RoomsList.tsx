@@ -110,6 +110,7 @@ export default function RoomsList() {
         deleting={deleting}
       />
       <CustomTable
+      loading={loading}
         columnTitles={[
           "Room Number",
           "Image",
@@ -122,17 +123,7 @@ export default function RoomsList() {
         getListFn={getRooms}
       >
         {" "}
-        {loading && (
-          <CircularProgress
-            sx={{
-              color: "blue",
-              marginTop: "4rem",
-              marginInline: "auto",
-              display: "flex",
-            }}
-            size={"4rem"}
-          />
-        )}
+   
         {!loading && rooms.length > 0
           ? rooms.map((room) => (
               <StyledTableRow key={room._id}>

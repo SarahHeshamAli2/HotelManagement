@@ -82,6 +82,7 @@ useEffect(() => {
       <DashboardHeading label="Bookings" item="Booking" />
 
       <CustomTable
+      loading={loading}
         columnTitles={[
           "Room Number",
           "Price",
@@ -94,17 +95,7 @@ useEffect(() => {
         getListFn={getBookings}
       >
         {" "}
-        {loading && (
-          <CircularProgress
-            sx={{
-              color: "blue",
-              marginTop: "4rem",
-              marginInline: "auto",
-              display: "flex",
-            }}
-            size={"4rem"}
-          />
-        )}
+      
         {!loading && bookings.length > 0
           ? bookings.map((booking) => (
               <StyledTableRow key={booking?._id}>

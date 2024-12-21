@@ -27,6 +27,7 @@ export const AUTH_URLS = {
   forgetPassword: `/admin/users/forgot-password`,
   resetPassword: `/admin/users/reset-password`,
   changePassword: `/admin/users/change-password`,
+  get_current_user: (Id: string) => `/admin/users/${Id}`,
 };
 
 //  FACILITIES 

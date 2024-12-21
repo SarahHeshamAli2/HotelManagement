@@ -16,10 +16,12 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { AuthContext } from '.././../../../Context/AuthContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { IMAGE_URL } from '../../../../services/urls';
 
 const Navbar: React.FC = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-	const { logout }: any = useContext(AuthContext);
+	const { logout ,userName ,profileImage}: any = useContext(AuthContext);
+	
 	const navigate = useNavigate();
 	const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -71,8 +73,8 @@ const Navbar: React.FC = () => {
 
 				{/* User Avatar and Name */}
 				<Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-					<Avatar alt='User Photo' src='https://via.placeholder.com/150' />
-					<Typography sx={{ ml: 1, color: 'black' }}>John Doe</Typography>
+					<Avatar alt='User Photo' src={profileImage} />
+					<Typography sx={{ ml: 1, color: 'black' }}>{userName}</Typography>
 
 					{/* Dropdown Menu Trigger */}
 					<IconButton onClick={handleMenuClick}>

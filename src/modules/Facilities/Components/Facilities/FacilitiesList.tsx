@@ -275,23 +275,12 @@ useEffect(() => {
     </Modal>
     </Box> 
     
-       <CustomTable columnTitles={["Name","createdAt" ,"createdBy","updatedAt" ," "]}
+       <CustomTable 
+       loading={loading}
+       columnTitles={["Name","createdAt" ,"createdBy","updatedAt" ," "]}
        count={count}
        getListFn={getFacilities}>
-        {loading && (
-          <CircularProgress
-          sx={{
-            display:"flex",
-            color:"blue",
-            marginTop: "4rem",
-            margin: "auto",
-            textAlign: "center",
-            justifyContent:"center",
-            alignItems:"center"
-          }}
-          size={"4rem"}
-           />
-        )}
+    
         {!loading && facilities.length> 0 ? (facilities.map((item) =>(
           <StyledTableRow key={item._id}>
               <StyledTableCell component="th" scope="row" align="center">

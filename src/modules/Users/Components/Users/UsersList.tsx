@@ -51,27 +51,16 @@ export default function UsersList() {
       <DashboardHeading label="Users" item="User" />
 
       <CustomTable
+      loading={loading}
         columnTitles={["Username", "Email", "Phone number", "Country", "Role"]}
         count={totalCount}
         getListFn={getUsers}
       >
-        {loading ? (
-          <CircularProgress
-            sx={{
-              color: "blue",
-              marginTop: "4rem",
-              marginInline: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-            }}
-            size={"4rem"}
-          />
-        ) : usersData.length > 0 ? (
+      
+        { !loading && usersData.length > 0 ? (
           usersList
         ) : (
-          <NoData />
+         !loading && <NoData />
         )}
       </CustomTable>
     </>
