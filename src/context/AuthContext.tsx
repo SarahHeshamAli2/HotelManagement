@@ -20,24 +20,24 @@ export default function AuthContextProvider(props: any) {
     const decodedToken: any = jwtDecode(encodedToken);
     
     if(loginData) {
-      getCurrentUser()
+      // getCurrentUser()
   }
     setLoginData(decodedToken);
   };
 
 
-  const getCurrentUser = ()=>{
-    axiosInstance.get(AUTH_URLS.get_current_user(loginData?._id)).then((response)=>{
-      console.log(response?.data?.data.user.profileImage);
-      setUserName(response?.data?.data?.user?.userName)
-      setProfileImage(response?.data?.data.user.profileImage)
+  // const getCurrentUser = ()=>{
+  //   axiosInstance.get(AUTH_URLS.get_current_user(loginData?._id)).then((response)=>{
+  //     console.log(response?.data?.data.user.profileImage);
+  //     setUserName(response?.data?.data?.user?.userName)
+  //     setProfileImage(response?.data?.data.user.profileImage)
       
-    }).catch((err)=>{
-      console.log(err);
+  //   }).catch((err)=>{
+  //     console.log(err);
       
-    })
+  //   })
 
-  }
+  // }
   useEffect(() => {
     if (localStorage.getItem("token")) {
       saveLoginData();
@@ -46,7 +46,7 @@ export default function AuthContextProvider(props: any) {
       
  
     }
-  }, [loginData?.role]);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
