@@ -200,9 +200,9 @@ const UploadImgBox = ({
                 >
                   <UploadIcon />
                   <Typography component="span" sx={{ color: "#000000" }}>
-                    Drag & Drop or
+                    Drag & Drop or{" "}
                     <Typography component="span" sx={{ color: "#009247" }}>
-                      Choose Room Images
+                      Choose Room Images{" "}
                     </Typography>
                     to Upload
                   </Typography>
