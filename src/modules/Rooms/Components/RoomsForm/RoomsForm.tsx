@@ -164,6 +164,7 @@ export default function RoomsForm() {
     const urlToFile = async (url: string) => {
       const response = await axios.get(url, { responseType: "blob" });
       const blob = response.data;
+      console.log("blob", blob);
       // Extract file name from the URL
       const fileName = url.split("/").pop();
       // Create a File object
@@ -185,7 +186,6 @@ export default function RoomsForm() {
   }, []);
   const { data: facilitiesList, loading: facilitiesLoading } =
     useFetch<FacilityResponse>(getFacilities);
-  console.log(uploadedImgs);
 
   useEffect(() => {
     if (!newRoom) {
@@ -206,13 +206,12 @@ export default function RoomsForm() {
               typeof f === "string" ? f : f["_id"]
           )
         );
-
-        if (
-          response?.data?.data?.room?.images
-            ?.join("")
-            .replace("http://", "https://")
-        ) {
-          convertUrlsToFiles(response?.data?.data.room.images).then((files) => {
+        if (response?.data?.data?.room?.images) {
+          convertUrlsToFiles(
+            response?.data?.data.room.images?.map((i: string) =>
+              i.replace("http://", "https://")
+            )
+          ).then((files) => {
             setValue("imgs", files);
           });
         }
@@ -365,6 +364,7 @@ export default function RoomsForm() {
                 </Select>
               )}
             />
+
             <FormHelperText
               sx={{
                 color: "#EB5148",
