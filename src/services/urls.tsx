@@ -77,4 +77,11 @@ export const FACILITIES_URLS = {
   getFacilityDetails: (id:string)=>`/admin/room-facilities/${id}`
 };
 
+export const Favorites_URLS = {
+  Add_To_Fav : `/portal/favorite-rooms`,
+  Get_Fav :`/portal/favorite-rooms`,
+  Delete_Fav: (id:string)=>`/portal/favorite-rooms/${id}`
+
+}
+
 export { axiosInstance, IMAGE_URL };

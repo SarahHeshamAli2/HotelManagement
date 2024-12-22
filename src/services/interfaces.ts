@@ -25,3 +25,9 @@ export interface ad {
   isActive: boolean;
   _id: string;
 }
+
+
+export interface room {
+  images: string[],
+  _id:string
+}
