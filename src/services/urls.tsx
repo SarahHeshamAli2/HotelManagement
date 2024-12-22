@@ -78,4 +78,11 @@ export const FACILITIES_URLS = {
 };
 export const getRoomDetails = `/portal/rooms/available/`;
 
+{/*User Endpoints */}
+export const USER_ROOMS_URLS = {
+  getRoomDetails: (id: string|undefined) => `/portal/rooms/${id}`,
+};
+
+
+
 export { axiosInstance, IMAGE_URL };
