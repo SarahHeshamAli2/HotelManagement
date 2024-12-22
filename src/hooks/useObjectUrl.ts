@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const useObjectUrl = (image:  File | string| null) => {
-  const [url, setUrl] = useState<string | null>(null);
-  console.log(typeof image);
+const useObjectUrl = (files: File[] | FileList | null) => {
+  const [url, setUrl] = useState<string[] | string | null>(null);
 
   useEffect(() => {
-    if (!image || typeof image === "string") return;
-    const blob = new Blob([image], { type: image.type });
-    const objectUrl = URL.createObjectURL(blob);
-    console.log("file:", typeof image);
-    setUrl(objectUrl);
-    toast.success("Image uploaded successfully");
+    if (!files) return;
+    const fileArray = Array.isArray(files) ? files : Array.from(files);
+    const urls = fileArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+
+    setUrl(urls);
+    if (urls.length !== 0) toast.success("Images uploaded successfully");
 
     return () => {
-      URL.revokeObjectURL(objectUrl);
+      urls.forEach((url) => {
+        URL.revokeObjectURL(url);
+      });
     };
-  }, [image]);
-  return { url };
+  }, [files]);
+
+  return url;
 };
 
 export default useObjectUrl;

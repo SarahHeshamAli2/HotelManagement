@@ -1,4 +1,4 @@
-import { Box, Button, Container, Link, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import CustomInput from "../../../Shared/Components/CustomInput/CustomInput";
 import CustomPasswordInput from "../../../Shared/Components/CustomPasswordInput/CustomPasswordInput";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import axios from "axios";
 import useObjectUrl from "../../../../hooks/useObjectUrl";
 import { useRef } from "react";
 import UploadImgBox from "../../../Shared/Components/UploadImgBox/UploadImgBox";
+import FormButton from "../../../Shared/Components/FormButton/FormButton";
 
 interface RegisterResponse {
   success: boolean;
@@ -33,7 +34,6 @@ export default function Registeration() {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    setError,
     watch,
   } = useForm<User>({
     defaultValues: {
@@ -51,20 +51,13 @@ export default function Registeration() {
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-  const { url } = useObjectUrl(selectedImg && selectedImg?.[0]);
+  const url = useObjectUrl(selectedImg);
 
   const onSubmit = async (data: User) => {
     console.log(data);
     const formData = new FormData();
-    if (!data.profileImage) {
-      setError("profileImage", {
-        type: "manual",
-        message: "Profile Image is required",
-      });
-    }
     for (const key in data) {
       if (key === "profileImage" && data[key]) {
-        // if (key === "profileImage" && data[key] && data[key]?.length > 0) {
         formData.append(key, data[key]?.[0]);
       } else {
         formData.append(key, data[key as keyof User] as string);
@@ -134,6 +127,7 @@ export default function Registeration() {
           <CustomInput
             label="User Name"
             type="text"
+            placeholder="Please type here ..."
             register={{
               ...register("userName", {
                 required: getRequiredMessage("User Name"),
@@ -141,6 +135,9 @@ export default function Registeration() {
             }}
             isError={errors?.userName}
             errorMessage={errors?.userName?.message}
+            bgColor="#F5F6F8"
+            widthXS="95%"
+            widthSM="80%"
           />
           <Box
             sx={{
@@ -152,26 +149,38 @@ export default function Registeration() {
             <CustomInput
               label="Phone Number"
               type="tel"
+              placeholder="Please type here ..."
               register={{
                 ...register("phoneNumber", validationRules.phoneNumber),
               }}
               isError={errors?.phoneNumber}
               errorMessage={errors?.phoneNumber?.message}
+              bgColor="#F5F6F8"
+              widthXS="95%"
+              widthSM="80%"
             />
             <CustomInput
               label="Country"
               type="text"
+              placeholder="Please type here ..."
               register={{ ...register("country", validationRules.country) }}
               isError={errors?.country}
               errorMessage={errors?.country?.message}
+              bgColor="#F5F6F8"
+              widthXS="95%"
+              widthSM="80%"
             />
           </Box>
           <CustomInput
             label="Email Address"
             type="email"
+            placeholder="Please type here ..."
             register={{ ...register("email", validationRules.email) }}
             isError={errors?.email}
             errorMessage={errors?.email?.message}
+            bgColor="#F5F6F8"
+            widthXS="95%"
+            widthSM="80%"
           />
           <CustomPasswordInput
             label="Password"
@@ -195,25 +204,12 @@ export default function Registeration() {
             register={{
               ...register("profileImage", validationRules.profileImage),
             }}
-            isError={errors?.profileImage}
+            isError={errors?.profileImage?.message}
             errorMessage={errors?.profileImage?.message}
           />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              backgroundColor: "#3252DF",
-              width: { xs: "95%", sm: "80%" },
-              height: "3rem",
-              borderRadius: "0.25rem",
-              textTransform: "none",
-              mt: "10px",
-              fontSize: "17px",
-            }}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Submitting..." : "Sign up"}
-          </Button>
+          <Box sx={{ mt: "10px" }}>
+            <FormButton isSubmitting={isSubmitting} btnText="Sign up" />
+          </Box>
         </Box>
       </form>
     </Container>

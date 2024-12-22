@@ -14,12 +14,13 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { AuthContext } from ".././../../../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { AuthContext } from "../../../../Context/Context";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { logout }: any = useContext(AuthContext);
+  const { logout, userName, profileImage }: any = useContext(AuthContext);
+
   const navigate = useNavigate();
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -30,6 +31,12 @@ const Navbar: React.FC = () => {
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const getNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchParams({ ...Object.fromEntries(searchParams), name: value });
   };
 
   return (
@@ -55,13 +62,18 @@ const Navbar: React.FC = () => {
           }}
         >
           <SearchIcon sx={{ color: "gray", mr: 1 }} />
-          <InputBase placeholder="Search here..." sx={{ flexGrow: 1 }} />
+          <InputBase
+            placeholder="Search here..."
+            sx={{ flexGrow: 1 }}
+            onChange={getNameValue}
+            value={searchParams.get("name") || ""}
+          />
         </Box>
 
         {/* User Avatar and Name */}
         <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
-          <Avatar alt="User Photo" src="https://via.placeholder.com/150" />
-          <Typography sx={{ ml: 1, color: "black" }}>John Doe</Typography>
+          <Avatar alt="User Photo" src={profileImage} />
+          <Typography sx={{ ml: 1, color: "black" }}>{userName}</Typography>
 
           {/* Dropdown Menu Trigger */}
           <IconButton onClick={handleMenuClick}>

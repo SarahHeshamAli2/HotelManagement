@@ -1,15 +1,16 @@
-import { Typography, Button, Link, Box } from '@mui/material';
+import { Typography, Link, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { AUTH_URLS, axiosInstance } from '../../../../services/urls';
 import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import { AuthContext } from '../../../../Context/AuthContext';
 import CustomInput from '../../../Shared/Components/CustomInput/CustomInput';
 import CustomPasswordInput from '../../../Shared/Components/CustomPasswordInput/CustomPasswordInput';
 import { getValidationRules } from '../../../../services/Validations';
 import { User } from '../Registeration/Registeration';
 import axios from 'axios';
+import FormButton from '../../../Shared/Components/FormButton/FormButton';
+import { AuthContext } from '../../../../Context/Context';
 
 interface LoginFormData extends User {
 	email: string;
@@ -73,7 +74,7 @@ const Login = () => {
 				</Typography>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Box>
-						<Box sx={{ mb: '2.8rem' }}>
+						<Box sx={{ mb: '2.8rem' , width:'80%'}}>
 							<CustomInput
 								label='Email Address'
 								type='email'
@@ -106,22 +107,7 @@ const Login = () => {
 							</Link>
 						</Box>
 
-						<Button
-							type='submit'
-							variant='contained'
-							sx={{
-								backgroundColor: '#3252DF',
-								width: { xs: '95%', sm: '80%' },
-								height: '3rem',
-								borderRadius: '0.25rem',
-								textTransform: 'none',
-								mt: '10px',
-								fontSize: '17px',
-							}}
-							disabled={isSubmitting}
-						>
-							{isSubmitting ? 'Submitting...' : 'Login'}
-						</Button>
+            <FormButton isSubmitting={isSubmitting} btnText='Login' />
 					</Box>
 				</form>
 			</Box>
