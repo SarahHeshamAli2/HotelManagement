@@ -12,7 +12,6 @@ export default function NotFound() {
         backgroundColor: "#f9f9f9",
       }}
     >
-      {/* الجانب الأيسر يحتوي على النصوص */}
       <Box
         sx={{
           flex: 1,
@@ -60,7 +59,7 @@ export default function NotFound() {
           variant="contained"
         >
           <Link
-            to="/dashboard"
+            to="/home"
             style={{
               textDecoration: "none",
               color: "inherit",
