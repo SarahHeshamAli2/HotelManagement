@@ -3,6 +3,11 @@ export interface GetRoomsResponse{
     "message": string,
     "data": { 'rooms':Room[],"totalCount": number},
 } 
+export interface GetRoomResponse{
+  "success": boolean,
+  "message": string,
+  "data": { 'room':Room},
+} 
 export interface Room {
   _id: string;
   roomNumber: number;

@@ -3,6 +3,8 @@ import { axiosInstance, Favorites_URLS } from '../services/urls';
 import { toast } from 'react-toastify';
 
 const useAddToFav = (id: string) => {
+  // const [counter, setCounter] = useState(0)
+  // const trigger = () => setCounter((prevCount)=>prevCount+1)
     const handleClick = useCallback(() => {
       axiosInstance.post(Favorites_URLS.Add_To_Fav,{
         "roomId":id

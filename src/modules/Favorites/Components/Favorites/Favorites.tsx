@@ -6,6 +6,7 @@ import {
   Grid2,
   Typography,
 } from "@mui/material";
+import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle';
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { axiosInstance, Favorites_URLS } from "../../../../services/urls";
