@@ -7,7 +7,7 @@ import Ads from "../../../Users-Portal/Component/UsersShared/Ads/Ads";
 
 export default function Home() {
 	return (
-		<Box>
+		<Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
 			<CalendarBooking/>
 			<MostPopularAds/>
 			<Houses/>
