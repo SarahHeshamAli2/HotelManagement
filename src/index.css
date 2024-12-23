@@ -64,6 +64,14 @@ body {
     display: none !important;
   }
 }
+
+
+@media (max-width:600px){
+  .favoriteImage {
+    height: 100px;
+  }
+}
+
 .slider-container {
   height: 300px;
   overflow: hidden;
@@ -76,5 +84,3 @@ body {
 .slick-dots {
   position: relative !important;
 }
-
-

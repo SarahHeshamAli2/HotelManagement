@@ -5,13 +5,27 @@ import {
 	ImageListItemBar,
 	Typography,
 } from '@mui/material';
-import { Ads_URLS, axiosInstance } from '../../../../../services/urls';
+import { Ads_URLS, axiosInstance, Favorites_URLS } from '../../../../../services/urls';
 import { useEffect, useState } from 'react';
 import ImageBadge from '../../../../Shared/ImageBadge/ImageBadge';
 import Overlay from '../../../../Shared/Overlay/Overlay';
+import { toast } from 'react-toastify';
 
 const MostPopularAds = () => {
 	const [ads, setAds] = useState([]);
+
+
+const handleFavoriteClick = (id: string) => {
+ axiosInstance.post(Favorites_URLS.Add_To_Fav,{
+		"roomId":id
+	  }).then((resp)=>{
+		toast.success(resp?.data?.message)
+		console.log(resp)
+	  }).catch((error)=>{
+		console.log(error)
+		toast.error(error?.response?.data?.message || 'something went wrong')
+	  })
+}
 	const getRecentAds = async () => {
 		const response = await axiosInstance.get(Ads_URLS.getAllAds);
 		const adsArr = response.data.data.ads;
@@ -22,6 +36,7 @@ const MostPopularAds = () => {
 		setAds(recentAds);
 	};
 	useEffect(() => {
+	
 		getRecentAds();
 	}, []);
 
@@ -50,7 +65,7 @@ const MostPopularAds = () => {
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={() => {}} detailsPath={`/details/${ad.room._id}`} />
+			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} />
 		</ImageListItem>
 	));
 

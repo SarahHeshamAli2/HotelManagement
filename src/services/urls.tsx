@@ -75,6 +75,15 @@ export const FACILITIES_URLS = {
 };
 export const getRoomDetails = `/portal/rooms/available/`;
 
+export const Favorites_URLS = {
+  Add_To_Fav : `/portal/favorite-rooms`,
+  Get_Fav :`/portal/favorite-rooms`,
+  Delete_Fav: (id:string)=>`/portal/favorite-rooms/${id}`
+
+}
+
+
+
 {/*User Endpoints */}
 export const USER_ROOMS_URLS = {
   getRoomDetails: (id: string|undefined) => `/portal/rooms/${id}`,
