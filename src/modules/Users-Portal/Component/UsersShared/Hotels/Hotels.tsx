@@ -96,7 +96,7 @@ export default function Hotels() {
   
 
   return (
-    <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
+    <Box>
       {loading ? (
         <Skeleton
           variant="text"
