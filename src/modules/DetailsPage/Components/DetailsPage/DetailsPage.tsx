@@ -11,7 +11,7 @@ import {
   UnitsIcon,
   WifiIcon,
 } from "../../../Shared/Components/SvgIcons/SvgIcons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { axiosInstance, USER_ROOMS_URLS } from "../../../../services/urls";
 import { GetRoomResponse, Room } from "../../../../interfaces/RoomsInterfaces";
 import { toast } from "react-toastify";
@@ -19,8 +19,11 @@ import roomImg1 from "../../../../assets/images/room-img1.png";
 import roomImg2 from "../../../../assets/images/room-img2.png";
 import roomImg3 from "../../../../assets/images/room-img3.png";
 import BookingCard from "../../../Users-Portal/Component/UsersShared/BookingCard/BookingCard";
+import UserPageTitle from "../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle";
 import CommentForm from "../../../Shared/Components/CommentForm/CommentForm";
 import { styled } from "@mui/system";
+import ReviewForm from "../../../Users-Portal/Component/ReviewForm/ReviewForm";
+import { AuthContext } from "../../../../Context/Context";
 
 const StyledBox = styled(Box)(() => ({
   display: "flex",
@@ -42,6 +45,7 @@ const VerticalLine = styled(Box)(({ theme }) => ({
   },
 }));
 export default function DetailsPage() {
+    const { loginData } = useContext(AuthContext);
   let { roomId } = useParams<{ roomId: string }>();
   const [room, setRoom] = useState<Room>();
   const facilitiesData = [
@@ -89,7 +93,7 @@ export default function DetailsPage() {
           }}
         >
           {" "}
-          <Box
+          {/*<Box
             display="flex"
             alignItems="center"
             sx={{
@@ -121,7 +125,8 @@ export default function DetailsPage() {
             >
               Room Details
             </Typography>
-          </Box>
+          </Box>*/}
+          <UserPageTitle current="Room Details" />
           <Stack>
             <Typography
               sx={{ color: theme.palette.Blue.main, fontWeight: "bold" }}
@@ -207,7 +212,7 @@ export default function DetailsPage() {
                       component="span"
                     >
                       {facility.number}
-                    </Box>
+                    </Box>{" "}
                     {facility.name}
                   </Typography>
                 </Stack>
@@ -218,8 +223,10 @@ export default function DetailsPage() {
             <BookingCard />
           </Grid2>
         </Grid2>
+        <Box></Box>
       </Box>
-      <StyledBox
+      {
+        localStorage.getItem('token') || loginData?.role === 'user'?      <StyledBox
         sx={{
           flexDirection: {
             xs: "column",
@@ -237,11 +244,12 @@ export default function DetailsPage() {
           paddingY: "35px",
         }}
       >
-        {/* Replace with Review Form  here */}
-        <CommentForm roomId={roomId ?? ""} />
+        <ReviewForm roomId={room?._id ?? ""} />
         <VerticalLine />
-        <CommentForm roomId={roomId ?? ""} />
-      </StyledBox>
+        <CommentForm roomId={room?._id ?? ""} />
+      </StyledBox>:""
+      }
+
     </ThemeProvider>
   );
 }

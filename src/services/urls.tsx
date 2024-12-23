@@ -95,4 +95,9 @@ export const USER_ROOMS_URLS = {
 export const COMMENTS_URLS = {
   addComment: `/portal/room-comments`,
 };
+
+//review endpoints
+export const Reviews_URLS = {
+  addReview: `/portal/room-reviews`,
+};
 export { axiosInstance, IMAGE_URL };
