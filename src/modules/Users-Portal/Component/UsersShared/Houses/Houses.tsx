@@ -95,7 +95,7 @@ export default function Houses() {
   
 
   return (
-    <Box>
+    <Box sx={{ padding: "20px 0" }}>
       {loading ? (
         <Skeleton
           variant="text"
