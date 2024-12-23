@@ -38,6 +38,8 @@ const Login = () => {
 			saveLoginData();
 			toast.success('Login successful');
 			navigate('/dashboard');
+
+	
 		} catch (error: unknown) {
 			if(axios.isAxiosError(error)) {
 				toast.error(error.response?.data?.message || 'Cannot Logged in');

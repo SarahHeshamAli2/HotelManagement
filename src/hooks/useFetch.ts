@@ -6,6 +6,7 @@ interface FetchState<T>{
     error: string | null   ,
     setData : Dispatch<SetStateAction<T | null>>,
     setIsChanged : Dispatch<SetStateAction<boolean>>,
+    trigger:()=>void
 }
 
 const useFetch = <T>(fetchFun: ()  => Promise<T>):FetchState<T> => {
@@ -14,6 +15,8 @@ const useFetch = <T>(fetchFun: ()  => Promise<T>):FetchState<T> => {
     const [isChanged,setIsChanged] = useState<boolean>(true)
     const [error,setError] =useState<string|null>(null)
 
+    const [counter, setCounter] = useState(0)
+    const trigger = () => setCounter((prevCount)=>prevCount+1)
 
     useEffect(() => {
       let mounted = true;
@@ -51,8 +54,8 @@ const useFetch = <T>(fetchFun: ()  => Promise<T>):FetchState<T> => {
         return () => {
           mounted = false;
         };
-    },[isChanged])
-  return {data,loading,error,setData,setIsChanged};
+    },[isChanged,counter])
+  return {data,loading,error,setData,setIsChanged,trigger};
 }
 
 export default useFetch
