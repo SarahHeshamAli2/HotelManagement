@@ -11,7 +11,7 @@ import {
   UnitsIcon,
   WifiIcon,
 } from "../../../Shared/Components/SvgIcons/SvgIcons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { axiosInstance, USER_ROOMS_URLS } from "../../../../services/urls";
 import { GetRoomResponse, Room } from "../../../../interfaces/RoomsInterfaces";
 import { toast } from "react-toastify";
@@ -22,6 +22,8 @@ import BookingCard from "../../../Users-Portal/Component/UsersShared/BookingCard
 import UserPageTitle from "../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle";
 import CommentForm from "../../../Shared/Components/CommentForm/CommentForm";
 import { styled } from "@mui/system";
+import ReviewForm from "../../../Users-Portal/Component/ReviewForm/ReviewForm";
+import { AuthContext } from "../../../../Context/Context";
 
 const StyledBox = styled(Box)(() => ({
   display: "flex",
@@ -43,6 +45,7 @@ const VerticalLine = styled(Box)(({ theme }) => ({
   },
 }));
 export default function DetailsPage() {
+    const { loginData } = useContext(AuthContext);
   let { roomId } = useParams<{ roomId: string }>();
   const [room, setRoom] = useState<Room>();
   const facilitiesData = [
@@ -123,7 +126,7 @@ export default function DetailsPage() {
               Room Details
             </Typography>
           </Box>*/}
-		  <UserPageTitle current="Room Details"/>
+          <UserPageTitle current="Room Details" />
           <Stack>
             <Typography
               sx={{ color: theme.palette.Blue.main, fontWeight: "bold" }}
@@ -209,8 +212,8 @@ export default function DetailsPage() {
                       component="span"
                     >
                       {facility.number}
-                    </Box>
-                    {' '}{facility.name}
+                    </Box>{" "}
+                    {facility.name}
                   </Typography>
                 </Stack>
               ))}
@@ -220,11 +223,10 @@ export default function DetailsPage() {
             <BookingCard />
           </Grid2>
         </Grid2>
-		<Box>
-
-		</Box>
+        <Box></Box>
       </Box>
-      <StyledBox
+      {
+        localStorage.getItem('token') || loginData?.role === 'user'?      <StyledBox
         sx={{
           flexDirection: {
             xs: "column",
@@ -242,11 +244,12 @@ export default function DetailsPage() {
           paddingY: "35px",
         }}
       >
-        {/* Replace with Review Form  here */}
-        <CommentForm roomId={roomId ?? ""} />
+        <ReviewForm roomId={room?._id ?? ""} />
         <VerticalLine />
-        <CommentForm roomId={roomId ?? ""} />
-      </StyledBox>
+        <CommentForm roomId={room?._id ?? ""} />
+      </StyledBox>:""
+      }
+
     </ThemeProvider>
   );
 }
