@@ -50,7 +50,7 @@ const MostPopularAds = () => {
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={() => {}} detailsPath={`details/${ad.room._id}`} />
+			<Overlay handleClick={() => {}} detailsPath={`/details/${ad.room._id}`} />
 		</ImageListItem>
 	));
 
