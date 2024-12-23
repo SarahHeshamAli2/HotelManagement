@@ -70,7 +70,7 @@ const handleFavoriteClick = (id: string) => {
 	));
 
 	return (
-		<Box>
+		<Box >
 			<Typography
 				variant='body1'
 				component='h2'
