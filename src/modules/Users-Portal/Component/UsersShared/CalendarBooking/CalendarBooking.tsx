@@ -1,8 +1,7 @@
-import { Add, CalendarMonth, Remove } from "@mui/icons-material";
+import { CalendarMonth} from "@mui/icons-material";
 import {
   Box,
   Button,
-  IconButton,
   Popover,
   TextField,
   Typography,
@@ -16,9 +15,10 @@ import img from "../../../../../assets/images/banner.png";
 import { axiosInstance, getRoomDetails } from "../../../../../services/urls";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
-import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import { DateRangePicker } from "react-date-range";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import CapacitySelector from "../CalendarBooking/CapacitySelector/CapacitySelector"; 
 
 interface DateRange {
   startDate?: Date | null;
@@ -51,16 +51,6 @@ export default function CalendarBooking() {
     handlePopoverClose();
   };
 
-  const handleIncrease = () => {
-    setCount(count + 1);
-  };
-
-  const handleDecrease = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
-
   const getRooms = async () => {
     if (!dateRange.startDate || !dateRange.endDate) {
       setError("Please pick a start and end date.");
@@ -71,7 +61,10 @@ export default function CalendarBooking() {
       const { startDate, endDate } = dateRange;
 
       const response = await axiosInstance.get(getRoomDetails, {
-        params: { startDate: dayjs(startDate).format('YYYY-MM-DD'), endDate: dayjs(endDate).format('YYYY-MM-DD') },
+        params: {
+          startDate: dayjs(startDate).format("YYYY-MM-DD"),
+          endDate: dayjs(endDate).format("YYYY-MM-DD"),
+        },
       });
 
       console.log(dateRange);
@@ -155,11 +148,13 @@ export default function CalendarBooking() {
               }}
             >
               <DateRangePicker
-                ranges={[{
-                  startDate: dateRange.startDate || dayjs().toDate(),
-                  endDate: dateRange.endDate || dayjs().toDate(),
-                  key: 'selection',
-                }]}
+                ranges={[
+                  {
+                    startDate: dateRange.startDate || dayjs().toDate(),
+                    endDate: dateRange.endDate || dayjs().toDate(),
+                    key: "selection",
+                  },
+                ]}
                 onChange={handleDateChange}
                 minDate={dayjs().toDate()}
               />
@@ -181,41 +176,10 @@ export default function CalendarBooking() {
                 {error}
               </FormHelperText>
             )}
-            <Box sx={{ mt: "1.5rem", display: "flex", alignItems: "center" }}>
-              <IconButton
-                onClick={handleDecrease}
-                sx={{
-                  width: "3.5rem",
-                  backgroundColor: "#E74C3C",
-                  borderRadius: "4px 0px 0px 0px",
-                  "&:hover": {
-                    backgroundColor: "#E74C3C",
-                  },
-                  mr: "1rem",
-                }}
-              >
-                <Remove sx={{ color: "#fff" }} />
-              </IconButton>
-              <TextField
-                sx={{ color: "#152C5B" }}
-                label="Capacity"
-                value={`${count} person`}
-              />
-              <IconButton
-                onClick={handleIncrease}
-                sx={{
-                  width: "3.5rem",
-                  backgroundColor: "#1ABC9C",
-                  borderRadius: "0px 4px 0px 0px",
-                  "&:hover": {
-                    backgroundColor: "#1ABC9C",
-                  },
-                  ml: "1rem",
-                }}
-              >
-                <Add sx={{ color: "white" }} />
-              </IconButton>
-            </Box>
+            <CapacitySelector
+              initialCount={count}
+              onChange={(newCount) => setCount(newCount)}
+            />
             <Button
               sx={{
                 mt: "2rem",
