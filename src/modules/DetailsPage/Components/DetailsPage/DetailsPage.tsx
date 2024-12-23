@@ -19,6 +19,7 @@ import roomImg1 from "../../../../assets/images/room-img1.png";
 import roomImg2 from "../../../../assets/images/room-img2.png";
 import roomImg3 from "../../../../assets/images/room-img3.png";
 import BookingCard from "../../../Users-Portal/Component/UsersShared/BookingCard/BookingCard";
+import UserPageTitle from "../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle";
 
 export default function DetailsPage() {
   let { roomId } = useParams<{ roomId: string }>();
@@ -68,7 +69,7 @@ export default function DetailsPage() {
           }}
         >
           {" "}
-          <Box
+          {/*<Box
             display="flex"
             alignItems="center"
             sx={{
@@ -100,7 +101,8 @@ export default function DetailsPage() {
             >
               Room Details
             </Typography>
-          </Box>
+          </Box>*/}
+		  <UserPageTitle current="Room Details"/>
           <Stack>
             <Typography
               sx={{ color: theme.palette.Blue.main, fontWeight: "bold" }}
@@ -187,7 +189,7 @@ export default function DetailsPage() {
                     >
                       {facility.number}
                     </Box>
-                    {facility.name}
+                    {' '}{facility.name}
                   </Typography>
                 </Stack>
               ))}
@@ -197,6 +199,9 @@ export default function DetailsPage() {
 		  <BookingCard/>
           </Grid2>
         </Grid2>
+		<Box>
+
+		</Box>
       </Box>
     </ThemeProvider>
   );

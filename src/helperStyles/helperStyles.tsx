@@ -10,12 +10,14 @@ declare module "@mui/material/styles" {
     Grey: Palette["primary"];
     Grey2: Palette["primary"];
     Blue: Palette["primary"];
+    Green: Palette["primary"];
   }
 
   interface PaletteOptions {
     Grey?: PaletteOptions["primary"];
     Grey2?: PaletteOptions["primary"];
     Blue?: PaletteOptions["primary"];
+    Green?: PaletteOptions["primary"];
   }
 }
 
@@ -36,9 +38,13 @@ export const theme = createTheme({
       light: "#3f6bc3",
       dark: "#040e21",
     },
+    Green: {
+      main: "#1ABC9C",
+      light: "#38e4c2",
+      dark: "#253c37",
+    },
   },
 });
-
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
