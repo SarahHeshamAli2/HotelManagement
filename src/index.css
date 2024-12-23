@@ -71,3 +71,16 @@ body {
     height: 100px;
   }
 }
+
+.slider-container {
+  height: 300px;
+  overflow: hidden;
+}
+
+.slick-next {
+  display: none !important;
+}
+
+.slick-dots {
+  position: relative !important;
+}

@@ -76,6 +76,7 @@ export const FACILITIES_URLS = {
   deleteFacility:(id:string)=>`/admin/room-facilities/${id}`,
   getFacilityDetails: (id:string)=>`/admin/room-facilities/${id}`
 };
+export const getRoomDetails = `/portal/rooms/available/`;
 
 export const Favorites_URLS = {
   Add_To_Fav : `/portal/favorite-rooms`,

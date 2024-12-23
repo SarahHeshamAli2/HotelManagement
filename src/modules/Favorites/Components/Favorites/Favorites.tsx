@@ -43,7 +43,8 @@ const Item = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   overflow: "hidden",
   borderRaduis: "1rem",
-
+  height: '100%', // Fill the parent's height
+  width: '100%', // Fill the parent's width
   ":hover .parentDiv": {
     top: 0,
 
@@ -117,7 +118,8 @@ export default function Favorites() {
           Your Favorites
         </Typography>
       </Box>
-      <Container sx={{ flexGrow: 1 }}>
+      <Container  sx={{ flexGrow: 1,mb:'6rem' }}>
+        <Typography variant="h6" component={'h3'} color="#152C5B" mb={'1.2rem'}>Your Rooms</Typography>
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <CircularProgress
@@ -132,7 +134,7 @@ export default function Favorites() {
           <Grid2
             container
             spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}>
+            columns={{ xs: 2, sm: 8, md: 12 }}>
             {favoriteRooms?.map((room: room) => (
               <Grid2 key={room?._id} size={{ xs: 2, sm: 4, md: 4 }}>
                 <Item
@@ -143,7 +145,7 @@ export default function Favorites() {
                     className="favoriteImage"
                     src={room?.images[0]}
                     alt="hotel favorites room"
-                    style={{ objectFit: "cover",width:'100%'}}
+                    style={{ objectFit: "cover",width:'100%',height:'100%'}}
                   />
                   <ParentDiv className="parentDiv">
                     <Button onClick={()=>handleOpen(room._id)}>
