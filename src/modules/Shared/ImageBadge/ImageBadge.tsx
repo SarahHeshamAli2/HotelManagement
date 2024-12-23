@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 
 interface BadgeProps {
-	text: React.ReactElement;
+	children: React.ReactNode;
 	width: string;
 }
 
-const ImageBadge = ({ text, width }: BadgeProps) => {
+const ImageBadge = ({ children, width }: BadgeProps) => {
 	return (
 		<Box
 			sx={{
@@ -20,7 +20,7 @@ const ImageBadge = ({ text, width }: BadgeProps) => {
 				paddingBlock: '10px',
 			}}
 		>
-			{text}
+			{children}
 		</Box>
 	);
 };

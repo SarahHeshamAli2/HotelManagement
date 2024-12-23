@@ -73,6 +73,14 @@ export const FACILITIES_URLS = {
   deleteFacility: (id: string) => `/admin/room-facilities/${id}`,
   getFacilityDetails: (id: string) => `/admin/room-facilities/${id}`,
 };
+export const getRoomDetails = `/portal/rooms/available/`;
+
+{/*User Endpoints */}
+export const USER_ROOMS_URLS = {
+  getRoomDetails: (id: string|undefined) => `/portal/rooms/${id}`,
+};
+
+
 
 //comments endpoints
 export const COMMENTS_URLS = {
