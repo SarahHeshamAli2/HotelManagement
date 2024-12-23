@@ -19,7 +19,28 @@ import roomImg1 from "../../../../assets/images/room-img1.png";
 import roomImg2 from "../../../../assets/images/room-img2.png";
 import roomImg3 from "../../../../assets/images/room-img3.png";
 import BookingCard from "../../../Users-Portal/Component/UsersShared/BookingCard/BookingCard";
+import CommentForm from "../../../Shared/Components/CommentForm/CommentForm";
+import { styled } from "@mui/system";
 
+const StyledBox = styled(Box)(() => ({
+  display: "flex",
+  width: "90%",
+  marginInline: "auto",
+  border: "1px solid #E5E5E5",
+  borderRadius: "15px",
+  marginBottom: "2rem",
+}));
+const VerticalLine = styled(Box)(({ theme }) => ({
+  width: "1px",
+  backgroundColor: "#203FC7",
+  margin: "0 10px",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+  [theme.breakpoints.up("md")]: {
+    display: "block",
+  },
+}));
 export default function DetailsPage() {
   let { roomId } = useParams<{ roomId: string }>();
   const [room, setRoom] = useState<Room>();
@@ -193,11 +214,34 @@ export default function DetailsPage() {
               ))}
             </Box>
           </Grid2>
-          <Grid2 size={6} >
-		  <BookingCard/>
+          <Grid2 size={6}>
+            <BookingCard />
           </Grid2>
         </Grid2>
       </Box>
+      <StyledBox
+        sx={{
+          flexDirection: {
+            xs: "column",
+            lg: "row",
+          },
+          gap: {
+            xs: "3rem",
+            md: "2rem",
+            lg: "5rem",
+          },
+          paddingX: {
+            xs: "1rem",
+            sm: "5.25rem",
+          },
+          paddingY: "35px",
+        }}
+      >
+        {/* Replace with Review Form  here */}
+        <CommentForm roomId={roomId ?? ""} />
+        <VerticalLine />
+        <CommentForm roomId={roomId ?? ""} />
+      </StyledBox>
     </ThemeProvider>
   );
 }

@@ -8,11 +8,6 @@ export const getValidationRules = (watch: UseFormWatch<User> | null) => {
   return {
     userName: {
       required: getRequiredMessage("Username"),
-      //   pattern: {
-      //     value: /^[a-zA-Z]+[0-9]+$/i,
-      //     message:
-      //       "The userName must contain characters and end with numbers without spaces.",
-      //   },
     },
     email: {
       required: getRequiredMessage("Email"),
@@ -30,15 +25,6 @@ export const getValidationRules = (watch: UseFormWatch<User> | null) => {
     },
     password: {
       required: getRequiredMessage("Password"),
-      // minLength: {
-      //   value: 6,
-      //   message: "Password must be at least 6 characters",
-      // },
-      // pattern: {
-      //   value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
-      //   message:
-      //     "Password must include at least one lowercase letter, one uppercase letter, one digit, one special character",
-      // },
     },
     confirmPassword: {
       required: getRequiredMessage("Confirm Password"),
@@ -70,6 +56,20 @@ export const getRoomValidationRules = () => {
       //   value && value!.length > 6 ? "Please upload at least 5 images" : false,
       validate: (files: File[] | null) =>
         files!.length <= 5 || "You can only upload up to 5 images",
+    },
+  };
+};
+export const getCommentValidationRules = () => {
+  return {
+    comment: {
+      required: {
+        value: true,
+        message: getRequiredMessage("Your Comment"),
+      },
+      maxLength: {
+        value: 200,
+        message: "Comment must be less than 200 characters",
+      },
     },
   };
 };

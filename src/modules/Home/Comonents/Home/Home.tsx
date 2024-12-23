@@ -6,13 +6,13 @@ import Hotels from "../../../Users-Portal/Component/UsersShared/Hotels/Hotels";
 import Ads from "../../../Users-Portal/Component/UsersShared/Ads/Ads";
 
 export default function Home() {
-	return (
-		<Box>
-			<CalendarBooking/>
-			<MostPopularAds/>
-			<Houses/>
-			<Hotels/>
-			<Ads/>
-		</Box>
-	);
+  return (
+    <Box>
+      <CalendarBooking />
+      <MostPopularAds />
+      <Houses />
+      <Hotels />
+      <Ads />
+    </Box>
+  );
 }

@@ -59,8 +59,10 @@ export default function LandingPageNavbar() {
           <Box
             sx={{
               flexGrow: 1,
-              paddingLeft: { xs: "0.1rem", lg: "8rem", md: "3rem" },
+              paddingInlineStart: { xs: "0.1rem", lg: "8rem", md: "3rem" },
+              cursor: "pointer",
             }}
+            onClick={() => navigate("/")}
           >
             <Logo />
           </Box>
