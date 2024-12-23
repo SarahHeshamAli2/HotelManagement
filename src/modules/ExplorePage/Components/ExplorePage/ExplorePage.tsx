@@ -1,8 +1,10 @@
+import { Grid2 as Grid } from '@mui/material';
 import { useEffect, useState } from "react";
 import { axiosInstance, ROOMS_URLS } from "../../../../services/urls";
 import { Box, CircularProgress, Grid2, Link, Typography } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import roomImg from '../../../../assets/images/room.png';
+import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle';
 
 export default function ExplorePage() {
 	const[availableRooms , setAvailableRooms]= useState<roomsdata[]>([])
@@ -50,6 +52,30 @@ export default function ExplorePage() {
 	return (
 		<>
 		<Typography variant="h4" sx={{color:"#152C5B", textAlign:"center" ,fontWeight:"600" , mt:"50px"}}>Explore ALL Rooms</Typography>
+		<Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
+      <Box>
+        <Grid container alignItems="center">
+          <Grid size={{ xs: 12, sm: 3 }}>
+            <UserPageTitle current="Explore" />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 6 }} sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h5"
+              component={"h2"}
+              sx={{
+                fontWeight: "600",
+                fontSize: "2.1rem",
+                lineHeight: "0.5rem",
+                color: "#152C5B",
+                marginBlock: { xs: "0.5rem", sm: "1rem" },
+              }}>
+            </Typography>
+          </Grid>
+			
+			</Grid>
+		</Box>
+		</Box>
 
 		{loading?(
 					<CircularProgress
@@ -72,15 +98,6 @@ export default function ExplorePage() {
 				maxWidth: "1400px",   
 				margin: "0 auto",      
 				}}>
-				<Typography sx={{color:"#B0B0B0" , fontWeight:"300", fontSize:"18px"}}>
-					<Link href="home" underline="none" color="#B0B0B0">
-					  Home 
-					</Link>
-					<Typography variant="caption">/</Typography>
-					<Link href="explore" underline="none" color="#B0B0B0">
-					Explore
-					</Link>
-				</Typography>
 				<Typography sx={{color:"#152C5B" , fontWeight:"500" , fontSize:"24px" , marginBlock:"30px" , pl:"10px"}}>All Rooms</Typography>
 	
 				{availableRooms?.length > 0 ? (
@@ -88,7 +105,7 @@ export default function ExplorePage() {
 					
 					<Grid2
 					container
-					spacing={1}
+					spacing={4}
 					sx={{
 						marginBottom: "20px",
 						textAlign: "center",
@@ -106,7 +123,7 @@ export default function ExplorePage() {
 							<Box 
 							sx={{ 
 								position: "relative", 
-								width: "90%", 
+								width: "100%", 
 								height: "250px", 
 								borderRadius: "15px", 
 								overflow: "hidden" ,
@@ -188,7 +205,7 @@ export default function ExplorePage() {
 							<Box 
 							sx={{ 
 								position: "relative", 
-								width: "90%", 
+								width: "100%", 
 								height: "250px", 
 								borderRadius: "15px", 
 								overflow: "hidden" ,
@@ -285,5 +302,6 @@ export default function ExplorePage() {
 
 			
 		</>
+
 	);
 }                                           

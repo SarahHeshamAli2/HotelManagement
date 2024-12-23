@@ -1,8 +1,8 @@
 // axios instance
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from "axios";
 
-const BASE_URL = 'https://upskilling-egypt.com:3000/api/v0';
-const IMAGE_URL = 'https://upskilling-egypt.com:3000';
+const BASE_URL = "https://upskilling-egypt.com:3000/api/v0";
+const IMAGE_URL = "https://upskilling-egypt.com:3000";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -10,11 +10,11 @@ const axiosInstance: AxiosInstance = axios.create({
 
 // axios interceptors
 axiosInstance.interceptors.request.use((config) => {
-	const token = localStorage.getItem('token');
-	if (token) {
-		config.headers.Authorization = `Bearer ${token}`;
-	}
-	return config;
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 //* USER AUTHENTICATION
@@ -30,20 +30,18 @@ export const AUTH_URLS = {
   get_current_user: (Id: string) => `/admin/users/${Id}`,
 };
 
-//  FACILITIES 
+//  FACILITIES
 export const FACILITIES_URLs = {
-  GET_FACILITIES:`/admin/room-facilities`,
-  ADD_FACILITIES:`/admin/room-facilities`,
+  GET_FACILITIES: `/admin/room-facilities`,
+  ADD_FACILITIES: `/admin/room-facilities`,
   UPDATE_FACILITIES: (Id: string) => `/admin/room-facilities/${Id}`,
-}
-
-
+};
 
 export const getDashboard = `${BASE_URL}/admin/dashboard`;
 
 export const ROOMS_URLS = {
   getAllRooms: `/admin/rooms`,
-  deleteRoom:(id:string)=>`/admin/rooms/${id}`,
+  deleteRoom: (id: string) => `/admin/rooms/${id}`,
   getRoomDetails: (id: string) => `/admin/rooms/${id}`,
 
   //users
@@ -56,8 +54,7 @@ export const Ads_URLS = {
   createNewAd: "/admin/ads",
   UpdateAd: (AdId: string) => `admin/ads/${AdId}`,
   getAdById: (AdId: string) => `/admin/ads/${AdId}`,
-  deleteAd:(id:string)=>`/admin/ads/${id}`
-
+  deleteAd: (id: string) => `/admin/ads/${id}`,
 };
 
 export const BOOKING_URLS = {
@@ -77,8 +74,34 @@ export const ROOM_URLS = {
 //facilities endpoints
 export const FACILITIES_URLS = {
   getFacilities: `/admin/room-facilities`,
-  deleteFacility:(id:string)=>`/admin/room-facilities/${id}`,
-  getFacilityDetails: (id:string)=>`/admin/room-facilities/${id}`
+  deleteFacility: (id: string) => `/admin/room-facilities/${id}`,
+  getFacilityDetails: (id: string) => `/admin/room-facilities/${id}`,
+};
+export const getRoomDetails = `/portal/rooms/available/`;
+
+export const Favorites_URLS = {
+  Add_To_Fav : `/portal/favorite-rooms`,
+  Get_Fav :`/portal/favorite-rooms`,
+  Delete_Fav: (id:string)=>`/portal/favorite-rooms/${id}`
+
+}
+
+
+
+{/*User Endpoints */}
+export const USER_ROOMS_URLS = {
+  getRoomDetails: (id: string|undefined) => `/portal/rooms/${id}`,
 };
 
+
+
+//comments endpoints
+export const COMMENTS_URLS = {
+  addComment: `/portal/room-comments`,
+};
+
+//review endpoints
+export const Reviews_URLS = {
+  addReview: `/portal/room-reviews`,
+};
 export { axiosInstance, IMAGE_URL };

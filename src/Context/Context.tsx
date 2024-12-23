@@ -11,13 +11,16 @@ interface AuthData {
 }
 export const AuthContext = createContext<AuthData | any>(null);
 
+
 export default function AuthContextProvider(props: any) {
+
   const [loginData, setLoginData] = useState(null);
   const [userName, setUserName] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
   const saveLoginData = () => {
     const encodedToken: any = localStorage.getItem("token");
     const decodedToken: any = jwtDecode(encodedToken);
+
 
     if (loginData) {
       getCurrentUser();
@@ -29,9 +32,11 @@ export default function AuthContextProvider(props: any) {
     axiosInstance
       .get(AUTH_URLS.get_current_user(loginData?._id))
       .then((response) => {
-        console.log(response?.data?.data.user.profileImage);
+        console.log();
+        
         setUserName(response?.data?.data?.user?.userName);
         setProfileImage(response?.data?.data.user.profileImage);
+   
       })
       .catch((err) => {
         console.log(err);
@@ -45,6 +50,7 @@ export default function AuthContextProvider(props: any) {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     setLoginData(null);
   };
 
