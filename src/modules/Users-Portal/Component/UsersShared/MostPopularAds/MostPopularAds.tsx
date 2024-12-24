@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { ad } from '../../../../../services/interfaces';
 import UseRecentAds from '../../../../../hooks/UseRecentAds';
 import useFavorites from '../../../../../hooks/useFavorites';
+import useDeleteFromFav from '../../../../../hooks/useDeleteFromFav';
 
 const MostPopularAds = () => {
 	const {ads, triggerAds} = UseRecentAds();
@@ -30,7 +31,13 @@ const handleFavoriteClick = (id: string) => {
 		toast.error(error?.response?.data?.message || 'something went wrong')
 	  })
 }
+const{handleClickDelete}=useDeleteFromFav()
 
+
+const handleDeleteItem =(id:string)=>{
+	handleClickDelete(id)
+	triggerFav()
+}
 	useEffect(() => {
     triggerFav();
     triggerAds();
@@ -61,10 +68,10 @@ const handleFavoriteClick = (id: string) => {
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} isRed={favorites?.includes(ad.room._id)} />
+			<Overlay handleClick={()=>{favorites?.includes(ad.room._id) ? handleDeleteItem(ad.room._id) :	handleFavoriteClick(ad.room._id)
+}}  detailsPath={`/details/${ad.room._id}`} isRed={favorites?.includes(ad.room._id)} />
 		</ImageListItem>
 	));
-
 	return (
 		<Box >
 			<Typography

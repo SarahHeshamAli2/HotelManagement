@@ -20,42 +20,35 @@ const useFetch = <T>(fetchFun: ()  => Promise<T>):FetchState<T> => {
 
     useEffect(() => {
       let mounted = true;
-      const fetchData =async () => {
+      const fetchData = async () => {
         try {
+          console.log("Fetching data...");
           const response = await fetchFun();
-            
-          setData(response)
-          
-        } catch (err ) {
-          if (mounted) {
-              if (err instanceof Error) {
-                  setError(err.message);
-                } else {
-                  setError('An unknown error occurred');
-                }
-            }
-        }
-        finally{
-          if (mounted) {
-              setLoading(false);
-              setIsChanged(false)
-            }
-        }
-      }
-      try {
-          fetchData();
+          console.log("Fetched data:", response);
+          if (mounted) setData(response);
         } catch (err) {
-          if (err instanceof Error) {
+          if (mounted) {
+            console.error("Error fetching data:", err);
+            if (err instanceof Error) {
               setError(err.message);
             } else {
-              setError('An unknown error occurred');
+              setError("An unknown error occurred");
             }
+          }
+        } finally {
+          if (mounted) {
+            setLoading(false);
+            setIsChanged(false);
+          }
         }
-        return () => {
-          mounted = false;
-        };
-    },[isChanged,counter])
-  return {data,loading,error,setData,setIsChanged,trigger};
-}
+      };
+      fetchData();
+      return () => {
+        mounted = false;
+      };
+    }, [isChanged, counter]);
+  
+    return { data, loading, error, setData, setIsChanged, trigger };
+  };
 
 export default useFetch
