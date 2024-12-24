@@ -5,42 +5,38 @@ import {
 	ImageListItemBar,
 	Typography,
 } from '@mui/material';
-import { Ads_URLS, axiosInstance, Favorites_URLS } from '../../../../../services/urls';
-import { useEffect, useState } from 'react';
+import { axiosInstance, Favorites_URLS } from '../../../../../services/urls';
+import { useEffect } from 'react';
 import ImageBadge from '../../../../Shared/ImageBadge/ImageBadge';
 import Overlay from '../../../../Shared/Overlay/Overlay';
 import { toast } from 'react-toastify';
+import { ad } from '../../../../../services/interfaces';
+import UseRecentAds from '../../../../../hooks/UseRecentAds';
+import useFavorites from '../../../../../hooks/useFavorites';
 
 const MostPopularAds = () => {
-	const [ads, setAds] = useState([]);
-
+	const {ads, triggerAds} = UseRecentAds();
+  const {favorites, triggerFav} = useFavorites();
 
 const handleFavoriteClick = (id: string) => {
  axiosInstance.post(Favorites_URLS.Add_To_Fav,{
 		"roomId":id
 	  }).then((resp)=>{
 		toast.success(resp?.data?.message)
+    triggerFav();
 		console.log(resp)
 	  }).catch((error)=>{
 		console.log(error)
 		toast.error(error?.response?.data?.message || 'something went wrong')
 	  })
 }
-	const getRecentAds = async () => {
-		const response = await axiosInstance.get(Ads_URLS.getAllAds);
-		const adsArr = response.data.data.ads;
-		const recentAds = adsArr
-			.filter((ad: { isActive: boolean }) => ad.isActive)
-			.slice(0, 5);
-		console.log(recentAds);
-		setAds(recentAds);
-	};
+
 	useEffect(() => {
-	
-		getRecentAds();
+    triggerFav();
+    triggerAds();
 	}, []);
 
-	const imagesItems = ads?.map((ad: any, i: number) => (
+	const imagesItems = ads?.map((ad: ad, i: number) => (
 		<ImageListItem
 			sx={{
 				borderRadius: '15px',
@@ -54,18 +50,18 @@ const handleFavoriteClick = (id: string) => {
 			rows={i === 0 ? 2 : 1}
 		>
 			<img
-				style={{ borderRadius: '15px' }}
+				style={{ borderRadius: '15px', objectFit: "cover" }}
 				src={ad.room.images[0]}
 				alt='room-img'
 				loading='lazy'
 			/>
-			<ImageListItemBar sx={{ bgcolor: 'transparent' }}></ImageListItemBar>
+			<ImageListItemBar sx={{ bgcolor: 'transparent', fontSize: '30px' }} title='Vinna Vill' subtitle='Vinna Vill' />
 			<ImageBadge width='50%'>
 				<Typography sx={{ color: '#fff', fontWeight: '300' }}>
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} />
+			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} isRed={favorites?.includes(ad.room._id)} />
 		</ImageListItem>
 	));
 

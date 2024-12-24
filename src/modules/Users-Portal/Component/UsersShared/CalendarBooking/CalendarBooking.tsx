@@ -1,8 +1,8 @@
-import { CalendarMonth} from "@mui/icons-material";
+import { Add, CalendarMonth, Remove } from "@mui/icons-material";
 import {
   Box,
   Button,
-  Popover,
+  IconButton,
   TextField,
   Typography,
   FormHelperText,
@@ -15,21 +15,15 @@ import img from "../../../../../assets/images/banner.png";
 import { axiosInstance, getRoomDetails } from "../../../../../services/urls";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
-import { DateRangePicker } from "react-date-range";
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import CapacitySelector from "../CalendarBooking/CapacitySelector/CapacitySelector"; 
-
-interface DateRange {
-  startDate?: Date | null;
-  endDate?: Date | null;
-}
+import DatePicker from "../CalendarBooking/DatePicker/DatePicker";
 
 export default function CalendarBooking() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const [dateRange, setDateRange] = useState<DateRange>({});
+  const [dateRange, setDateRange] = useState<{ startDate: Date | null; endDate: Date | null }>({
+    startDate: null,
+    endDate: null,
+  });
   const [count, setCount] = useState(1);
   const [error, setError] = useState<string>("");
 
@@ -41,14 +35,14 @@ export default function CalendarBooking() {
     setAnchorEl(null);
   };
 
-  const handleDateChange = (ranges: any) => {
-    const { selection } = ranges;
-    setDateRange({
-      startDate: selection.startDate,
-      endDate: selection.endDate,
-    });
-    setError("");
-    handlePopoverClose();
+  const handleIncrease = () => {
+    setCount(count + 1);
+  };
+
+  const handleDecrease = () => {
+    if (count > 1) {
+      setCount(count - 1);
+    }
   };
 
   const getRooms = async () => {
@@ -134,39 +128,22 @@ export default function CalendarBooking() {
             >
               <CalendarMonth />
             </Button>
-            <Popover
-              open={open}
+            <DatePicker
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              error={error}
+              setError={setError}
               anchorEl={anchorEl}
               onClose={handlePopoverClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <DateRangePicker
-                ranges={[
-                  {
-                    startDate: dateRange.startDate || dayjs().toDate(),
-                    endDate: dateRange.endDate || dayjs().toDate(),
-                    key: "selection",
-                  },
-                ]}
-                onChange={handleDateChange}
-                minDate={dayjs().toDate()}
-              />
-            </Popover>
+            />
             <TextField
               onClick={handleButtonClick}
               label="Pick a Date"
               value={
                 dateRange.startDate && dateRange.endDate
-                  ? `${dayjs(dateRange.startDate).format(
-                      "YYYY-MM-DD"
-                    )} - ${dayjs(dateRange.endDate).format("YYYY-MM-DD")}`
+                  ? `${dayjs(dateRange.startDate).format("YYYY-MM-DD")} - ${dayjs(
+                      dateRange.endDate
+                    ).format("YYYY-MM-DD")}`
                   : "Pick a Start & End Date"
               }
               error={Boolean(error)}
@@ -176,10 +153,41 @@ export default function CalendarBooking() {
                 {error}
               </FormHelperText>
             )}
-            <CapacitySelector
-              initialCount={count}
-              onChange={(newCount) => setCount(newCount)}
-            />
+            <Box sx={{ mt: "1.5rem", display: "flex", alignItems: "center" }}>
+              <IconButton
+                onClick={handleDecrease}
+                sx={{
+                  width: "3.5rem",
+                  backgroundColor: "#E74C3C",
+                  borderRadius: "4px 0px 0px 0px",
+                  "&:hover": {
+                    backgroundColor: "#E74C3C",
+                  },
+                  mr: "1rem",
+                }}
+              >
+                <Remove sx={{ color: "#fff" }} />
+              </IconButton>
+              <TextField
+                sx={{ color: "#152C5B" }}
+                label="Capacity"
+                value={`${count} person`}
+              />
+              <IconButton
+                onClick={handleIncrease}
+                sx={{
+                  width: "3.5rem",
+                  backgroundColor: "#1ABC9C",
+                  borderRadius: "0px 4px 0px 0px",
+                  "&:hover": {
+                    backgroundColor: "#1ABC9C",
+                  },
+                  ml: "1rem",
+                }}
+              >
+                <Add sx={{ color: "white" }} />
+              </IconButton>
+            </Box>
             <Button
               sx={{
                 mt: "2rem",
