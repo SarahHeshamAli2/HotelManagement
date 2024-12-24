@@ -46,6 +46,7 @@ const BackToTopButton: React.FC = () => {
             '&:hover': {
               backgroundColor: 'primary.dark',
             },
+            zIndex:'9999999999999'
           }}
         >
           <ArrowUpward />
