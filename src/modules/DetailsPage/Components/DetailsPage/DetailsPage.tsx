@@ -45,7 +45,7 @@ const VerticalLine = styled(Box)(({ theme }) => ({
   },
 }));
 export default function DetailsPage() {
-    const { loginData } = useContext(AuthContext);
+  const { loginData } = useContext(AuthContext);
   let { roomId } = useParams<{ roomId: string }>();
   const [room, setRoom] = useState<Room>();
   const facilitiesData = [
@@ -225,31 +225,32 @@ export default function DetailsPage() {
         </Grid2>
         <Box></Box>
       </Box>
-      {
-        localStorage.getItem('token') || loginData?.role === 'user'?      <StyledBox
-        sx={{
-          flexDirection: {
-            xs: "column",
-            lg: "row",
-          },
-          gap: {
-            xs: "3rem",
-            md: "2rem",
-            lg: "5rem",
-          },
-          paddingX: {
-            xs: "1rem",
-            sm: "5.25rem",
-          },
-          paddingY: "35px",
-        }}
-      >
-        <ReviewForm roomId={room?._id ?? ""} />
-        <VerticalLine />
-        <CommentForm roomId={room?._id ?? ""} />
-      </StyledBox>:""
-      }
-
+      {localStorage.getItem("token") || loginData?.role === "user" ? (
+        <StyledBox
+          sx={{
+            flexDirection: {
+              xs: "column",
+              lg: "row",
+            },
+            gap: {
+              xs: "3rem",
+              md: "2rem",
+              lg: "5rem",
+            },
+            paddingX: {
+              xs: "1rem",
+              sm: "5.25rem",
+            },
+            paddingY: "35px",
+          }}
+        >
+          <ReviewForm roomId={room?._id ?? ""} />
+          <VerticalLine />
+          <CommentForm roomId={room?._id ?? ""} />
+        </StyledBox>
+      ) : (
+        ""
+      )}
     </ThemeProvider>
   );
 }
