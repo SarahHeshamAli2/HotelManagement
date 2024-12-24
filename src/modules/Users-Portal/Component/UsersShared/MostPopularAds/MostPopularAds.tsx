@@ -6,7 +6,7 @@ import {
 	Typography,
 } from '@mui/material';
 import { axiosInstance, Favorites_URLS } from '../../../../../services/urls';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ImageBadge from '../../../../Shared/ImageBadge/ImageBadge';
 import Overlay from '../../../../Shared/Overlay/Overlay';
 import { toast } from 'react-toastify';
@@ -18,13 +18,14 @@ import useDeleteFromFav from '../../../../../hooks/useDeleteFromFav';
 const MostPopularAds = () => {
 	const {ads, triggerAds} = UseRecentAds();
   const {favorites, triggerFav} = useFavorites();
+  const [favIds, setFavIds] = useState(favorites);
 
 const handleFavoriteClick = (id: string) => {
  axiosInstance.post(Favorites_URLS.Add_To_Fav,{
 		"roomId":id
 	  }).then((resp)=>{
 		toast.success(resp?.data?.message)
-    triggerFav();
+    setFavIds((prev: any) => [...prev, id]);
 		console.log(resp)
 	  }).catch((error)=>{
 		console.log(error)
@@ -36,13 +37,19 @@ const{handleClickDelete}=useDeleteFromFav()
 
 const handleDeleteItem =(id:string)=>{
 	handleClickDelete(id)
-	triggerFav()
+  const temp = favIds.filter((favId: string) => favId !== id);
+  setFavIds(temp);
 }
-	useEffect(() => {
-    triggerFav();
-    triggerAds();
+
+  useEffect(() => {
+		triggerFav();
+		triggerAds();
 	}, []);
 
+  useEffect(() => {
+		setFavIds(favorites);
+	}, favorites);
+	
 	const imagesItems = ads?.map((ad: ad, i: number) => (
 		<ImageListItem
 			sx={{
@@ -57,19 +64,30 @@ const handleDeleteItem =(id:string)=>{
 			rows={i === 0 ? 2 : 1}
 		>
 			<img
-				style={{ borderRadius: '15px', objectFit: "cover" }}
+				style={{ borderRadius: '15px', objectFit: 'cover' }}
 				src={ad.room.images[0]}
 				alt='room-img'
 				loading='lazy'
 			/>
-			<ImageListItemBar sx={{ bgcolor: 'transparent', fontSize: '30px' }} title='Vinna Vill' subtitle='Vinna Vill' />
+			<ImageListItemBar
+				sx={{ bgcolor: 'transparent', fontSize: '30px' }}
+				title='Vinna Vill'
+				subtitle='Vinna Vill'
+			/>
 			<ImageBadge width='50%'>
 				<Typography sx={{ color: '#fff', fontWeight: '300' }}>
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={()=>{favorites?.includes(ad.room._id) ? handleDeleteItem(ad.room._id) :	handleFavoriteClick(ad.room._id)
-}}  detailsPath={`/details/${ad.room._id}`} isRed={favorites?.includes(ad.room._id)} />
+			<Overlay
+				handleClick={() => {
+					favIds?.includes(ad.room._id)
+						? handleDeleteItem(ad.room._id)
+						: handleFavoriteClick(ad.room._id);
+				}}
+				detailsPath={`/details/${ad.room._id}`}
+				isRed={favIds?.includes(ad.room._id)}
+			/>
 		</ImageListItem>
 	));
 	return (
