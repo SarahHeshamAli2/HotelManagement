@@ -10,6 +10,8 @@ interface OverlayProps {
 	isRed: boolean;
 }
 
+
+
 const Overlay = ({ detailsPath, handleClick, isRed }: OverlayProps) => {
 	return (
 		<Box
@@ -33,6 +35,7 @@ const Overlay = ({ detailsPath, handleClick, isRed }: OverlayProps) => {
 				<FavoriteIcon
 					sx={{ color: isRed ? red[800] : '#fff' }}
 					fontSize='large'
+					
 				/>
 			</IconButton>
 

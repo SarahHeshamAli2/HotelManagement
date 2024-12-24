@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle';
+import nodataImg from "../../../../assets/images/nodata.jpg";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { axiosInstance, Favorites_URLS } from "../../../../services/urls";
@@ -17,7 +18,7 @@ import { red } from "@mui/material/colors";
 import { room } from "../../../../services/interfaces";
 import { useState } from "react";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
-import { toast } from "react-toastify";
+import useDeleteFromFav from "../../../../hooks/useDeleteFromFav";
 
 
 const ParentDiv = styled(Box)(() => ({
@@ -61,7 +62,6 @@ const Item = styled(Box)(({ theme }) => ({
 export default function Favorites() {
 	const [roomId, setRoomId] = useState('')
 	const [open, setOpen] = useState(false);
-  const [deleting, setDeleting] = useState<boolean>(false);
 
 	const handleOpen = (id:string) => {setOpen(true)
     setRoomId(id)
@@ -72,35 +72,31 @@ export default function Favorites() {
 	const handleClose = () => setOpen(false);
   const getAllFav = async () => {
     const response = await axiosInstance.get(Favorites_URLS.Get_Fav);
+    console.log(response);
+    
     return response;
   };
   const { data, loading,trigger } = useFetch(getAllFav);
   const favoriteRooms = data?.data?.data?.favoriteRooms[0]?.rooms;
 
   
-  const deleteFavorite =()=>{
-    setDeleting(true)
-    axiosInstance.delete(Favorites_URLS.Delete_Fav(roomId),{
-      data:{
-        "roomId":roomId
-      }
+ 
 
-    }).then((resp)=>{
-      setDeleting(false)
-      toast.success(data?.data?.message)
-      trigger()
-      handleClose()
-      console.log(resp);
+    
 
-      
-    }).catch((error)=>{
-      setDeleting(false)
-
-      console.log(error);
-
-      
-    })
+  const{handleClickDelete,deleting}=useDeleteFromFav()
+  
+  const deleteFavorite = async () => {
+  try {
+    await handleClickDelete(roomId); // Delete the item
+    handleClose();            // Close the confirmation dialog
+    getAllFav()
+    console.log("Triggering fetch...");
+    trigger();                // Re-fetch data
+  } catch (error) {
+    console.error("Error during deletion:", error);
   }
+};
 
   return (
     <>
@@ -118,8 +114,13 @@ export default function Favorites() {
           variant="h5">
           Your Favorites
         </Typography>
+        
       </Box>
       <Container  sx={{ flexGrow: 1,mb:'6rem' }}>
+        <Box sx={{pb:'3rem'}}>
+        <UserPageTitle current="Favorites" />
+
+        </Box>
         <Typography variant="h6" component={'h3'} color="#152C5B" mb={'1.2rem'}>Your Rooms</Typography>
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -144,7 +145,7 @@ export default function Favorites() {
                   }}>
                   <img
                     className="favoriteImage"
-                    src={room?.images[0]}
+                    src={room?.images[0]?room.images[0]:nodataImg}
                     alt="hotel favorites room"
                     style={{ objectFit: "cover",width:'100%',height:'100%'}}
                   />

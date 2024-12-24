@@ -20,6 +20,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const anonymousMenuItems = ["Home", "Explore", "Register", "Login"];
 const userMenuItems = ["Home", "Explore", "Reviews", "Favorites"];
+const adminMenuItem = ["Home", "Explore", "Reviews"];
 
 const StyledNavLink = styled(NavLink)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -77,7 +78,7 @@ export default function LandingPageNavbar() {
             <Logo />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
-            {(loginData ? userMenuItems : anonymousMenuItems).map((item) => {
+            {(loginData && loginData?.role == 'user' ? userMenuItems : loginData && loginData?.role == 'admin' ? adminMenuItem : anonymousMenuItems).map((item) => {
               const existItem = item === "Login" || item === "Register";
               const isActive =
                 pathname === item.toLowerCase() ||

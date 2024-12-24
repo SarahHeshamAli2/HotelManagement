@@ -5,6 +5,7 @@ export default function useFavorites() {
   const getFavorites = async () => {
     const response = await axiosInstance.get(Favorites_URLS.Get_Fav);
     const arr = response.data.data.favoriteRooms[0]?.rooms.map((room: any) => room._id);
+    
     return arr;
   };
 
