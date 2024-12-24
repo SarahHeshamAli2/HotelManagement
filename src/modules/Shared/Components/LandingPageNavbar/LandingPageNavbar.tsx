@@ -52,7 +52,7 @@ export default function LandingPageNavbar() {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
-    // handleClose();
+    handleClose();
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -78,7 +78,12 @@ export default function LandingPageNavbar() {
             <Logo />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
-            {(loginData && loginData?.role == 'user' ? userMenuItems : loginData && loginData?.role == 'admin' ? adminMenuItem : anonymousMenuItems).map((item) => {
+            {(loginData && loginData?.role == "user"
+              ? userMenuItems
+              : loginData && loginData?.role == "admin"
+              ? adminMenuItem
+              : anonymousMenuItems
+            ).map((item) => {
               const existItem = item === "Login" || item === "Register";
               const isActive =
                 pathname === item.toLowerCase() ||
