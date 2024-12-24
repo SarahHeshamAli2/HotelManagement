@@ -45,6 +45,7 @@ function App() {
         { path: "explore", element: <ExplorePage /> },
         { path: "details/:roomId", element: <DetailsPage /> },
         { path: "favorites", element: <Favorites /> },
+        { path: "booking/:roomId", element: <DetailsPage /> },
       ],
     },
     {
