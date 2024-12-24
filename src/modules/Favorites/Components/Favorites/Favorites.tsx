@@ -10,8 +10,6 @@ import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageT
 import nodataImg from "../../../../assets/images/nodata.jpg";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
-import { axiosInstance, Favorites_URLS } from "../../../../services/urls";
-import useFetch from "../../../../hooks/useFetch";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { red } from "@mui/material/colors";
@@ -19,6 +17,7 @@ import { room } from "../../../../services/interfaces";
 import { useState } from "react";
 import DeleteConfirmation from "../../../Shared/DeleteConfirmation/DeleteConfirmation";
 import useDeleteFromFav from "../../../../hooks/useDeleteFromFav";
+import useFavorites from "../../../../hooks/useFavorites";
 
 
 const ParentDiv = styled(Box)(() => ({
@@ -45,8 +44,8 @@ const Item = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   overflow: "hidden",
   borderRaduis: "1rem",
-  height: '100%', // Fill the parent's height
-  width: '100%', // Fill the parent's width
+  height: '100%', 
+  width: '100%', 
   ":hover .parentDiv": {
     top: 0,
 
@@ -65,39 +64,29 @@ export default function Favorites() {
 
 	const handleOpen = (id:string) => {setOpen(true)
     setRoomId(id)
-    console.log(id);
  
     
   }
 	const handleClose = () => setOpen(false);
-  const getAllFav = async () => {
-    const response = await axiosInstance.get(Favorites_URLS.Get_Fav);
-    console.log(response);
     
-    return response;
-  };
-  const { data, loading,trigger } = useFetch(getAllFav);
-  const favoriteRooms = data?.data?.data?.favoriteRooms[0]?.rooms;
+
 
   
- 
+  const{favoriteItems,loading,triggerFav}= useFavorites()
 
     
 
   const{handleClickDelete,deleting}=useDeleteFromFav()
   
   const deleteFavorite = async () => {
-  try {
-    await handleClickDelete(roomId); // Delete the item
-    handleClose();            // Close the confirmation dialog
-    getAllFav()
-    console.log("Triggering fetch...");
-    trigger();                // Re-fetch data
-  } catch (error) {
-    console.error("Error during deletion:", error);
+    try {
+      await handleClickDelete(roomId);  
+      triggerFav();  
+      handleClose();  
+    } catch (error) {
+      console.error("Error during deletion:", error);
+    }
   }
-};
-
   return (
     <>
     <Box
@@ -132,12 +121,12 @@ export default function Favorites() {
               size={"6rem"}
             />
           </Box>
-        ) : favoriteRooms?.length > 0 ? (
+        ) : favoriteItems?.length > 0 ? (
           <Grid2
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 2, sm: 8, md: 12 }}>
-            {favoriteRooms?.map((room: room) => (
+            {favoriteItems?.map((room: room) => (
               <Grid2 key={room?._id} size={{ xs: 2, sm: 4, md: 4 }}>
                 <Item
                   sx={{
