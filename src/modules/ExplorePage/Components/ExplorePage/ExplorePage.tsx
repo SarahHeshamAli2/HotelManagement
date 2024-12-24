@@ -1,10 +1,12 @@
 import { Grid2 as Grid } from '@mui/material';
 import { useEffect, useState } from "react";
 import { axiosInstance, ROOMS_URLS } from "../../../../services/urls";
-import { Box, CircularProgress, Grid2, Link, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid2, Typography } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import roomImg from '../../../../assets/images/room.png';
 import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle';
+import { useLocation } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 export default function ExplorePage() {
 	const[availableRooms , setAvailableRooms]= useState<roomsdata[]>([])
@@ -28,27 +30,42 @@ export default function ExplorePage() {
 		data:{ rooms: roomsdata[] , totalCount:number}
 
 	}
-	
-	const getAvailableRooms = async () =>{
-		try {
-			setLoading(true);
-			const response = await axiosInstance.get<availableRoomsResponse>(ROOMS_URLS.GET_ALL_ROOMS)
-			console.log(response.data.data.rooms)
-			setAvailableRooms(response.data.data.rooms)
-			
-			
-		} catch (error) {
-			console.log(error)	
-		}finally{
-			setLoading(false);
-		}
+
+	const location = useLocation()
+	const { startDate, endDate } = location.state || {};
+/* 	console.log("Start date:", startDate);
+    console.log("End date:", endDate);
+ */	
+const getAvailableRooms = async () => {
+	try {
+	  setLoading(true);
+  
+	  const params: any = {};
+	  if (startDate && endDate) {
+		params.startDate = dayjs(startDate).format("YYYY-MM-DD");
+		params.endDate = dayjs(endDate).format("YYYY-MM-DD");
+	  }
+  
+	  const response = await axiosInstance.get<availableRoomsResponse>(
+		ROOMS_URLS.GET_ALL_ROOMS,
+		{ params }
+	  );
+  
+	  console.log(response.data.data.rooms);
+	  setAvailableRooms(response.data.data.rooms);
+	} catch (error) {
+	  console.log(error);
+	} finally {
+	  setLoading(false);
 	}
+  };
+  
 
-	useEffect(() => 
-	{
-		getAvailableRooms()
-
-	},[]);
+	useEffect(() => {
+		getAvailableRooms();
+	}, []);
+  
+	  
 	return (
 		<>
 		<Typography variant="h4" sx={{color:"#152C5B", textAlign:"center" ,fontWeight:"600" , mt:"50px"}}>Explore ALL Rooms</Typography>
@@ -109,8 +126,7 @@ export default function ExplorePage() {
 					sx={{
 						marginBottom: "20px",
 						textAlign: "center",
-						justifyContent: "space-around" ,
-	
+						justifyContent: "space-around",
 					  }}
 					key={index}
 					>

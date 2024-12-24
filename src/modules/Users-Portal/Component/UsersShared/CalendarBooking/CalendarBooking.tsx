@@ -56,7 +56,14 @@ export default function CalendarBooking() {
       console.log(dateRange);
       console.log(response.data.data.rooms);
 
-      navigate("/explore");
+      navigate("/explore", {
+        state: {
+          startDate: dayjs(startDate).format("YYYY-MM-DD"),
+          endDate: dayjs(endDate).format("YYYY-MM-DD"),
+        },
+      });
+      
+      
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.message);
