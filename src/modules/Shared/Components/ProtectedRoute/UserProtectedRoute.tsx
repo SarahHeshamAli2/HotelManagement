@@ -10,7 +10,7 @@ export default function UserProtectedRoute({ children }: ProtectedRouteProps) {
   const { loginData } = useContext(AuthContext);
 
 
-  if (localStorage.getItem('token') && loginData?.role === 'user') {
+  if (localStorage.getItem('token') || loginData?.role === 'user') {
     return <>{children}</>;
   } else {
     return <Navigate to="/login" />;
