@@ -39,10 +39,20 @@ export default function LandingPageNavbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleNavLink = (item: string) => {
-    navigate(`/${item.toLowerCase()}`);
-  };
 
+  const handleNavLink = (item: string) => {
+    const existItem = item.toLowerCase();
+    console.log("Navigating to:", existItem);
+    if (!existItem.includes("reviews")) {
+      navigate(`/${existItem}`);
+    } else {
+      const element = document.getElementById(existItem);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    // handleClose();
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -75,8 +85,17 @@ export default function LandingPageNavbar() {
               return (
                 <Button
                   key={item}
-                  component={StyledNavLink}
-                  to={`/${item.toLowerCase()}`}
+                  component={
+                    item.toLowerCase() === "reviews" ? "div" : StyledNavLink
+                  }
+                  to={
+                    item.toLowerCase() !== "reviews"
+                      ? `/${item.toLowerCase()}`
+                      : ""
+                  }
+                  onClick={() =>
+                    item.toLowerCase() === "reviews" && handleNavLink(item)
+                  }
                   className={isActive ? "active" : ""}
                   variant={existItem ? "contained" : "text"}
                   sx={{
