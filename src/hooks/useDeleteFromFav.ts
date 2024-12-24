@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { axiosInstance, Favorites_URLS } from '../services/urls';
 import { toast } from 'react-toastify';
-import useFavorites from './useFavorites';
 
 const useDeleteFromFav = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [deleting, setDeleting] = useState(false)
-const{triggerFav}=useFavorites()
     
     const handleClickDelete = (id: string) => {
       setDeleting(true)
@@ -20,7 +18,6 @@ const{triggerFav}=useFavorites()
       setDeleting(false)
       toast.success(resp?.data?.message)
       console.log(resp);
-      triggerFav()
       setIsLoading(false)
       
     }).catch((error)=>{

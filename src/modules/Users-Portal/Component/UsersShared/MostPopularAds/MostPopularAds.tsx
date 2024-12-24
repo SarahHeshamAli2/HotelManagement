@@ -34,9 +34,11 @@ const handleFavoriteClick = (id: string) => {
 const{handleClickDelete}=useDeleteFromFav()
 
 
-const handleDeleteItem =(id:string)=>{
-	handleClickDelete(id)
+const handleDeleteItem = (id:string)=>{
+	  handleClickDelete(id)
 	triggerFav()
+	
+	
 }
 	useEffect(() => {
     triggerFav();
