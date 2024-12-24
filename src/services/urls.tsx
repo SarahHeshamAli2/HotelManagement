@@ -43,6 +43,10 @@ export const ROOMS_URLS = {
   getAllRooms: `/admin/rooms`,
   deleteRoom: (id: string) => `/admin/rooms/${id}`,
   getRoomDetails: (id: string) => `/admin/rooms/${id}`,
+
+  //users
+
+  GET_ALL_ROOMS:`/portal/rooms/available`
 };
 
 export const Ads_URLS = {

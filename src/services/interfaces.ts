@@ -20,6 +20,8 @@ export interface ad {
     price: string;
     discount: string;
     capacity: string;
+    images: string[],
+    _id:string
   };
 
   isActive: boolean;
