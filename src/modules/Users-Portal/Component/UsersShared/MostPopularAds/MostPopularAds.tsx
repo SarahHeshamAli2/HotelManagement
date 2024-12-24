@@ -10,16 +10,24 @@ import { useEffect, useState } from 'react';
 import ImageBadge from '../../../../Shared/ImageBadge/ImageBadge';
 import Overlay from '../../../../Shared/Overlay/Overlay';
 import { toast } from 'react-toastify';
+import { ad } from '../../../../../services/interfaces';
 
 const MostPopularAds = () => {
 	const [ads, setAds] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
+  const getFavorites = async () => {
+		const res = await axiosInstance.get(Favorites_URLS.Get_Fav);
+		const arr = res.data.data.favoriteRooms[0]?.rooms.map((room: any) => room._id);
+    setFavorites(arr);
+	};
 
 const handleFavoriteClick = (id: string) => {
  axiosInstance.post(Favorites_URLS.Add_To_Fav,{
 		"roomId":id
 	  }).then((resp)=>{
 		toast.success(resp?.data?.message)
+    getFavorites();
 		console.log(resp)
 	  }).catch((error)=>{
 		console.log(error)
@@ -32,15 +40,15 @@ const handleFavoriteClick = (id: string) => {
 		const recentAds = adsArr
 			.filter((ad: { isActive: boolean }) => ad.isActive)
 			.slice(0, 5);
-		console.log(recentAds);
 		setAds(recentAds);
 	};
+
 	useEffect(() => {
-	
+    getFavorites();
 		getRecentAds();
 	}, []);
 
-	const imagesItems = ads?.map((ad: any, i: number) => (
+	const imagesItems = ads?.map((ad: ad, i: number) => (
 		<ImageListItem
 			sx={{
 				borderRadius: '15px',
@@ -54,7 +62,7 @@ const handleFavoriteClick = (id: string) => {
 			rows={i === 0 ? 2 : 1}
 		>
 			<img
-				style={{ borderRadius: '15px' }}
+				style={{ borderRadius: '15px', objectFit: "cover" }}
 				src={ad.room.images[0]}
 				alt='room-img'
 				loading='lazy'
@@ -65,7 +73,7 @@ const handleFavoriteClick = (id: string) => {
 					<span style={{ fontWeight: '500' }}>${ad.room.price}</span> per night
 				</Typography>
 			</ImageBadge>
-			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} />
+			<Overlay handleClick={()=>{handleFavoriteClick(ad.room._id)}}  detailsPath={`/details/${ad.room._id}`} isRed={favorites.includes(ad.room._id)} />
 		</ImageListItem>
 	));
 
