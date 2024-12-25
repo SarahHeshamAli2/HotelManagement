@@ -220,7 +220,7 @@ export default function DetailsPage() {
             </Box>
           </Grid2>
           <Grid2 size={6}>
-            <BookingCard roomId="room?._id" />
+            <BookingCard roomId={room?._id ?? ""}/>
           </Grid2>
         </Grid2>
         <Box></Box>
