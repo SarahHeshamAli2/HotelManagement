@@ -9,21 +9,24 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
 
 const CustomizedBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
   color: theme.palette.Grey2.main,
-  padding: theme.spacing(6),
+  padding: theme.spacing(4),
   borderRadius: theme.shape.borderRadius,
   border: `1px solid ${theme.palette.Grey.main}`,
   textAlign: "start",
+  width: "100%",
 }));
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: 'none',
-  borderRadius:'1rem',
+  bgcolor: "background.paper",
+  border: "none",
+  borderRadius: "1rem",
   boxShadow: 24,
   p: 4,
 };
@@ -47,15 +50,13 @@ export default function BookingCard({ roomId }: { roomId: string }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleButtonClick =()=>{
-    if(loginData?.role === "user" ){
+  const handleButtonClick = () => {
+    if (loginData?.role === "user") {
       navigate(`/booking/${roomId}`);
-
+    } else {
+      handleOpen();
     }
-    else{
-      handleOpen()
-    }
-  }
+  };
   return (
     <ThemeProvider theme={theme}>
       <CustomizedBox>
@@ -68,10 +69,14 @@ export default function BookingCard({ roomId }: { roomId: string }) {
           </Box>{" "}
           per night
         </Typography>
-        <Typography sx={{ color: theme.palette.error.main ,marginBlockEnd:'7.875rem' }}>
+        <Typography
+          sx={{ color: theme.palette.error.main, marginBlockEnd: "7.875rem" }}
+        >
           Discount 20% off
         </Typography>
-        <Typography sx={{ color: theme.palette.Blue.main,marginBlockEnd:'0.5rem'  }}>
+        <Typography
+          sx={{ color: theme.palette.Blue.main, marginBlockEnd: "0.5rem" }}
+        >
           Pick a Date
         </Typography>
         <DatePicker
@@ -84,26 +89,26 @@ export default function BookingCard({ roomId }: { roomId: string }) {
           onClose={handlePopoverClose}
         />
 
-          <Button
-            onClick={handleButtonClick}
-            sx={{
-              marginBlock: "1rem",
-              backgroundColor: "#3252DF",
-              width: { xs: "95%", sm: "80%" },
-              height: "3rem",
-              borderRadius: "0.25rem",
-              textTransform: "none",
-              color: "#fff",
-              fontSize: "17px",
-              "&.Mui-disabled": {
-                background: "#949fcf",
-                color: "#c0c0c0",
-              },
-            }}
-          >
-            Continue Book
-          </Button>
-
+        <Button
+          onClick={handleButtonClick}
+          sx={{
+            marginBlock: "1rem",
+            marginInline: "auto",
+            backgroundColor: "#3252DF",
+            width: { xs: "95%", md: "70%" },
+            height: "3rem",
+            borderRadius: "0.25rem",
+            textTransform: "none",
+            color: "#fff",
+            fontSize: "17px",
+            "&.Mui-disabled": {
+              background: "#949fcf",
+              color: "#c0c0c0",
+            },
+          }}
+        >
+          Continue Book
+        </Button>
       </CustomizedBox>
       <Modal
         open={open}
@@ -112,24 +117,40 @@ export default function BookingCard({ roomId }: { roomId: string }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Continue Booking
-          </Typography>
-          <Button
-            sx={{ ":hover": { backgroundColor: "unset" } }}
-            onClick={handleClose}
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Continue Booking
+            </Typography>
+            <Button
+              sx={{ ":hover": { backgroundColor: "unset" } }}
+              onClick={handleClose}
+            >
+              <HighlightOffIcon sx={{ color: red[600] }} />
+            </Button>
+          </Box>
+          <Typography
+            id="modal-modal-description"
+            sx={{ mt: 2, color: theme.palette.Blue.main }}
           >
-            <HighlightOffIcon sx={{ color: red[600] }} />
-          </Button>
-        </Box>
-          <Typography id="modal-modal-description" sx={{ mt: 2 ,color:theme.palette.Blue.main}}>
-            You need to log in to continue with your booking. Please log in or sign up for prooceed.
+            You need to log in to continue with your booking. Please log in or
+            sign up for prooceed.
             <Typography></Typography>
-           <Box sx={{display:'flex' , justifyContent:'space-between',mt: 2}}>
-            <Link to ='/login' style={{textDecoration:'none',color:"#3252DF"}}>Login?</Link>
-            <Link to ='/register' style={{textDecoration:'none',color:"#3252DF"}}>Sign Up?</Link>
-           </Box>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", color: "#3252DF" }}
+              >
+                Login?
+              </Link>
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "#3252DF" }}
+              >
+                Sign Up?
+              </Link>
+            </Box>
           </Typography>
         </Box>
       </Modal>

@@ -77,9 +77,11 @@ export default function DetailsPage() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          marginBlock: "3.125rem",
-          marginInline: "9.3rem",
+          paddingBlock: { md: "3.125rem" },
+          paddingInline: { md: "9.3rem" },
           textAlign: "center",
+          width: "95%",
+          marginInline: "auto",
         }}
       >
         {/*header */}
@@ -152,14 +154,14 @@ export default function DetailsPage() {
           sx={{ marginBlock: "3.125rem", minHeight: "500px" }}
         >
           <Grid2
-            size={6}
+            size={{ sm: 12, md: 6 }}
             sx={{
               gridRow: "span 2",
             }}
           >
             <img src={roomImg1} width="100%" height="100%" />
           </Grid2>
-          <Grid2 container spacing={2} size={6}>
+          <Grid2 container spacing={2} size={{ sm: 12, md: 6 }}>
             {" "}
             <Grid2 size={12}>
               <img src={roomImg2} width="100%" height="100%" />
@@ -171,7 +173,7 @@ export default function DetailsPage() {
         </Grid2>
 
         <Grid2 container spacing={2}>
-          <Grid2 size={6}>
+          <Grid2 size={{ sm: 12, md: 6 }}>
             <Typography
               sx={{ textAlign: "start", color: theme.palette.Grey2.main }}
             >
@@ -219,8 +221,8 @@ export default function DetailsPage() {
               ))}
             </Box>
           </Grid2>
-          <Grid2 size={6}>
-            <BookingCard roomId={room?._id ?? ""}/>
+          <Grid2 size={{ sm: 12, md: 6 }}>
+            <BookingCard roomId={room?._id ?? ""} />
           </Grid2>
         </Grid2>
         <Box></Box>
