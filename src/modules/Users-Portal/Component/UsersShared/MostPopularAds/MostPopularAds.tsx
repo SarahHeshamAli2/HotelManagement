@@ -70,9 +70,20 @@ const handleDeleteItem =(id:string)=>{
 				loading='lazy'
 			/>
 			<ImageListItemBar
-				sx={{ bgcolor: 'transparent', fontSize: '30px' }}
-				title='Vinna Vill'
-				subtitle='Vinna Vill'
+				sx={{ bgcolor: 'transparent' }}
+				title={
+					<Typography variant='h6' sx={{ fontWeight: '400', fontSize: '20px' }}>
+						Vinna Vill
+					</Typography>
+				}
+				subtitle={
+					<Typography
+						variant='body2'
+						sx={{ fontWeight: '300', fontSize: '15px' }}
+					>
+						Malang, Indonesia
+					</Typography>
+				}
 			/>
 			<ImageBadge width='50%'>
 				<Typography sx={{ color: '#fff', fontWeight: '300' }}>
