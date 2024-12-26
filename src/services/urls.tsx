@@ -46,12 +46,12 @@ export const ROOMS_URLS = {
 
   //users
 
-  GET_ALL_ROOMS:`/portal/rooms/available`
+  GET_ALL_ROOMS: `/portal/rooms/available`,
 };
 
 export const Ads_URLS = {
   getAllAds: "/admin/ads",
-  getAdsPortal: '/portal/ads',
+  getAdsPortal: "/portal/ads",
   createNewAd: "/admin/ads",
   UpdateAd: (AdId: string) => `admin/ads/${AdId}`,
   getAdById: (AdId: string) => `/admin/ads/${AdId}`,
@@ -61,6 +61,7 @@ export const Ads_URLS = {
 export const BOOKING_URLS = {
   getAllBookings: `/admin/booking`,
   getBookingDetails: (id: string) => `/admin/booking/${id}`,
+  payBooking: (bookingId: string) => `/portal/booking/${bookingId}/pay`,
 };
 
 export const getUsersData = "/admin/users";
@@ -81,20 +82,17 @@ export const FACILITIES_URLS = {
 export const getRoomDetails = `/portal/rooms/available/`;
 
 export const Favorites_URLS = {
-  Add_To_Fav : `/portal/favorite-rooms`,
-  Get_Fav :`/portal/favorite-rooms`,
-  Delete_Fav: (id:string)=>`/portal/favorite-rooms/${id}`
-
-}
-
-
-
-{/*User Endpoints */}
-export const USER_ROOMS_URLS = {
-  getRoomDetails: (id: string|undefined) => `/portal/rooms/${id}`,
+  Add_To_Fav: `/portal/favorite-rooms`,
+  Get_Fav: `/portal/favorite-rooms`,
+  Delete_Fav: (id: string) => `/portal/favorite-rooms/${id}`,
 };
 
-
+{
+  /*User Endpoints */
+}
+export const USER_ROOMS_URLS = {
+  getRoomDetails: (id: string | undefined) => `/portal/rooms/${id}`,
+};
 
 //comments endpoints
 export const COMMENTS_URLS = {
@@ -105,4 +103,5 @@ export const COMMENTS_URLS = {
 export const Reviews_URLS = {
   addReview: `/portal/room-reviews`,
 };
+
 export { axiosInstance, IMAGE_URL };
