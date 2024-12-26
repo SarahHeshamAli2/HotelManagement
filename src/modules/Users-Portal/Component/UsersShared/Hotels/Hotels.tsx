@@ -1,4 +1,4 @@
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Typography, Button } from "@mui/material";
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,6 +10,7 @@ import img3 from "../../../../../assets/images/house-3.png";
 import img4 from "../../../../../assets/images/house-4.png";
 import img5 from "../../../../../assets/images/house-5.jpg";
 import img6 from "../../../../../assets/images/house-6.jpg";
+import { useTranslation } from "react-i18next"; 
 
 const imageData = [
   {
@@ -49,7 +50,7 @@ const imageData = [
 
 export default function Hotels() {
   const [loading, setLoading] = React.useState<boolean>(true);
-
+  const { t } = useTranslation()
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -93,7 +94,7 @@ export default function Hotels() {
       },
     ],
   };
-  
+
 
   return (
     <Box>
@@ -115,9 +116,11 @@ export default function Hotels() {
             color: "#152C5B",
           }}
         >
-          Hotels with large living rooms
+          {t('hotel_title')}
         </Typography>
       )}
+
+   
 
       <Box className="slider-container">
         {loading ? (

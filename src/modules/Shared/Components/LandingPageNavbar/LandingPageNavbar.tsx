@@ -17,6 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AuthContext } from "../../../../Context/Context";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import ToggleButtonLang from "../../../LangToggleBtn/LangToggleBtn";
 
 const anonymousMenuItems = ["Home", "Explore", "Register", "Login"];
 const userMenuItems = ["Home", "Explore", "Reviews", "Favorites"];
@@ -119,6 +120,7 @@ export default function LandingPageNavbar() {
             })}
           </Box>
           {loginData && (
+       <>
             <Tooltip title="Open menu">
               <IconButton
                 onClick={handleMenu}
@@ -138,6 +140,8 @@ export default function LandingPageNavbar() {
                 <KeyboardArrowDownIcon />
               </IconButton>
             </Tooltip>
+            <ToggleButtonLang/>
+       </>
           )}
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
             {loginData === null && (

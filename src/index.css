@@ -84,3 +84,55 @@ body {
 .slick-dots {
   position: relative !important;
 }
+.language-toggle {
+  display: flex;
+  gap: 10px;
+}
+
+.language-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  height: 50px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 15px;
+}
+
+.language-toggle-btn.EN {
+  border-color: #007bff;
+  background-color: #e7f3ff;
+}
+
+.language-toggle-btn.FR {
+  border-color: #d9534f;
+  background-color: #ffe7e7;
+}
+
+.language-toggle-btn span {
+  margin-right: 10px;
+}
+
+.flag {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.egypt-flag {
+  background: url(https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg);
+  background-size: cover;
+  background-size: 100% 100%;
+
+}
+
+.english-flag {
+  background: url(https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg);
+  background-size: cover;
+}

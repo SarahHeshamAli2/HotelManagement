@@ -16,6 +16,7 @@ import { axiosInstance, getRoomDetails } from "../../../../../../services/urls";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { t } from "i18next";
 
 interface DatePickerProps {
   dateRange: { startDate: Date | null; endDate: Date | null };
@@ -94,13 +95,13 @@ export default function DatePicker({
       </Popover>
       <TextField
         onClick={handleButtonClick}
-        label="Pick a Date"
+        label={t('picker_title')}
         value={
           dateRange.startDate && dateRange.endDate
             ? `${dayjs(dateRange.startDate).format("YYYY-MM-DD")} - ${dayjs(
                 dateRange.endDate
               ).format("YYYY-MM-DD")}`
-            : "Pick a Start & End Date"
+            : `${t('calendar_title')}`
         }
         error={Boolean(error)}
       />
