@@ -1,12 +1,12 @@
 import { Box, Skeleton, Typography, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
-import useRecentAds from '../../../../../hooks/useRecentAds';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { ad } from '../../../../../services/interfaces';
 import ImageBadge from '../../../../Shared/ImageBadge/ImageBadge';
 import { useTranslation } from 'react-i18next';
+import useRecentAds from '../../../../../hooks/useRecentAds';
 
 const settings = {
   infinite: true,

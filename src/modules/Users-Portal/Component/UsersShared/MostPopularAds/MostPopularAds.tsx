@@ -14,7 +14,7 @@ import {
   import useFavorites from "../../../../../hooks/useFavorites";
   import useDeleteFromFav from "../../../../../hooks/useDeleteFromFav";
   import { useTranslation } from "react-i18next"; 
-  import useRecentAds from '../../../../../hooks/useRecentAds'
+import useRecentAds from "../../../../../hooks/useRecentAds";
   const MostPopularAds = () => {
 	const { ads, triggerAds } = useRecentAds();
 	const { favorites, triggerFav } = useFavorites();
