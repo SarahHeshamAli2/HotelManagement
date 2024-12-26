@@ -1,7 +1,7 @@
 import { Ads_URLS, axiosInstance } from "../services/urls";
 import useFetch from "./useFetch";
 
-export default function UseRecentAds() {
+export default function useRecentAds() {
   const getRecentAds = async () => {
     const response = await axiosInstance.get(Ads_URLS.getAdsPortal);
     const adsArr = response.data.data.ads;
