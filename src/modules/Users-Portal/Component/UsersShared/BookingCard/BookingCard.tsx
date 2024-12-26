@@ -52,7 +52,7 @@ export default function BookingCard({ roomId }: { roomId: string }) {
   const handleClose = () => setOpen(false);
   const handleButtonClick = () => {
     if (loginData?.role === "user") {
-      navigate(`/booking/${roomId}`);
+      navigate(`/booking/${roomId}/user-info`);
     } else {
       handleOpen();
     }
