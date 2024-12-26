@@ -20,6 +20,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const anonymousMenuItems = ["Home", "Explore", "Register", "Login"];
 const userMenuItems = ["Home", "Explore", "Reviews", "Favorites"];
+const adminMenuItem = ["Home", "Explore", "Reviews"];
 
 const StyledNavLink = styled(NavLink)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -39,10 +40,20 @@ export default function LandingPageNavbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleNavLink = (item: string) => {
-    navigate(`/${item.toLowerCase()}`);
-  };
 
+  const handleNavLink = (item: string) => {
+    const existItem = item.toLowerCase();
+    console.log("Navigating to:", existItem);
+    if (!existItem.includes("reviews")) {
+      navigate(`/${existItem}`);
+    } else {
+      const element = document.getElementById(existItem);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    handleClose();
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -59,13 +70,20 @@ export default function LandingPageNavbar() {
           <Box
             sx={{
               flexGrow: 1,
-              paddingLeft: { xs: "0.1rem", lg: "8rem", md: "3rem" },
+              paddingInlineStart: { xs: "0.1rem", lg: "8rem", md: "3rem" },
+              cursor: "pointer",
             }}
+            onClick={() => navigate("/")}
           >
             <Logo />
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
-            {(loginData ? userMenuItems : anonymousMenuItems).map((item) => {
+            {(loginData && loginData?.role == "user"
+              ? userMenuItems
+              : loginData && loginData?.role == "admin"
+              ? adminMenuItem
+              : anonymousMenuItems
+            ).map((item) => {
               const existItem = item === "Login" || item === "Register";
               const isActive =
                 pathname === item.toLowerCase() ||
@@ -73,8 +91,17 @@ export default function LandingPageNavbar() {
               return (
                 <Button
                   key={item}
-                  component={StyledNavLink}
-                  to={`/${item.toLowerCase()}`}
+                  component={
+                    item.toLowerCase() === "reviews" ? "div" : StyledNavLink
+                  }
+                  to={
+                    item.toLowerCase() !== "reviews"
+                      ? `/${item.toLowerCase()}`
+                      : ""
+                  }
+                  onClick={() =>
+                    item.toLowerCase() === "reviews" && handleNavLink(item)
+                  }
                   className={isActive ? "active" : ""}
                   variant={existItem ? "contained" : "text"}
                   sx={{

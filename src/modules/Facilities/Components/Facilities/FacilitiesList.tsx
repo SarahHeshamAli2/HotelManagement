@@ -7,7 +7,7 @@ import { StyledTableCell, StyledTableRow } from "../../../../helperStyles/helper
 import NoData from "../../../Shared/Components/NoData/NoData"
 import ActionMenu from "../../../Shared/ActionMenu/ActionMenu"
 import { facility, getFacilitesResponse } from "../../../../interfaces/FacilitiesInterfaces"
-import { Box, Button, CircularProgress, Modal, TextField, Typography } from "@mui/material"
+import { Box, Button, Modal, TextField, Typography } from "@mui/material"
 import { useForm } from "react-hook-form" 
 import { toast } from "react-toastify";
 import { formatDate } from "../../../../helperFunctions/helperFunctions";

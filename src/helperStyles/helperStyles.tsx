@@ -8,10 +8,16 @@ import {
 declare module "@mui/material/styles" {
   interface Palette {
     Grey: Palette["primary"];
+    Grey2: Palette["primary"];
+    Blue: Palette["primary"];
+    Green: Palette["primary"];
   }
 
   interface PaletteOptions {
     Grey?: PaletteOptions["primary"];
+    Grey2?: PaletteOptions["primary"];
+    Blue?: PaletteOptions["primary"];
+    Green?: PaletteOptions["primary"];
   }
 }
 
@@ -21,6 +27,21 @@ export const theme = createTheme({
       main: "#E2E5EB",
       light: "#F8F9FB",
       dark: "#939496",
+    },
+    Grey2: {
+      main: "#B0B0B0",
+      light: "#F8F9FB",
+      dark: "#939496",
+    },
+    Blue: {
+      main: "#152C5B",
+      light: "#3f6bc3",
+      dark: "#040e21",
+    },
+    Green: {
+      main: "#1ABC9C",
+      light: "#38e4c2",
+      dark: "#253c37",
     },
   },
 });

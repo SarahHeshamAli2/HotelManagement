@@ -26,6 +26,8 @@ import AdvertisementsList from "./modules/Advertisements/Components/Advertisemen
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import BookingList from "./modules/Booking/Components/Booking/BookingList";
+import UserProtectedRoute from "./modules/Shared/Components/ProtectedRoute/UserProtectedRoute";
+import BookingPage from "./modules/BookingPage/BookingPage";
 
 function App() {
   const theme = createTheme({
@@ -44,7 +46,8 @@ function App() {
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
         { path: "details/:roomId", element: <DetailsPage /> },
-        { path: "favorites", element: <Favorites /> },
+        { path: "favorites", element: <UserProtectedRoute><Favorites/></UserProtectedRoute> },
+        { path: "booking/:roomId", element: <BookingPage /> },
       ],
     },
     {
@@ -60,9 +63,7 @@ function App() {
         {
           path: "change-password",
           element: (
-            <ProtectedRoute>
               <ChangePassword />
-            </ProtectedRoute>
           ),
         },
       ],

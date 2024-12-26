@@ -9,9 +9,15 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { loginData } = useContext(AuthContext);
 
+  if(loginData?.role=='user'){
+
+  return  <Navigate to={'/home'}/>
+  }
+
   if (localStorage.getItem('token') || loginData?.role === 'admin') {
     return <>{children}</>;
   } else {
     return <Navigate to="/login" />;
   }
+
 }
