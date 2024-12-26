@@ -1,6 +1,6 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import UseRecentAds from '../../../../../hooks/UseRecentAds';
+import useRecentAds from '../../../../../hooks/useRecentAds';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -44,7 +44,7 @@ const settings = {
 };
 
 const Ads = () => {
-	const { ads, triggerAds } = UseRecentAds();
+	const { ads, triggerAds } = useRecentAds();
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
