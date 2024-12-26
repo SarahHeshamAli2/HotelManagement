@@ -51,6 +51,7 @@ export const ROOMS_URLS = {
 
 export const Ads_URLS = {
   getAllAds: "/admin/ads",
+  getAdsPortal: '/portal/ads',
   createNewAd: "/admin/ads",
   UpdateAd: (AdId: string) => `admin/ads/${AdId}`,
   getAdById: (AdId: string) => `/admin/ads/${AdId}`,

@@ -3,7 +3,7 @@ import useFetch from "./useFetch";
 
 export default function UseRecentAds() {
   const getRecentAds = async () => {
-    const response = await axiosInstance.get(Ads_URLS.getAllAds);
+    const response = await axiosInstance.get(Ads_URLS.getAdsPortal);
     const adsArr = response.data.data.ads;
     const recentAds = adsArr
       .filter((ad: { isActive: boolean; }) => ad.isActive)
