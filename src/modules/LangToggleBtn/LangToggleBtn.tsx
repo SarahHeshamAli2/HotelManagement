@@ -28,7 +28,7 @@ const ToggleButtonLang: React.FC = () => {
         className={`language-toggle-btn ${language}`}
         onClick={toggleLanguage}
       >
-        <span>{language === 'en' ? 'AR' : 'EN'}</span>
+        <span>{language == 'en' ? 'AR' : 'EN'}</span>
         <div className={`flag ${language === 'ar' ? 'english-flag' : 'egypt-flag'}`}></div>
       </button>
     </Box>
