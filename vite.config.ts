@@ -11,8 +11,12 @@ export default defineConfig({
           // Split dependencies into separate chunks
           vendor: ['react', 'react-dom'],
         },
+        
       },
     },
     chunkSizeWarningLimit: 1000, // Increase chunk size warning limit if needed
-  }
+  },
+  optimizeDeps: {
+    include: ['i18next'],
+  },
 })

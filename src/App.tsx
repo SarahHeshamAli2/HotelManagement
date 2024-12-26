@@ -33,6 +33,7 @@ import PaymentInfo from "./modules/BookingPage/PaymentInfo";
 import BookingSuccess from "./modules/BookingPage/BookingSuccess";
 
 function App() {
+  
   const theme = createTheme({
     typography: {
       fontFamily: ["Poppins"].join(","),
