@@ -11,11 +11,10 @@ import {
   import Overlay from "../../../../Shared/Overlay/Overlay";
   import { toast } from "react-toastify";
   import { ad } from "../../../../../services/interfaces";
-  import useRecentAds from '../../../../../hooks/useRecentAds';
   import useFavorites from "../../../../../hooks/useFavorites";
   import useDeleteFromFav from "../../../../../hooks/useDeleteFromFav";
   import { useTranslation } from "react-i18next"; 
-  
+import useRecentAds from "../../../../../hooks/useRecentAds";
   const MostPopularAds = () => {
 	const { ads, triggerAds } = useRecentAds();
 	const { favorites, triggerFav } = useFavorites();
