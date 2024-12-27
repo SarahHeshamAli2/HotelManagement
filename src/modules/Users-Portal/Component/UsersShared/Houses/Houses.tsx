@@ -10,43 +10,45 @@ import img4 from "../../../../../assets/images/home-4.jpg";
 import img5 from "../../../../../assets/images/home-5.jpg";
 import img6 from "../../../../../assets/images/home-6.jpg";
 import CardItem from "../Items/Items";
+import { useTranslation } from "react-i18next";  // Import the useTranslation hook
 
 const imageData = [
   {
     img: img1,
-    title: "Tabby Town",
-    location: "Gunung Batu, Indonesia",
-    label: "Popular Choice",
+    titleKey: "houses.tabby_town", // translation key for title
+    locationKey: "houses.gunung_batu", // translation key for location
+    label: "houses.popular_choice", // translation key for label
   },
   {
     img: img2,
-    title: "Anggana",
-    location: "Bogor, Indonesia",
+    titleKey: "houses.anggana",
+    locationKey: "houses.bogor",
   },
   {
     img: img3,
-    title: "Seattle Rain",
-    location: "Jakarta, Indonesia",
+    titleKey: "houses.seattle_rain",
+    locationKey: "houses.jakarta",
   },
   {
     img: img4,
-    title: "Wodden Pit",
-    location: "Wonosobo, Indonesia",
+    titleKey: "houses.wooden_pit",
+    locationKey: "houses.wonosobo",
   },
   {
     img: img5,
-    title: "Sunset Resort",
-    location: "Bali, Indonesia",
-    label: "Popular Choice",
+    titleKey: "houses.sunset_resort",
+    locationKey: "houses.bali",
+    label: "houses.popular_choice",
   },
   {
     img: img6,
-    title: "Anggana",
-    location: "Bali, Indonesia",
+    titleKey: "houses.anggana",
+    locationKey: "houses.bali",
   },
 ];
 
 export default function Houses() {
+  const { t } = useTranslation(); 
   const [loading, setLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
@@ -92,7 +94,6 @@ export default function Houses() {
       },
     ],
   };
-  
 
   return (
     <Box sx={{ padding: "20px 0" }}>
@@ -112,8 +113,9 @@ export default function Houses() {
             fontSize: "1.5rem",
             marginBottom: "20px",
             color: "#152C5B",
-          }}>
-          Houses with beauty backyard
+          }}
+        >
+          {t("houses.title")}
         </Typography>
       )}
 
@@ -139,9 +141,9 @@ export default function Houses() {
               <CardItem
                 key={index}
                 img={item.img}
-                title={item.title}
-                location={item.location}
-                label={item.label}
+                title={t(item.titleKey)} // Use t() for title translation
+                location={t(item.locationKey)} // Use t() for location translation
+                label={item.label ? t(item.label) : undefined} // Optional label translation
               />
             ))}
           </Slider>

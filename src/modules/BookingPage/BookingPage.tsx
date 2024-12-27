@@ -11,8 +11,6 @@ const stripe = loadStripe(
 );
 
 export default function BookingPage() {
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
   return (
     <Box
       sx={{

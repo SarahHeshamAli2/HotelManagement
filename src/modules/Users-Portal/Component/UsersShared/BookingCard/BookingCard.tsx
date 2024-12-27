@@ -5,7 +5,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { borderRadius, styled, ThemeProvider } from "@mui/system";
+import { styled, ThemeProvider } from "@mui/system";
 import { theme } from "../../../../../helperStyles/helperStyles";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
