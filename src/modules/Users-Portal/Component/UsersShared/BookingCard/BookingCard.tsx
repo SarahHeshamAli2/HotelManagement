@@ -68,39 +68,6 @@ export default function BookingCard({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const onSubmit = async (data: FieldValues) => {
-  //   console.log(data);
-  //   try {
-  //     if (!data.dateRange.startDate || !data.dateRange.endDate) {
-  //       setError("Please pick a start and end date.");
-  //       return;
-  //     }
-  //     if (loginData?.role === "user") {
-  //       const response = await axiosInstance.post(BOOKING_URLS.createBooking, {
-  //         room: roomId,
-  //         startDate: data?.dateRange.startDate,
-  //         endDate: data?.dateRange.endDate,
-  //         totalPrice,
-  //       });
-  //       if (response.status === 201) {
-  //         toast.success(
-  //           response?.data?.message || "Booking created successfully"
-  //         );
-  //         navigate(`/booking/${roomId}/user-info`);
-  //       }
-  //     } else {
-  //       handleOpen();
-  //     }
-  //   } catch (error) {
-  //     if (axios.isAxiosError(error)) {
-  //       toast.error(
-  //         error.response?.data?.message || "Something went wrong, try again"
-  //       );
-  //     } else {
-  //       console.error(error);
-  //     }
-  //   }
-  // };
   const handleButtonClick = async () => {
     try {
       if (!dateRange.startDate || !dateRange.endDate) {
@@ -141,14 +108,14 @@ export default function BookingCard({
   };
 
   useEffect(() => {
-    const savedDateRange = JSON.parse(localStorage.getItem("dateRange") || "{}");
+    const savedDateRange = JSON.parse(
+      localStorage.getItem("dateRange") || "{}"
+    );
     setDateRange({
       startDate: savedDateRange.startDate
         ? new Date(savedDateRange.startDate)
         : null,
-      endDate: savedDateRange.endDate
-        ? new Date(savedDateRange.endDate)
-        : null,
+      endDate: savedDateRange.endDate ? new Date(savedDateRange.endDate) : null,
     });
   }, []);
 

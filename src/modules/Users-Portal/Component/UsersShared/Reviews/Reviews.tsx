@@ -13,7 +13,6 @@ import { t } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-
 const Reviews = () => {
   const { t, i18n } = useTranslation();
   const reviewData = useMemo(
@@ -28,7 +27,9 @@ const Reviews = () => {
             readOnly
             precision={0.5}
             size="large"
-            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
           />
         ),
         comment: t("happy_comment"),
@@ -44,7 +45,9 @@ const Reviews = () => {
             readOnly
             precision={0.5}
             size="large"
-            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
           />
         ),
         comment: t("third_review_comment"),
@@ -60,7 +63,9 @@ const Reviews = () => {
             readOnly
             precision={0.5}
             size="large"
-            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
           />
         ),
         comment: t("first_review"),
@@ -76,7 +81,9 @@ const Reviews = () => {
             readOnly
             precision={0.5}
             size="large"
-            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
           />
         ),
         comment: t("second_review"),
@@ -123,7 +130,7 @@ const Reviews = () => {
               },
               height: {
                 xs: "auto",
-                md: "820px",
+                md: "780px",
               },
 
               alignItems: {
