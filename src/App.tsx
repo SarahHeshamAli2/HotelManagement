@@ -27,8 +27,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import BookingList from "./modules/Booking/Components/Booking/BookingList";
 import UserProtectedRoute from "./modules/Shared/Components/ProtectedRoute/UserProtectedRoute";
+import BookingPage from "./modules/BookingPage/BookingPage";
+import UserInfo from "./modules/BookingPage/UserInfo";
+import PaymentInfo from "./modules/BookingPage/PaymentInfo";
+import BookingSuccess from "./modules/BookingPage/BookingSuccess";
 
 function App() {
+  
   const theme = createTheme({
     typography: {
       fontFamily: ["Poppins"].join(","),
@@ -45,8 +50,24 @@ function App() {
         { path: "home", element: <Home /> },
         { path: "explore", element: <ExplorePage /> },
         { path: "details/:roomId", element: <DetailsPage /> },
-        { path: "favorites", element: <UserProtectedRoute><Favorites/></UserProtectedRoute> },
-        { path: "booking/:roomId", element: <DetailsPage /> },
+        {
+          path: "favorites",
+          element: (
+            <UserProtectedRoute>
+              <Favorites />
+            </UserProtectedRoute>
+          ),
+        },
+        {
+          path: "booking/:roomId",
+          element: <BookingPage />,
+          children: [
+            { index: true, element: <UserInfo /> },
+            { path: "user-info", element: <UserInfo /> },
+            { path: "payment-info", element: <PaymentInfo /> },
+            { path: "booking-success", element: <BookingSuccess /> },
+          ],
+        },
       ],
     },
     {
@@ -61,9 +82,7 @@ function App() {
         { path: "reset-password", element: <ResetPassword /> },
         {
           path: "change-password",
-          element: (
-              <ChangePassword />
-          ),
+          element: <ChangePassword />,
         },
       ],
     },

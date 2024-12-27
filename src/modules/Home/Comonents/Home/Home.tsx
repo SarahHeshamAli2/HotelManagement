@@ -6,6 +6,7 @@ import Hotels from "../../../Users-Portal/Component/UsersShared/Hotels/Hotels";
 import Ads from "../../../Users-Portal/Component/UsersShared/Ads/Ads";
 import Reviews from "../../../Users-Portal/Component/UsersShared/Reviews/Reviews";
 
+
 export default function Home() {
   return (
     <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
