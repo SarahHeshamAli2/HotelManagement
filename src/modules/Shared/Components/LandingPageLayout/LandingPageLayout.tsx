@@ -4,7 +4,7 @@ import LandingPageNavbar from "../LandingPageNavbar/LandingPageNavbar";
 import BackToTopButton from "../../BackToTopButton/BackToTop";
 export default function LandingPageLayout() {
   let {pathname} = useLocation();
-  const paymentPathRegex = /^\/booking\/[^/]+\/(user-info|Payment-info|booking-success)$/;
+  const paymentPathRegex = /^\/booking\/[^/]+\/(user-info|payment-info|booking-success)$/;
   console.log(pathname)
   return (    
     <>
