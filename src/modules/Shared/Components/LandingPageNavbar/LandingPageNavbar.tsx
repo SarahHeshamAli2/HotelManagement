@@ -6,7 +6,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  styled,
   Toolbar,
   Tooltip,
   Typography,
@@ -16,26 +15,33 @@ import { useContext, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AuthContext } from "../../../../Context/Context";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ToggleButtonLang from "../../../LangToggleBtn/LangToggleBtn";
 import { useTranslation } from "react-i18next";
-
-
-
-const StyledNavLink = styled(NavLink)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  "&.active": { color: "#3252DF" },
-}));
 
 export default function LandingPageNavbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { loginData, userName, profileImage, logout } = useContext(AuthContext);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-	const { t } = useTranslation(); 
-  const anonymousMenuItems = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.register'), t('landing_nav.login')];
-  const userMenuItems = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.reviews'), t('landing_nav.favorite')];
-  const adminMenuItem = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.reviews')];
+  const { t } = useTranslation();
+  const anonymousMenuItems = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.register"),
+    t("landing_nav.login"),
+  ];
+  const userMenuItems = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.reviews"),
+    t("landing_nav.favorite"),
+  ];
+  const adminMenuItem = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.reviews"),
+  ];
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -44,33 +50,28 @@ export default function LandingPageNavbar() {
     setAnchorEl(null);
   };
 
+  const localizationMap: { [key: string]: string } = {
+    "استكشف معنا": "explore",
+    المفضلة: "favorites",
+    الرئيسية: "home",
+    مراجعات: "reviews",
+    تسجيل: "register",
+    "تسجيل الدخول": "login",
+  };
+
   const handleNavLink = (item: string) => {
     let existItem = item.toLowerCase();
-    console.log("Navigating to:", existItem);
+    // Check if the item exists in the localization map
+    if (localizationMap[existItem]) {
+      existItem = localizationMap[existItem];
+    }
     if (!existItem.includes("reviews")) {
-      if(existItem=="استكشف معنا"){
-        existItem='Explore'
-        
-      } 
-      else if(existItem=="المفضلة"){
-        existItem ="favorites"
-      }
-      else if(existItem=="الرئيسية"){
-        existItem ="home"
-      }
-
-
-
       navigate(`/${existItem}`);
-    } else {  
-     
+    } else {
       const element = document.getElementById(existItem);
-      
       if (element) {
-        
         element.scrollIntoView({ behavior: "smooth" });
       }
-     
     }
     handleClose();
   };
@@ -98,49 +99,55 @@ export default function LandingPageNavbar() {
           >
             <Logo />
           </Box>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              gap: "1rem",
+              alignItems: "center",
+            }}
+          >
             {(loginData && loginData?.role == "user"
               ? userMenuItems
               : loginData && loginData?.role == "admin"
               ? adminMenuItem
               : anonymousMenuItems
             ).map((item) => {
-              const existItem = item === "Login" || item === "Register" || item === "تسجيل" || item == "تسجيل الدخول";
+              const existItem = item === "Login" || item === "Register";
+
               const isActive =
-                pathname === item.toLowerCase() ||
+                pathname === `/${item.toLowerCase()}` ||
+                pathname === `/${localizationMap[item]}` ||
                 (pathname === "/" && item.toLowerCase() === "home");
+
               return (
                 <Button
                   key={item}
-                  component={
-                    item.toLowerCase() === "reviews" ? "div" : StyledNavLink
-                  }
-                  to={
-                    item.toLowerCase() !== "reviews"
-                      ? `/${item.toLowerCase()}`
-                      : ""
-                  }
-                  onClick={() =>
-                    item.toLowerCase() === "reviews" && handleNavLink(item)
-                    
-                  }
-                  className={isActive ? "active" : ""}
+                  onClick={() => handleNavLink(item)}
                   variant={existItem ? "contained" : "text"}
                   sx={{
-                    color: existItem ? "#fff" : "inherit",
+                    color:
+                      existItem && !isActive
+                        ? "#fff"
+                        : isActive
+                        ? "#3252DF"
+                        : "inherit",
                     textTransform: "none",
                     backgroundColor: existItem ? "#3252DF" : "unset",
                     boxShadow: existItem
                       ? "0px 3px 7px rgba(50, 82, 223, 0.3)"
                       : "none",
+                    height: "fit-content",
                   }}
                 >
                   {item === "Login" ? item + " Now" : item}
                 </Button>
-
               );
             })}
-            
+            {!loginData && (
+              <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+                <ToggleButtonLang />
+              </Box>
+            )}
           </Box>
           {loginData && (
             <>
@@ -152,7 +159,7 @@ export default function LandingPageNavbar() {
                     gap: 1,
                     "&:hover": { backgroundColor: "unset", color: "#3252DF" },
                     paddingLeft: "1rem",
-                    marginRight: { xs: "0rem", sm: "1rem" },
+                    marginInline: { xs: "0rem", sm: "1rem" },
                     cursor: "pointer",
                   }}
                 >
@@ -213,10 +220,22 @@ export default function LandingPageNavbar() {
                 </MenuItem>
               ))}
 
+              {!loginData && (
+                <MenuItem
+                  sx={{
+                    display: {
+                      xs: "flex",
+                      sm: "none",
+                    },
+                  }}
+                >
+                  <ToggleButtonLang />
+                </MenuItem>
+              )}
               {loginData && (
                 <>
                   <MenuItem onClick={() => navigate("/change-password")}>
-                    {t('landing_nav.changePassword')}
+                    {t("landing_nav.changePassword")}
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -224,14 +243,20 @@ export default function LandingPageNavbar() {
                       navigate("/login");
                     }}
                   >
-                    {t('landing_nav.logOut')}
-                    </MenuItem>
-                  <MenuItem>
+                    {t("landing_nav.logOut")}
+                  </MenuItem>
+                  <MenuItem
+                    sx={{
+                      display: {
+                        xs: "flex",
+                        sm: "none",
+                      },
+                    }}
+                  >
                     <ToggleButtonLang />
                   </MenuItem>
                 </>
               )}
-
             </Menu>
           </Box>
         </Toolbar>
