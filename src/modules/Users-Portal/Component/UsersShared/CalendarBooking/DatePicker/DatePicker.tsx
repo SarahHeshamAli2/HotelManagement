@@ -60,7 +60,7 @@ export default function DatePicker({
         sx={{
           padding: "15px 20px",
           borderRadius: "12px",
-          mr: "10px",
+          marginInlineEnd: "10px",
         }}
         onClick={handleButtonClick}
         variant="contained"

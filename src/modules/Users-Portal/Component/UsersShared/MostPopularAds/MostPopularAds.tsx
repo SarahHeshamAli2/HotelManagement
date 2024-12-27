@@ -16,6 +16,7 @@ import {
   import { useTranslation } from "react-i18next"; 
 import useRecentAds from "../../../../../hooks/useRecentAds";
   const MostPopularAds = () => {
+	
 	const { ads, triggerAds } = useRecentAds();
 	const { favorites, triggerFav } = useFavorites();
 	const [favIds, setFavIds] = useState(favorites);
