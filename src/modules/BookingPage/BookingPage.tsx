@@ -40,9 +40,9 @@ export default function BookingPage() {
           <Grid2 size={{ sm: 12, md: 6 }}>
             <img src={paymentImg} style={{ width: "100%" }}></img>
           </Grid2>
-          <Grid2 size={{ sm: 12, md: 6 }}>
+          <Grid2 size={6}>
             <Elements stripe={stripe}>
-              <Outlet/>
+              <Outlet />
             </Elements>
           </Grid2>
         </Grid2>

@@ -3,7 +3,7 @@ import { grey } from "@mui/material/colors";
 import { Box, styled } from "@mui/system";
 import { AddressElement, useElements } from "@stripe/react-stripe-js";
 import { FormEvent } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -20,6 +20,9 @@ export default function UserInfo() {
   const { roomId } = useParams();
   const navigte = useNavigate();
   const elements = useElements();
+  const location = useLocation();
+  const { bookingId } = location.state || {};
+  console.log(bookingId);
   const handleButtonClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -30,7 +33,7 @@ export default function UserInfo() {
       localStorage.setItem("name", value?.value.name);
       localStorage.setItem("country", value?.value.address.country);
       localStorage.setItem("city", value?.value.address.city);
-      navigte(`/booking/${roomId}/payment-info`);
+      navigte(`/booking/${roomId}/payment-info`, { state: { bookingId } });
     } catch (error) {
       console.log(error);
     }
