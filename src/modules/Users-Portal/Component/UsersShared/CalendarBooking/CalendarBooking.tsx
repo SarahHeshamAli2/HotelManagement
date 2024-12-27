@@ -42,6 +42,13 @@ export default function CalendarBooking() {
       setError("Please pick a start and end date.");
       return;
     }
+    localStorage.setItem(
+      "dateRange",
+      JSON.stringify({
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+      })
+    );
 
     try {
       const { startDate, endDate } = dateRange;
@@ -56,12 +63,7 @@ export default function CalendarBooking() {
       console.log(dateRange);
       console.log(response.data.data.rooms);
 
-      navigate("/explore", {
-        state: {
-          startDate: dayjs(startDate).format("YYYY-MM-DD"),
-          endDate: dayjs(endDate).format("YYYY-MM-DD"),
-        },
-      });
+      navigate(`/explore?startDate=${ dayjs(startDate).format("YYYY-MM-DD")}&endDate=${dayjs(endDate).format("YYYY-MM-DD")}`)
       
       
     } catch (error) {

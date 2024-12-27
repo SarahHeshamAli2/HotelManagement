@@ -2,7 +2,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import { borderRadius, styled, ThemeProvider } from "@mui/system";
 import { theme } from "../../../../../helperStyles/helperStyles";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../../Context/Context";
 import DatePicker from "../CalendarBooking/DatePicker/DatePicker";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -56,6 +56,19 @@ export default function BookingCard({ roomId }: { roomId: string }) {
       handleOpen()
     }
   }
+
+  useEffect(() => {
+    const savedDateRange = JSON.parse(localStorage.getItem("dateRange") || "{}");
+    setDateRange({
+      startDate: savedDateRange.startDate
+        ? new Date(savedDateRange.startDate)
+        : null,
+      endDate: savedDateRange.endDate
+        ? new Date(savedDateRange.endDate)
+        : null,
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CustomizedBox>

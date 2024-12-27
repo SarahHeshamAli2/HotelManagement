@@ -42,11 +42,14 @@ export default function DatePicker({
 
   const handleDateChange = (ranges: any) => {
     const { selection } = ranges;
-    setDateRange({
+    const newDateRange ={
       startDate: selection.startDate,
       endDate: selection.endDate,
-    });
+    };
+   
+    setDateRange(newDateRange)
     setError("");
+    localStorage.setItem("dateRange", JSON.stringify(newDateRange));
     onClose();
   };
   const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
