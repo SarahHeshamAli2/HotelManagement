@@ -58,6 +58,10 @@ export default function BookingCard({
     startDate: null,
     endDate: null,
   });
+  const numBookingDays = dateRange.startDate && dateRange.endDate
+  ? Math.ceil((dateRange.endDate.getTime() - dateRange.startDate.getTime()) / (1000 * 60 * 60 * 24)+1)
+  : 0;
+
   const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -150,7 +154,7 @@ export default function BookingCard({
           setAnchorEl={setAnchorEl}
           onClose={handlePopoverClose}
         />
-
+        <Typography sx={{marginBlockStart:'1rem' , marginInline:'auto'}}>You will pay <Box sx={{ color: theme.palette.Blue.main , fontWeight:'bold'}} component="span">${totalPrice*numBookingDays || 0}</Box> USD per <Box sx={{ color: theme.palette.Blue.main, fontWeight:'bold' }} component="span">2 Person</Box></Typography>
         <Button
           onClick={handleButtonClick}
           sx={{
