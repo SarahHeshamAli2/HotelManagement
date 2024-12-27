@@ -55,6 +55,7 @@ export default function LandingPageNavbar() {
     }
     handleClose();
   };
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -120,28 +121,30 @@ export default function LandingPageNavbar() {
             })}
           </Box>
           {loginData && (
-       <>
-            <Tooltip title="Open menu">
-              <IconButton
-                onClick={handleMenu}
-                sx={{
-                  p: 0,
-                  gap: 1,
-                  "&:hover": { backgroundColor: "unset", color: "#3252DF" },
-                  paddingLeft: "1rem",
-                  marginRight: { xs: "0rem", sm: "1rem" },
-                  cursor: "pointer",
-                }}
-              >
-                <Avatar alt={userName} src={profileImage} />
-                <Typography variant="body2" component={"span"}>
-                  {userName}
-                </Typography>
-                <KeyboardArrowDownIcon />
-              </IconButton>
-            </Tooltip>
-            <ToggleButtonLang/>
-       </>
+            <>
+              <Tooltip title="Open menu">
+                <IconButton
+                  onClick={handleMenu}
+                  sx={{
+                    p: 0,
+                    gap: 1,
+                    "&:hover": { backgroundColor: "unset", color: "#3252DF" },
+                    paddingLeft: "1rem",
+                    marginRight: { xs: "0rem", sm: "1rem" },
+                    cursor: "pointer",
+                  }}
+                >
+                  <Avatar alt={userName} src={profileImage} />
+                  <Typography variant="body2" component={"span"}>
+                    {userName}
+                  </Typography>
+                  <KeyboardArrowDownIcon />
+                </IconButton>
+              </Tooltip>
+              <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+                <ToggleButtonLang />
+              </Box>
+            </>
           )}
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
             {loginData === null && (
@@ -199,6 +202,10 @@ export default function LandingPageNavbar() {
                     }}
                   >
                     Logout
+                  </MenuItem>
+                  {/* Add language toggle to the mobile menu */}
+                  <MenuItem>
+                    <ToggleButtonLang />
                   </MenuItem>
                 </>
               )}
