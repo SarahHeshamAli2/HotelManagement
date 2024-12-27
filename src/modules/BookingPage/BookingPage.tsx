@@ -1,4 +1,3 @@
-import React from "react";
 import paymentImg from "../../assets/images/payment.svg";
 import { Outlet } from "react-router-dom";
 import { Box } from "@mui/system";
@@ -6,6 +5,10 @@ import { AppBar, Grid2 } from "@mui/material";
 import Logo from "../Shared/Components/Logo/Logo";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+
+const stripe = loadStripe(
+  "pk_test_51OTjURBQWp069pqTmqhKZHNNd3kMf9TTynJtLJQIJDOSYcGM7xz3DabzCzE7bTxvuYMY0IX96OHBjsysHEKIrwCK006Mu7mKw8"
+);
 
 export default function BookingPage() {
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -36,11 +39,11 @@ export default function BookingPage() {
       </AppBar>
       <Box sx={{ width: "85%", margin: "auto", padding: "20px 0" }}>
         <Grid2 container spacing={2}>
-          <Grid2 size={6}>
+          <Grid2 size={{ sm: 12, md: 6 }}>
             <img src={paymentImg} style={{ width: "100%" }}></img>
           </Grid2>
           <Grid2 size={6}>
-            <Elements stripe={stripePromise}>
+            <Elements stripe={stripe}>
               <Outlet />
             </Elements>
           </Grid2>

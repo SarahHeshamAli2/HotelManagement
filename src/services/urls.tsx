@@ -62,6 +62,7 @@ export const BOOKING_URLS = {
   getAllBookings: `/admin/booking`,
   getBookingDetails: (id: string) => `/admin/booking/${id}`,
   payBooking: (bookingId: string) => `/portal/booking/${bookingId}/pay`,
+  createBooking: `/portal/booking`,
 };
 
 export const getUsersData = "/admin/users";

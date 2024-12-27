@@ -1,23 +1,14 @@
 import { CalendarMonth } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  FormHelperText,
-} from "@mui/material";
+import { Box, Button, TextField, FormHelperText } from "@mui/material";
 import { Popover } from "@mui/material";
 import { DateRangePicker } from "react-date-range";
 import dayjs from "dayjs";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { useState } from "react";
-import { axiosInstance, getRoomDetails } from "../../../../../../services/urls";
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 interface DatePickerProps {
+  // value: { startDate: Date | null; endDate: Date | null };
+  // onChange: (value: { startDate: Date | null; endDate: Date | null }) => void;
   dateRange: { startDate: Date | null; endDate: Date | null };
   setDateRange: React.Dispatch<
     React.SetStateAction<{ startDate: Date | null; endDate: Date | null }>
@@ -37,7 +28,9 @@ export default function DatePicker({
   anchorEl,
   setAnchorEl,
   onClose,
-}: DatePickerProps) {
+}: // value,
+// onChange,
+DatePickerProps) {
   const open = Boolean(anchorEl);
 
   const handleDateChange = (ranges: any) => {

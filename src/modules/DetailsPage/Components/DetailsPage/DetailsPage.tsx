@@ -202,7 +202,7 @@ export default function DetailsPage() {
               sx={{ marginBlockStart: "1.875rem" }}
             >
               {facilitiesData.map((facility) => (
-                <Stack alignItems="center">
+                <Stack alignItems="center" key={facility.name}>
                   <Box width="100px">{facility.icon}</Box>
                   <Typography
                     variant="body1"
@@ -222,7 +222,10 @@ export default function DetailsPage() {
             </Box>
           </Grid2>
           <Grid2 size={{ sm: 12, md: 6 }}>
-            <BookingCard roomId={room?._id ?? ""} />
+            <BookingCard
+              roomId={room?._id ?? ""}
+              totalPrice={room?.price ?? 0}
+            />
           </Grid2>
         </Grid2>
         <Box></Box>
