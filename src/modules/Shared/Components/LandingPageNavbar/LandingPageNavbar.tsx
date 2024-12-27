@@ -18,10 +18,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AuthContext } from "../../../../Context/Context";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import ToggleButtonLang from "../../../LangToggleBtn/LangToggleBtn";
+import { useTranslation } from "react-i18next";
 
-const anonymousMenuItems = ["Home", "Explore", "Register", "Login"];
-const userMenuItems = ["Home", "Explore", "Reviews", "Favorites"];
-const adminMenuItem = ["Home", "Explore", "Reviews"];
+
 
 const StyledNavLink = styled(NavLink)(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -33,7 +32,10 @@ export default function LandingPageNavbar() {
   const { loginData, userName, profileImage, logout } = useContext(AuthContext);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+	const { t } = useTranslation(); 
+  const anonymousMenuItems = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.register'), t('landing_nav.login')];
+  const userMenuItems = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.reviews'), t('landing_nav.favorite')];
+  const adminMenuItem = [t('landing_nav.home'), t('landing_nav.explore'), t('landing_nav.reviews')];
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,15 +45,32 @@ export default function LandingPageNavbar() {
   };
 
   const handleNavLink = (item: string) => {
-    const existItem = item.toLowerCase();
+    let existItem = item.toLowerCase();
     console.log("Navigating to:", existItem);
     if (!existItem.includes("reviews")) {
+      if(existItem=="استكشف معنا"){
+        existItem='Explore'
+        
+      } 
+      else if(existItem=="المفضلة"){
+        existItem ="favorites"
+      }
+      else if(existItem=="الرئيسية"){
+        existItem ="home"
+      }
+
+
+
       navigate(`/${existItem}`);
-    } else {
+    } else {  
+     
       const element = document.getElementById(existItem);
+      
       if (element) {
+        
         element.scrollIntoView({ behavior: "smooth" });
       }
+     
     }
     handleClose();
   };
@@ -86,7 +105,7 @@ export default function LandingPageNavbar() {
               ? adminMenuItem
               : anonymousMenuItems
             ).map((item) => {
-              const existItem = item === "Login" || item === "Register";
+              const existItem = item === "Login" || item === "Register" || item === "تسجيل" || item == "تسجيل الدخول";
               const isActive =
                 pathname === item.toLowerCase() ||
                 (pathname === "/" && item.toLowerCase() === "home");
@@ -103,6 +122,7 @@ export default function LandingPageNavbar() {
                   }
                   onClick={() =>
                     item.toLowerCase() === "reviews" && handleNavLink(item)
+                    
                   }
                   className={isActive ? "active" : ""}
                   variant={existItem ? "contained" : "text"}
@@ -117,8 +137,10 @@ export default function LandingPageNavbar() {
                 >
                   {item === "Login" ? item + " Now" : item}
                 </Button>
+
               );
             })}
+            
           </Box>
           {loginData && (
             <>
@@ -190,10 +212,11 @@ export default function LandingPageNavbar() {
                   {item}
                 </MenuItem>
               ))}
+
               {loginData && (
                 <>
                   <MenuItem onClick={() => navigate("/change-password")}>
-                    Change password
+                    {t('landing_nav.changePassword')}
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -201,14 +224,14 @@ export default function LandingPageNavbar() {
                       navigate("/login");
                     }}
                   >
-                    Logout
-                  </MenuItem>
-                  {/* Add language toggle to the mobile menu */}
+                    {t('landing_nav.logOut')}
+                    </MenuItem>
                   <MenuItem>
                     <ToggleButtonLang />
                   </MenuItem>
                 </>
               )}
+
             </Menu>
           </Box>
         </Toolbar>

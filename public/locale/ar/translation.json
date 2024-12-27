@@ -41,7 +41,26 @@
       "title" : "منازل ذات فناء خلفي جميل"
      }
 ,
-"off" : "خصم"
+"off" : "خصم",
+"landing_nav" : {
+  "home":"الرئيسية",
+  "explore" : "استكشف معنا",
+  "reviews":"مراجعات",
+  "favorite" : "المفضلة",
+  "changePassword":"تغيير كلمة المرور",
+  "logOut" : "تسجيل الخروج",
+  "register":"تسجيل",
+  "login" : "تسجيل الدخول"
+
+
+
+
+
+ },
+ "logo_part1" : ".Stay",
+ "logo_part2" : "cation"
+
+
 
 
 

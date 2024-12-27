@@ -39,5 +39,19 @@
    "houses" : {
     "title" : "Houses with beauty backyard"
    },
-   "off" : "off"
+   "off" : "off",
+   "landing_nav" : {
+    "home":"Home",
+    "explore" : "Explore",
+    "reviews": "Reviews",
+    "favorite" : "Favorites",
+    "changePassword":"Change Password",
+    "logOut": "log out",
+    "register":"Register",
+    "login" : "Login"
+   },
+   "logo_part1" : "Stay",
+   "logo_part2" : "cation."
+
+
   }

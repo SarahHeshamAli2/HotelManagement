@@ -139,7 +139,7 @@ export default function CalendarBooking() {
                 "&:hover": {
                   backgroundColor: "#E74C3C",
                 },
-                mr: "1rem",
+                marginInlineEnd:'1rem'
               }}
             >
               <Remove sx={{ color: "#fff" }} />
@@ -158,7 +158,7 @@ export default function CalendarBooking() {
                 "&:hover": {
                   backgroundColor: "#1ABC9C",
                 },
-                ml: "1rem",
+               marginInlineStart:'1rem'
               }}
             >
               <Add sx={{ color: "white" }} />
