@@ -9,77 +9,89 @@ import img1 from "../../../../../assets/images/reviewImg.png";
 import img2 from "../../../../../assets/images/review2.jpg";
 import { css, styled } from "@mui/system";
 import { useRef } from "react";
-
-const reviewData = [
-  {
-    img: img1,
-    title: "Happy Family",
-    rate: (
-      <Rating
-        name="text-feedback"
-        value={5}
-        readOnly
-        precision={0.5}
-        size="large"
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-      />
-    ),
-    comment:
-      "What a great trip with my family and I should try again next time soon ...",
-    person: "Angga, Product Designer",
-  },
-  {
-    img: img2,
-    title: "Amazing Journey",
-    rate: (
-      <Rating
-        name="text-feedback"
-        value={4.5}
-        readOnly
-        precision={0.5}
-        size="large"
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-      />
-    ),
-    comment:
-      "An amazing journey that I had with my family and I should try again next time soon ...",
-    person: "Andi, Product Designer",
-  },
-  {
-    img: img1,
-    title: "Wonderful Place",
-    rate: (
-      <Rating
-        name="text-feedback"
-        value={4}
-        readOnly
-        precision={0.5}
-        size="large"
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-      />
-    ),
-    comment: "This place is amazing, I should try again next time soon ...",
-    person: "Maria, Software Engineer",
-  },
-  {
-    img: img2,
-    title: "Beautiful Place",
-    rate: (
-      <Rating
-        name="text-feedback"
-        value={5}
-        readOnly
-        precision={0.5}
-        size="large"
-        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-      />
-    ),
-    comment: "This place is beautiful, I should try again next time soon ...",
-    person: "Andi, Marketing Manager",
-  },
-];
+import { t } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 const Reviews = () => {
+  const { t, i18n } = useTranslation();
+  const reviewData = useMemo(
+    () => [
+      {
+        img: img1,
+        title: t("happy_review"),
+        rate: (
+          <Rating
+            name="text-feedback"
+            value={5}
+            readOnly
+            precision={0.5}
+            size="large"
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        ),
+        comment: t("happy_comment"),
+        person: t("happy_person"),
+      },
+      {
+        img: img2,
+        title: t("third_review_title"),
+        rate: (
+          <Rating
+            name="text-feedback"
+            value={4.5}
+            readOnly
+            precision={0.5}
+            size="large"
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        ),
+        comment: t("third_review_comment"),
+        person: t("third_person"),
+      },
+      {
+        img: img1,
+        title: t("review_title"),
+        rate: (
+          <Rating
+            name="text-feedback"
+            value={4}
+            readOnly
+            precision={0.5}
+            size="large"
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        ),
+        comment: t("first_review"),
+        person: t("first_person"),
+      },
+      {
+        img: img2,
+        title: t("second_review_title"),
+        rate: (
+          <Rating
+            name="text-feedback"
+            value={5}
+            readOnly
+            precision={0.5}
+            size="large"
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+        ),
+        comment: t("second_review"),
+        person: t("second_person"),
+      },
+    ],
+    [t] // Dependencies for useMemo
+  );
   const sliderRef = useRef<Slider>(null);
   const next = () => {
     sliderRef.current?.slickNext();
@@ -118,7 +130,7 @@ const Reviews = () => {
               },
               height: {
                 xs: "auto",
-                md: "820px",
+                md: "780px",
               },
 
               alignItems: {

@@ -6,7 +6,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  styled,
   Toolbar,
   Tooltip,
   Typography,
@@ -16,23 +15,33 @@ import { useContext, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { AuthContext } from "../../../../Context/Context";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-
-const anonymousMenuItems = ["Home", "Explore", "Register", "Login"];
-const userMenuItems = ["Home", "Explore", "Reviews", "Favorites"];
-const adminMenuItem = ["Home", "Explore", "Reviews"];
-
-const StyledNavLink = styled(NavLink)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  "&.active": { color: "#3252DF" },
-}));
+import { useLocation, useNavigate } from "react-router-dom";
+import ToggleButtonLang from "../../../LangToggleBtn/LangToggleBtn";
+import { useTranslation } from "react-i18next";
 
 export default function LandingPageNavbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { loginData, userName, profileImage, logout } = useContext(AuthContext);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
+  const anonymousMenuItems = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.register"),
+    t("landing_nav.login"),
+  ];
+  const userMenuItems = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.reviews"),
+    t("landing_nav.favorite"),
+  ];
+  const adminMenuItem = [
+    t("landing_nav.home"),
+    t("landing_nav.explore"),
+    t("landing_nav.reviews"),
+  ];
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,9 +50,21 @@ export default function LandingPageNavbar() {
     setAnchorEl(null);
   };
 
+  const localizationMap: { [key: string]: string } = {
+    "استكشف معنا": "explore",
+    المفضلة: "favorites",
+    الرئيسية: "home",
+    مراجعات: "reviews",
+    تسجيل: "register",
+    "تسجيل الدخول": "login",
+  };
+
   const handleNavLink = (item: string) => {
-    const existItem = item.toLowerCase();
-    console.log("Navigating to:", existItem);
+    let existItem = item.toLowerCase();
+    // Check if the item exists in the localization map
+    if (localizationMap[existItem]) {
+      existItem = localizationMap[existItem];
+    }
     if (!existItem.includes("reviews")) {
       navigate(`/${existItem}`);
     } else {
@@ -54,6 +75,7 @@ export default function LandingPageNavbar() {
     }
     handleClose();
   };
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -77,7 +99,13 @@ export default function LandingPageNavbar() {
           >
             <Logo />
           </Box>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              gap: "1rem",
+              alignItems: "center",
+            }}
+          >
             {(loginData && loginData?.role == "user"
               ? userMenuItems
               : loginData && loginData?.role == "admin"
@@ -85,59 +113,67 @@ export default function LandingPageNavbar() {
               : anonymousMenuItems
             ).map((item) => {
               const existItem = item === "Login" || item === "Register";
+
               const isActive =
-                pathname === item.toLowerCase() ||
+                pathname === `/${item.toLowerCase()}` ||
+                pathname === `/${localizationMap[item]}` ||
                 (pathname === "/" && item.toLowerCase() === "home");
+
               return (
                 <Button
                   key={item}
-                  component={
-                    item.toLowerCase() === "reviews" ? "div" : StyledNavLink
-                  }
-                  to={
-                    item.toLowerCase() !== "reviews"
-                      ? `/${item.toLowerCase()}`
-                      : ""
-                  }
-                  onClick={() =>
-                    item.toLowerCase() === "reviews" && handleNavLink(item)
-                  }
-                  className={isActive ? "active" : ""}
+                  onClick={() => handleNavLink(item)}
                   variant={existItem ? "contained" : "text"}
                   sx={{
-                    color: existItem ? "#fff" : "inherit",
+                    color:
+                      existItem && !isActive
+                        ? "#fff"
+                        : isActive
+                        ? "#3252DF"
+                        : "inherit",
                     textTransform: "none",
                     backgroundColor: existItem ? "#3252DF" : "unset",
                     boxShadow: existItem
                       ? "0px 3px 7px rgba(50, 82, 223, 0.3)"
                       : "none",
+                    height: "fit-content",
                   }}
                 >
                   {item === "Login" ? item + " Now" : item}
                 </Button>
               );
             })}
+            {!loginData && (
+              <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+                <ToggleButtonLang />
+              </Box>
+            )}
           </Box>
           {loginData && (
-            <Tooltip title="Open menu">
-              <IconButton
-                onClick={handleMenu}
-                sx={{
-                  p: 0,
-                  gap: 1,
-                  "&:hover": { backgroundColor: "unset", color: "#3252DF" },
-                  paddingLeft: "1rem",
-                  marginRight: { xs: "0rem", sm: "1rem" },
-                  cursor: "pointer",
-                }}
-              >
-                <Avatar alt={userName} src={profileImage} />
-                <Typography variant="body2" component={"span"}>
-                  {userName}
-                </Typography>
-                <KeyboardArrowDownIcon />
-              </IconButton>
-            </Tooltip>
+            <>
+              <Tooltip title="Open menu">
+                <IconButton
+                  onClick={handleMenu}
+                  sx={{
+                    p: 0,
+                    gap: 1,
+                    "&:hover": { backgroundColor: "unset", color: "#3252DF" },
+                    paddingLeft: "1rem",
+                    marginInline: { xs: "0rem", sm: "1rem" },
+                    cursor: "pointer",
+                  }}
+                >
+                  <Avatar alt={userName} src={profileImage} />
+                  <Typography variant="body2" component={"span"}>
+                    {userName}
+                  </Typography>
+                  <KeyboardArrowDownIcon />
+                </IconButton>
+              </Tooltip>
+              <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+                <ToggleButtonLang />
+              </Box>
+            </>
           )}
           <Box sx={{ display: { xs: "block", sm: "none" } }}>
             {loginData === null && (
@@ -183,10 +219,23 @@ export default function LandingPageNavbar() {
                   {item}
                 </MenuItem>
               ))}
+
+              {!loginData && (
+                <MenuItem
+                  sx={{
+                    display: {
+                      xs: "flex",
+                      sm: "none",
+                    },
+                  }}
+                >
+                  <ToggleButtonLang />
+                </MenuItem>
+              )}
               {loginData && (
                 <>
                   <MenuItem onClick={() => navigate("/change-password")}>
-                    Change password
+                    {t("landing_nav.changePassword")}
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -194,7 +243,17 @@ export default function LandingPageNavbar() {
                       navigate("/login");
                     }}
                   >
-                    Logout
+                    {t("landing_nav.logOut")}
+                  </MenuItem>
+                  <MenuItem
+                    sx={{
+                      display: {
+                        xs: "flex",
+                        sm: "none",
+                      },
+                    }}
+                  >
+                    <ToggleButtonLang />
                   </MenuItem>
                 </>
               )}

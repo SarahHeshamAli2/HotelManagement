@@ -1,12 +1,21 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
-import { borderRadius, styled, ThemeProvider } from "@mui/system";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Modal,
+  Typography,
+} from "@mui/material";
+import { styled, ThemeProvider } from "@mui/system";
 import { theme } from "../../../../../helperStyles/helperStyles";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../../Context/Context";
 import DatePicker from "../CalendarBooking/DatePicker/DatePicker";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { red } from "@mui/material/colors";
+import { axiosInstance, BOOKING_URLS } from "../../../../../services/urls";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const CustomizedBox = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -31,7 +40,13 @@ const style = {
   p: 4,
 };
 
-export default function BookingCard({ roomId }: { roomId: string }) {
+export default function BookingCard({
+  roomId,
+  totalPrice,
+}: {
+  roomId: string;
+  totalPrice: number;
+}) {
   let navigate = useNavigate();
   const { loginData } = useContext(AuthContext);
 
@@ -43,20 +58,71 @@ export default function BookingCard({ roomId }: { roomId: string }) {
     startDate: null,
     endDate: null,
   });
+  const numBookingDays = dateRange.startDate && dateRange.endDate
+  ? Math.ceil((dateRange.endDate.getTime() - dateRange.startDate.getTime()) / (1000 * 60 * 60 * 24)+1)
+  : 0;
+
   const [error, setError] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleButtonClick = () => {
-    if (loginData?.role === "user") {
-      navigate(`/booking/${roomId}`);
-    } else {
-      handleOpen();
+
+  const handleButtonClick = async () => {
+    try {
+      if (!dateRange.startDate || !dateRange.endDate) {
+        setError("Please pick a start and end date.");
+        return;
+      }
+      setIsSubmitting(true);
+      if (loginData?.role === "user") {
+        const response = await axiosInstance.post(BOOKING_URLS.createBooking, {
+          room: roomId,
+          startDate: dateRange.startDate,
+          endDate: dateRange.endDate,
+          totalPrice,
+        });
+        console.log(response);
+        if (response.status === 201) {
+          toast.success(
+            response?.data?.message || "Booking created successfully"
+          );
+          navigate(`/booking/${roomId}/user-info`, {
+            state: { bookingId: response?.data?.data?.booking._id },
+          });
+        }
+      } else {
+        handleOpen();
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.message || "Something went wrong, try again"
+        );
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const savedDateRange = JSON.parse(
+      localStorage.getItem("dateRange") || "{}"
+    );
+    setDateRange({
+      startDate: savedDateRange.startDate
+        ? new Date(savedDateRange.startDate)
+        : null,
+      endDate: savedDateRange.endDate ? new Date(savedDateRange.endDate) : null,
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CustomizedBox>
@@ -88,7 +154,7 @@ export default function BookingCard({ roomId }: { roomId: string }) {
           setAnchorEl={setAnchorEl}
           onClose={handlePopoverClose}
         />
-
+        <Typography sx={{marginBlockStart:'1rem' , marginInline:'auto'}}>You will pay <Box sx={{ color: theme.palette.Blue.main , fontWeight:'bold'}} component="span">${totalPrice*numBookingDays || 0}</Box> USD per <Box sx={{ color: theme.palette.Blue.main, fontWeight:'bold' }} component="span">2 Person</Box></Typography>
         <Button
           onClick={handleButtonClick}
           sx={{
@@ -106,8 +172,13 @@ export default function BookingCard({ roomId }: { roomId: string }) {
               color: "#c0c0c0",
             },
           }}
+          disabled={isSubmitting}
         >
-          Continue Book
+          {isSubmitting ? (
+            <CircularProgress sx={{ color: "white" }} size={"1rem"} />
+          ) : (
+            " Continue Book"
+          )}
         </Button>
       </CustomizedBox>
       <Modal

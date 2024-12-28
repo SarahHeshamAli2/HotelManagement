@@ -5,50 +5,30 @@ import { Box, CircularProgress, Grid2, Typography } from "@mui/material";
 import NoData from "../../../Shared/Components/NoData/NoData";
 import roomImg from '../../../../assets/images/room.png';
 import UserPageTitle from '../../../Users-Portal/Component/UsersShared/UserPageTitle/UserPageTitle';
-import { useLocation } from 'react-router-dom';
-import dayjs from 'dayjs';
+import { GetRoomsResponse, Room } from '../../../../interfaces/RoomsInterfaces';
+import { useSearchParams } from 'react-router-dom';
 
 export default function ExplorePage() {
-  const [availableRooms, setAvailableRooms] = useState<roomsdata[]>([]);
+  const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-
-  interface roomsdata {
-    roomNumber: string;
-    price: number;
-    capacity: number;
-    discount: number;
-    facilities: { name: string }[];
-    createdBy: string;
-    images: string[];
-    isBooked: boolean;
-    createdAt: string;
-    updatedAt: string;
-  }
-
-  interface availableRoomsResponse {
-    success: boolean;
-    message: string;
-    data: { rooms: roomsdata[]; totalCount: number };
-  }
-
-  const location = useLocation();
-  const { startDate, endDate } = location.state || {};
+  
+  const [ searchParams] = useSearchParams()
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get("endDate");
 
   const getAvailableRooms = async () => {
     try {
       setLoading(true);
 
-      const params: any = {};
-      if (startDate && endDate) {
-        params.startDate = dayjs(startDate).format("YYYY-MM-DD");
-        params.endDate = dayjs(endDate).format("YYYY-MM-DD");
-      }
-
-      const response = await axiosInstance.get<availableRoomsResponse>(
-        ROOMS_URLS.GET_ALL_ROOMS,
-        { params }
+      const response = await axiosInstance.get<GetRoomsResponse>(
+        ROOMS_URLS.GET_ALL_ROOMS,{
+          params:{
+            startDate: startDate,
+            endDate: endDate
+          }
+        }
       );
-
+      
       console.log(response.data.data.rooms);
       setAvailableRooms(response.data.data.rooms);
     } catch (error) {
@@ -60,7 +40,7 @@ export default function ExplorePage() {
 
   useEffect(() => {
     getAvailableRooms();
-  }, []);
+  }, [startDate,endDate]);
 
   return (
     <>
@@ -135,7 +115,7 @@ export default function ExplorePage() {
           >
             {availableRooms?.length > 0 ? (
               availableRooms.map((room, index) => (
-                <Grid2
+				<Grid2
                   key={index}
                   sx={{ position: "relative" }}
                   size={{ xs: 2, sm: 4, md: 4 }}

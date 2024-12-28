@@ -58,6 +58,11 @@ export default function DetailsPage() {
     { icon: <RefigratorIcon />, number: 2, name: "refrigrator" },
     { icon: <TvIcon />, number: 4, name: "television" },
   ];
+  let ImgsStyles={
+    borderRadius: '1rem',
+    width:'100%',
+    height:'100%'
+  }
 
   useEffect(() => {
     const getRoom = async () => {
@@ -94,40 +99,7 @@ export default function DetailsPage() {
             },
           }}
         >
-          {" "}
-          {/*<Box
-            display="flex"
-            alignItems="center"
-            sx={{
-              [theme.breakpoints.down("md")]: {
-                display: "block",
-                marginBlockEnd: "1rem",
-              },
-            }}
-            gap={1}
-          >
-            <Typography
-              variant="body1"
-              sx={{ color: theme.palette.Grey2.main }}
-              component="span"
-            >
-              Home
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: theme.palette.Blue.main }}
-              component="span"
-            >
-              /
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: theme.palette.Blue.main }}
-              component="span"
-            >
-              Room Details
-            </Typography>
-          </Box>*/}
+
           <UserPageTitle current="Room Details" />
           <Stack>
             <Typography
@@ -159,15 +131,15 @@ export default function DetailsPage() {
               gridRow: "span 2",
             }}
           >
-            <img src={roomImg1} width="100%" height="100%" />
+            {room?.images[0]?<img src={room?.images[0]} style={ImgsStyles}/> :<img src={roomImg1} style={ImgsStyles}/>}
           </Grid2>
           <Grid2 container spacing={2} size={{ sm: 12, md: 6 }}>
             {" "}
             <Grid2 size={12}>
-              <img src={roomImg2} width="100%" height="100%" />
+              {room?.images[1]?<img src={room?.images[1]} style={ImgsStyles}/> :<img src={roomImg2} style={ImgsStyles}/>}
             </Grid2>
             <Grid2 size={12}>
-              <img src={roomImg3} width="100%" height="100%" />
+              {room?.images[2]?<img src={room?.images[2]} style={ImgsStyles}/> :<img src={roomImg3} style={ImgsStyles}/>}
             </Grid2>
           </Grid2>
         </Grid2>
@@ -202,7 +174,7 @@ export default function DetailsPage() {
               sx={{ marginBlockStart: "1.875rem" }}
             >
               {facilitiesData.map((facility) => (
-                <Stack alignItems="center">
+                <Stack alignItems="center" key={facility.name}>
                   <Box width="100px">{facility.icon}</Box>
                   <Typography
                     variant="body1"
@@ -222,7 +194,10 @@ export default function DetailsPage() {
             </Box>
           </Grid2>
           <Grid2 size={{ sm: 12, md: 6 }}>
-            <BookingCard roomId={room?._id ?? ""} />
+            <BookingCard
+              roomId={room?._id ?? ""}
+              totalPrice={room?.price ?? 0}
+            />
           </Grid2>
         </Grid2>
         <Box></Box>

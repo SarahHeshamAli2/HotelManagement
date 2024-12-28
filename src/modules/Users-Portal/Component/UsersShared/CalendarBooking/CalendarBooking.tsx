@@ -10,8 +10,11 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 export default function CalendarBooking() {
+  const { t } = useTranslation();
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [dateRange, setDateRange] = useState<{
     startDate: Date | null;
@@ -42,6 +45,13 @@ export default function CalendarBooking() {
       setError("Please pick a start and end date.");
       return;
     }
+    localStorage.setItem(
+      "dateRange",
+      JSON.stringify({
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+      })
+    );
 
     try {
       const { startDate, endDate } = dateRange;
@@ -56,14 +66,11 @@ export default function CalendarBooking() {
       console.log(dateRange);
       console.log(response.data.data.rooms);
 
-      navigate("/explore", {
-        state: {
-          startDate: dayjs(startDate).format("YYYY-MM-DD"),
-          endDate: dayjs(endDate).format("YYYY-MM-DD"),
-        },
-      });
-      
-      
+      navigate(
+        `/explore?startDate=${dayjs(startDate).format(
+          "YYYY-MM-DD"
+        )}&endDate=${dayjs(endDate).format("YYYY-MM-DD")}`
+      );
     } catch (error) {
       const axiosError = error as AxiosError;
       toast.error(axiosError.message);
@@ -82,11 +89,12 @@ export default function CalendarBooking() {
               marginBottom: ".2rem",
               color: "#152C5B",
               lineHeight: "1.2",
+              textAlign: "start",
             }}
           >
-            Forget Busy Work,
+            {t("hero_title")}
             <br />
-            Start Next Vacation
+            {t("hero_title2")}
           </Typography>
           <Typography
             variant="body1"
@@ -98,8 +106,9 @@ export default function CalendarBooking() {
               lineHeight: "1.7rem",
             }}
           >
-            We provide what you need to enjoy your holiday with family.
-            <br /> Time to make another memorable moment.
+            {t("sub_title")}
+            <br />
+            {t("sub_title2")}
           </Typography>
           <Typography
             variant="h3"
@@ -110,9 +119,10 @@ export default function CalendarBooking() {
               color: "#152C5B",
               lineHeight: "1.875rem",
               mb: "1rem",
+              textAlign: "start",
             }}
           >
-            Start Booking
+            {t("start_book")}
           </Typography>
           <DatePicker
             dateRange={dateRange}
@@ -133,15 +143,15 @@ export default function CalendarBooking() {
                 "&:hover": {
                   backgroundColor: "#E74C3C",
                 },
-                mr: "1rem",
+                marginInlineEnd: "1rem",
               }}
             >
               <Remove sx={{ color: "#fff" }} />
             </IconButton>
             <TextField
               sx={{ color: "#152C5B" }}
-              label="Capacity"
-              value={`${count} person`}
+              label={t("capacity_title")}
+              value={`${count} ${t("person_title")}`}
             />
             <IconButton
               onClick={handleIncrease}
@@ -152,7 +162,7 @@ export default function CalendarBooking() {
                 "&:hover": {
                   backgroundColor: "#1ABC9C",
                 },
-                ml: "1rem",
+                marginInlineStart: "1rem",
               }}
             >
               <Add sx={{ color: "white" }} />
@@ -168,25 +178,30 @@ export default function CalendarBooking() {
             }}
             onClick={getRooms}
           >
-            Explore
+            {t("explore_title")}
           </Button>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Box
             sx={{
-              width: { xs: "90%", sm: "80%" },
-              height: { xs: "490px", sm: "490px" },
+              width: { xs: "250px", sm: "80%" },
+              height: { xs: "450px", sm: "490px" },
               border: "2px solid #E5E5E5",
               borderRadius: "15px",
               position: "relative",
               marginTop: { xs: "6rem", sm: "2.5rem" },
-              marginInline: { xs: "2.5rem" },
+              marginInline: { xs: "auto", sm: "0rem" },
+              marginBottom: { xs: "1rem", sm: "0rem" },
             }}
           >
-            <img
+            <Box
+              component={"img"}
               src={img}
-              style={{
-                width: "130%",
+              sx={{
+                width: {
+                  xs: "95%",
+                  sm: "130%",
+                },
                 height: "100%",
                 borderRadius: "105px 20px 20px 20px",
                 position: "absolute",

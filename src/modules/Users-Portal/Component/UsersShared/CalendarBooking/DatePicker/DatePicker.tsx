@@ -1,23 +1,15 @@
 import { CalendarMonth } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-  FormHelperText,
-} from "@mui/material";
+import { Box, Button, TextField, FormHelperText } from "@mui/material";
 import { Popover } from "@mui/material";
 import { DateRangePicker } from "react-date-range";
 import dayjs from "dayjs";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import { useState } from "react";
-import { axiosInstance, getRoomDetails } from "../../../../../../services/urls";
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { t } from "i18next";
 
 interface DatePickerProps {
+  // value: { startDate: Date | null; endDate: Date | null };
+  // onChange: (value: { startDate: Date | null; endDate: Date | null }) => void;
   dateRange: { startDate: Date | null; endDate: Date | null };
   setDateRange: React.Dispatch<
     React.SetStateAction<{ startDate: Date | null; endDate: Date | null }>
@@ -37,16 +29,21 @@ export default function DatePicker({
   anchorEl,
   setAnchorEl,
   onClose,
-}: DatePickerProps) {
+}: // value,
+// onChange,
+DatePickerProps) {
   const open = Boolean(anchorEl);
 
   const handleDateChange = (ranges: any) => {
     const { selection } = ranges;
-    setDateRange({
+    const newDateRange ={
       startDate: selection.startDate,
       endDate: selection.endDate,
-    });
+    };
+   
+    setDateRange(newDateRange)
     setError("");
+    localStorage.setItem("dateRange", JSON.stringify(newDateRange));
     onClose();
   };
   const handleButtonClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -59,7 +56,7 @@ export default function DatePicker({
         sx={{
           padding: "15px 20px",
           borderRadius: "12px",
-          mr: "10px",
+          marginInlineEnd: "10px",
         }}
         onClick={handleButtonClick}
         variant="contained"
@@ -94,13 +91,13 @@ export default function DatePicker({
       </Popover>
       <TextField
         onClick={handleButtonClick}
-        label="Pick a Date"
+        label={t("picker_title")}
         value={
           dateRange.startDate && dateRange.endDate
             ? `${dayjs(dateRange.startDate).format("YYYY-MM-DD")} - ${dayjs(
                 dateRange.endDate
               ).format("YYYY-MM-DD")}`
-            : "Pick a Start & End Date"
+            : `${t("calendar_title")}`
         }
         error={Boolean(error)}
       />
