@@ -6,14 +6,11 @@ import { FormEvent } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: grey[100],
   padding: "1rem",
-
-  justifyContent: "center",
   height: "100%",
+  width: "100%",
 }));
 
 export default function UserInfo() {
